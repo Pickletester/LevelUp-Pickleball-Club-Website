@@ -320,18 +320,36 @@
     border: 2px solid transparent;
     transition: all 0.3s ease;
     box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
   }
   .amenity-card:hover { border-color: var(--green); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+  .amenity-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.18;
+    transition: opacity 0.4s ease;
+  }
+  .amenity-card:hover .amenity-bg { opacity: 1; }
   .amenity-icon {
     width: 56px; height: 56px;
-    background: rgba(60,196,64,0.12);
+    background: rgba(60,196,64,0.15);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     margin: 0 auto 1rem;
     font-size: 1.5rem;
+    position: relative;
+    z-index: 2;
+    transition: opacity 0.3s ease;
   }
-  .amenity-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; color: var(--dark); letter-spacing: 0.04em; text-transform: uppercase; }
-  .amenity-desc { font-size: 0.85rem; color: #777; margin-top: 0.4rem; }
+  .amenity-card:hover .amenity-icon { opacity: 0; }
+  .amenity-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; color: var(--dark); letter-spacing: 0.04em; text-transform: uppercase; position: relative; z-index: 2; transition: opacity 0.3s ease; }
+  .amenity-card:hover .amenity-title { opacity: 0; }
+  .amenity-desc { font-size: 0.85rem; color: #777; margin-top: 0.4rem; position: relative; z-index: 2; transition: opacity 0.3s ease; }
+  .amenity-card:hover .amenity-desc { opacity: 0; }
   .facility-cta { text-align: center; }
 
   /* Drop-in schedule */
@@ -574,17 +592,28 @@
     box-shadow: 0 4px 20px rgba(0,0,0,0.07);
     transition: all 0.3s;
     border-bottom: 4px solid transparent;
+    position: relative;
   }
   .play-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.12); border-bottom-color: var(--green); }
   .play-card-icon {
-    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
-    padding: 2.5rem;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 4rem;
-    min-height: 140px;
+    min-height: 200px;
+    position: relative;
+    overflow: hidden;
   }
+  .play-card-icon-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 1;
+    transition: transform 0.4s ease;
+  }
+  .play-card:hover .play-card-icon-bg { transform: scale(1.05); }
+  .play-card-icon-emoji { display: none; }
   .play-card-body { padding: 1.75rem; }
   .play-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--navy); margin-bottom: 0.6rem; letter-spacing: 0.03em; }
   .play-card-desc { font-size: 0.9rem; color: #666; line-height: 1.65; margin-bottom: 1.5rem; }
@@ -607,13 +636,21 @@
   .lesson-card {
     background: white;
     border-radius: 12px;
-    padding: 2.5rem 2rem;
-    text-align: center;
+    overflow: hidden;
     box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     transition: all 0.3s;
   }
   .lesson-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
-  .lesson-icon { font-size: 3rem; margin-bottom: 1.25rem; }
+  .lesson-card-photo {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .lesson-card:hover .lesson-card-photo { transform: scale(1.04); }
+  .lesson-card-body { padding: 1.75rem; text-align: center; }
+  .lesson-icon { font-size: 2rem; margin-bottom: 0.75rem; display: none; }
   .lesson-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--navy); margin-bottom: 0.75rem; }
   .lesson-desc { font-size: 0.9rem; color: #666; line-height: 1.65; }
   .clinics-camps { background: var(--navy); padding: 7rem 0; }
@@ -1177,7 +1214,7 @@
 <!-- NAV -->
 <nav id="mainNav">
   <a class="nav-logo" href="#" onclick="showPage('home')">
-    <div class="nav-logo-text">LEVEL<span>UP</span><br><small style="font-size:0.55em;letter-spacing:0.2em;color:rgba(255,255,255,0.5)">PICKLEBALL CLUB</small></div>
+    <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png" alt="LevelUp Pickleball Club" style="height:48px;width:auto;">
   </a>
   <ul class="nav-links">
     <li><a href="#" onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
@@ -1232,7 +1269,7 @@
           PICKLEBALL
         </h1>
         <p class="hero-subtitle">
-          16 world-class courts. Championship-level instruction. A full bar & restaurant. 
+          16 world-class courts. Championship-level instruction. A full bar &amp; restaurant. 
           LevelUp is the finest indoor pickleball venue in the country — right here in Canonsburg.
         </p>
         <div class="hero-ctas">
@@ -1257,7 +1294,7 @@
       <div class="hero-visual">
         <div class="hero-img-frame" style="padding:0;overflow:hidden;">
           <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;">
-            <source src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/levelupclub/Web%20Videos/Hero.mp4" type="video/mp4">
+            <source src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Videos/Hero.mp4" type="video/mp4">
           </video>
         </div>
         <div class="hero-img-badge">
@@ -1279,48 +1316,56 @@
       </div>
       <div class="amenities-grid">
         <div class="amenity-card fade-up">
-          <div class="amenity-icon">🏓</div>
+          <div class="amenity-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Amenities/16%20courts.webp')"></div>
+          <div class="amenity-icon"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Emojis/paddle%20emjoi.png" alt="16 Courts" style="width:32px;height:32px;object-fit:contain;"></div>
           <div class="amenity-title">16 Indoor Courts</div>
           <div class="amenity-desc">Pickleball, Badminton &amp; Table Tennis</div>
         </div>
         <div class="amenity-card fade-up">
+          <div class="amenity-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Amenities/Lighting.webp')"></div>
           <div class="amenity-icon">💡</div>
           <div class="amenity-title">Cat 1 Lighting</div>
           <div class="amenity-desc">1100 Lumens — Broadcast Quality</div>
         </div>
         <div class="amenity-card fade-up">
+          <div class="amenity-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Amenities/US%20Open.webp')"></div>
           <div class="amenity-icon">🟦</div>
           <div class="amenity-title">US Open Surface</div>
           <div class="amenity-desc">7-Layer Cushioned Court Surface</div>
         </div>
         <div class="amenity-card fade-up">
+          <div class="amenity-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Amenities/Lockers.webp')"></div>
           <div class="amenity-icon">🚿</div>
           <div class="amenity-title">Locker Rooms</div>
           <div class="amenity-desc">Men's &amp; Women's Full Locker Facilities</div>
         </div>
         <div class="amenity-card fade-up">
+          <div class="amenity-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Amenities/Restaurant.webp')"></div>
           <div class="amenity-icon">🍕</div>
           <div class="amenity-title">Bar &amp; Restaurant</div>
           <div class="amenity-desc">Serves &amp; Slices — Full Food &amp; Bar Service</div>
         </div>
         <div class="amenity-card fade-up">
-          <div class="amenity-icon">🚪</div>
+          <div class="amenity-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Amenities/Garage.webp')"></div>
+          <div class="amenity-icon"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Emojis/Garage%20door%20emjoi.png" alt="Garage Doors" style="width:32px;height:32px;object-fit:contain;"></div>
           <div class="amenity-title">Glass Garage Doors</div>
           <div class="amenity-desc">Outdoor Patios with Firepits</div>
         </div>
         <div class="amenity-card fade-up">
-          <div class="amenity-icon">🏛️</div>
+          <div class="amenity-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Amenities/Banquet.webp')"></div>
+          <div class="amenity-icon"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Emojis/Banquet%20Hall%20emjioi.png" alt="Banquet Hall" style="width:32px;height:32px;object-fit:contain;"></div>
           <div class="amenity-title">Banquet Hall</div>
           <div class="amenity-desc">Weddings, Corporate &amp; Private Events</div>
         </div>
         <div class="amenity-card fade-up">
+          <div class="amenity-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Amenities/Golf.webp')"></div>
           <div class="amenity-icon">⛳</div>
           <div class="amenity-title">Golf Simulator</div>
           <div class="amenity-desc">State-of-the-Art Simulator — 200+ Courses</div>
         </div>
       </div>
       <div class="facility-cta fade-up">
-        <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/levelupclub/Web%20Images/Courts%20wideshots/DSC09257.webp" alt="LevelUp Courts" style="width:100%;border-radius:12px;margin-bottom:3rem;object-fit:cover;max-height:500px;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
+        <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Courts%20wideshots/DSC09257.webp" alt="LevelUp Courts" style="width:100%;border-radius:12px;margin-bottom:3rem;object-fit:cover;max-height:500px;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
         <a class="btn btn-navy" href="#" onclick="showPage('membership')">See Membership Options →</a>
       </div>
     </div>
@@ -1368,33 +1413,49 @@
   <section class="testimonials">
     <div class="container">
       <div class="testimonials-header fade-up">
-        <div class="section-tag">Reviews</div>
+        <div class="section-tag">Google Reviews</div>
         <h2 class="testimonials-title">WHAT OUR MEMBERS SAY</h2>
       </div>
       <div class="testimonials-grid">
         <div class="testimonial-card fade-up">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+            <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Reviewers/JOE%20BAMBRAUGH.png" alt="Joe Bambraugh" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+            <div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;color:white;">Joe Bambraugh</div>
+              <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);">7 reviews · 3 months ago</div>
+            </div>
+          </div>
           <div class="stars">★★★★★</div>
-          <p class="testimonial-text">"Absolutely the best indoor pickleball facility I've ever played at. The courts are immaculate, the lighting is perfect, and the staff is incredibly welcoming."</p>
-          <div class="testimonial-author">Sarah M.</div>
-          <div class="testimonial-detail">Diamond Member · Pittsburgh, PA</div>
+          <p class="testimonial-text">"LevelUp Pickleball Club is easily the nicest indoor pickleball club around. The courts have excellent cushioning, which makes a huge difference, no joint pain even after long, competitive sessions. The staff is incredibly friendly and welcoming, and the competition level is perfect for players who want to improve while still having fun. Brenden Dollard, the club pro, is hands down one of the best pickleball instructors around, knowledgeable, approachable, and great at helping players elevate their game."</p>
         </div>
         <div class="testimonial-card fade-up">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+            <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Reviewers/Jerry%20Wauchope.png" alt="Jerry Wauchope" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+            <div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;color:white;">Jerry Wauchope</div>
+              <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Local Guide · 481 reviews · 3 months ago</div>
+            </div>
+          </div>
           <div class="stars">★★★★★</div>
-          <p class="testimonial-text">"Took lessons with Brenden and went from a 3.0 to a 4.0 in six months. The instruction quality here is genuinely world-class. Can't recommend it enough."</p>
-          <div class="testimonial-author">Mike T.</div>
-          <div class="testimonial-detail">Gold Member · Canonsburg, PA</div>
+          <p class="testimonial-text">"Great facility! 16 courts, a restaurant, a banquet room, a bar with dart boards. Highly recommend!"</p>
         </div>
         <div class="testimonial-card fade-up">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+            <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Reviewers/Audrey%20Sebring.png" alt="Audrey Sebring" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+            <div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;color:white;">Audrey Sebring</div>
+              <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);">10 reviews · 4 months ago</div>
+            </div>
+          </div>
           <div class="stars">★★★★★</div>
-          <p class="testimonial-text">"We hosted our company holiday party at Georgetown Oaks — incredible venue. Everyone is still talking about it. The food from Serves &amp; Slices was a huge hit too."</p>
-          <div class="testimonial-author">Jennifer K.</div>
-          <div class="testimonial-detail">Corporate Event · South Hills</div>
+          <p class="testimonial-text">"A beautiful facility offering something for everyone with the pickleball courts, restaurant/bar, golf simulator, pro shop, wedding venue/banquet hall. Super nice friendly workers who care about customers!"</p>
         </div>
+      </div>
+      <div style="text-align:center;margin-top:3rem;" class="fade-up">
+        <a class="btn btn-green" href="https://share.google/IJxcf83z104GwSgxG" target="_blank">⭐ Leave Us a Google Review</a>
       </div>
     </div>
   </section>
-
-  <!-- CTA BANNER -->
   <section class="cta-banner">
     <div class="container fade-up">
       <h2>READY TO LEVEL UP?</h2>
@@ -1606,7 +1667,10 @@
       <h2 class="play-title">WAYS TO PLAY</h2>
       <div class="play-grid">
         <div class="play-card fade-up">
-          <div class="play-card-icon">🏓</div>
+          <div class="play-card-icon">
+            <div class="play-card-icon-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Drop-in.webp')"></div>
+            <span class="play-card-icon-emoji">🏓</span>
+          </div>
           <div class="play-card-body">
             <div class="play-card-title">Daily Drop-in Play</div>
             <div class="play-card-desc">Drop-in times segmented for Beginner (2.0–2.9), Intermediate (3.0–3.9) and Advanced (4.0+) players. Show up at the designated morning and evening "drop-in" times and you'll be paired with random players of similar skill level.</div>
@@ -1616,7 +1680,10 @@
           </div>
         </div>
         <div class="play-card fade-up">
-          <div class="play-card-icon">🏟️</div>
+          <div class="play-card-icon">
+            <div class="play-card-icon-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Court%20Rentals.webp')"></div>
+            <span class="play-card-icon-emoji">🏟️</span>
+          </div>
           <div class="play-card-body">
             <div class="play-card-title">Court Rentals</div>
             <div class="play-card-desc">Reserve private courts daily for groups up to six people. Perfect for practicing with friends, family sessions, or private group lessons. Starting at $25/hour.</div>
@@ -1626,7 +1693,10 @@
           </div>
         </div>
         <div class="play-card fade-up">
-          <div class="play-card-icon">🏆</div>
+          <div class="play-card-icon">
+            <div class="play-card-icon-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Tournaments.webp')"></div>
+            <span class="play-card-icon-emoji">🏆</span>
+          </div>
           <div class="play-card-body">
             <div class="play-card-title">Tournaments</div>
             <div class="play-card-desc">LevelUp has 33 tournaments scheduled in 2025 for pickleball, badminton, table tennis, darts, and cornhole. Test your skills and compete against players from across the region.</div>
@@ -1636,7 +1706,10 @@
           </div>
         </div>
         <div class="play-card fade-up">
-          <div class="play-card-icon">🪜</div>
+          <div class="play-card-icon">
+            <div class="play-card-icon-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Leagues.webp')"></div>
+            <span class="play-card-icon-emoji">🪜</span>
+          </div>
           <div class="play-card-body">
             <div class="play-card-title">Ladder Leagues</div>
             <div class="play-card-desc">Ladders run several days per week for singles, doubles and mixed doubles. Players move up and down each week based on previous week performance. A great way to make new friends!</div>
@@ -1644,7 +1717,10 @@
           </div>
         </div>
         <div class="play-card fade-up">
-          <div class="play-card-icon">⚔️</div>
+          <div class="play-card-icon">
+            <div class="play-card-icon-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Team%20L.webp')"></div>
+            <span class="play-card-icon-emoji">⚔️</span>
+          </div>
           <div class="play-card-body">
             <div class="play-card-title">Team Leagues</div>
             <div class="play-card-desc">LevelUp will host spring, summer and fall 6-person men's and women's team leagues. Form your crew and compete for the championship.</div>
@@ -1652,7 +1728,10 @@
           </div>
         </div>
         <div class="play-card fade-up">
-          <div class="play-card-icon">🎯</div>
+          <div class="play-card-icon">
+            <div class="play-card-icon-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Ball%20M.webp')"></div>
+            <span class="play-card-icon-emoji">🎯</span>
+          </div>
           <div class="play-card-body">
             <div class="play-card-title">Ball Machine Rental</div>
             <div class="play-card-desc">Looking to drill? Our ball machine, "Nelson," is always available for you. Solo drilling is one of the fastest ways to improve — book Nelson anytime.</div>
@@ -1679,27 +1758,61 @@
     <div class="container">
       <div class="section-tag" style="display:block;text-align:center;">Lessons</div>
       <h2 class="play-title" style="color:var(--dark)">PRIVATE INSTRUCTION</h2>
-      <div class="lessons-grid">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:3rem;">
         <div class="lesson-card fade-up">
-          <div class="lesson-icon">👤</div>
-          <div class="lesson-title">Private</div>
-          <div class="lesson-desc">Private lessons taught 7 days a week by our world-famous pros who have instructed over 20,000 people in 40+ states since 2016.</div>
-          <br>
-          <a class="btn btn-green" href="#" onclick="showPage('pros')">Meet Our Pros →</a>
+          <div style="overflow:hidden;">
+            <img class="lesson-card-photo" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/PRIVATE%20INSTRUCTION/Private%20less.webp" alt="Private Lesson">
+          </div>
+          <div class="lesson-card-body">
+            <div class="lesson-title">Private Lesson</div>
+            <div class="lesson-desc">Private lessons taught 7 days a week by our world-famous pros who have instructed over 20,000 people in 40+ states since 2016.</div>
+            <br>
+            <a class="btn btn-green" href="https://app.courtreserve.com" target="_blank">Book Now →</a>
+          </div>
         </div>
         <div class="lesson-card fade-up">
-          <div class="lesson-icon">👥</div>
-          <div class="lesson-title">Team / Couple</div>
-          <div class="lesson-desc">Two-person lessons are great for helping you learn to strategize as a team, build points, and develop chemistry with your partner.</div>
-          <br>
-          <a class="btn btn-green" href="https://app.courtreserve.com" target="_blank">Book Now →</a>
+          <div style="overflow:hidden;">
+            <img class="lesson-card-photo" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/PRIVATE%20INSTRUCTION/2-person.webp" alt="2-Person Lesson">
+          </div>
+          <div class="lesson-card-body">
+            <div class="lesson-title">2-Person Lesson</div>
+            <div class="lesson-desc">Two-person lessons are great for helping you learn to strategize as a team, build points, and develop chemistry with your partner.</div>
+            <br>
+            <a class="btn btn-green" href="https://app.courtreserve.com" target="_blank">Book Now →</a>
+          </div>
         </div>
         <div class="lesson-card fade-up">
-          <div class="lesson-icon">👨‍👩‍👧</div>
-          <div class="lesson-title">Three and a Pro</div>
-          <div class="lesson-desc">Enjoy learning techniques and strategies while also getting to play with one of our amazing pros. Great social format!</div>
-          <br>
-          <a class="btn btn-green" href="https://app.courtreserve.com" target="_blank">Book Now →</a>
+          <div style="overflow:hidden;">
+            <img class="lesson-card-photo" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/PRIVATE%20INSTRUCTION/3%20and%20me.webp" alt="3 and Me">
+          </div>
+          <div class="lesson-card-body">
+            <div class="lesson-title">3 and Me</div>
+            <div class="lesson-desc">Enjoy learning techniques and strategies while also getting to play with one of our amazing pros. Great social format!</div>
+            <br>
+            <a class="btn btn-green" href="https://app.courtreserve.com" target="_blank">Book Now →</a>
+          </div>
+        </div>
+        <div class="lesson-card fade-up">
+          <div style="overflow:hidden;">
+            <img class="lesson-card-photo" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/PRIVATE%20INSTRUCTION/4%20person.webp" alt="4-Person Lesson">
+          </div>
+          <div class="lesson-card-body">
+            <div class="lesson-title">4-Person Lesson</div>
+            <div class="lesson-desc">Great for groups of friends or family looking to learn together. Shared coaching keeps costs lower while maximizing court time.</div>
+            <br>
+            <a class="btn btn-green" href="https://app.courtreserve.com" target="_blank">Book Now →</a>
+          </div>
+        </div>
+        <div class="lesson-card fade-up">
+          <div style="overflow:hidden;">
+            <img class="lesson-card-photo" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/PRIVATE%20INSTRUCTION/5-8%20person.webp" alt="5-8 Person Lesson">
+          </div>
+          <div class="lesson-card-body">
+            <div class="lesson-title">5-8 Person Lesson</div>
+            <div class="lesson-desc">Our largest group lesson format — perfect for corporate events, birthday groups, or teams looking to sharpen their skills together.</div>
+            <br>
+            <a class="btn btn-green" href="https://app.courtreserve.com" target="_blank">Book Now →</a>
+          </div>
         </div>
       </div>
     </div>
@@ -1743,7 +1856,7 @@
     <div class="container">
       <div class="pros-grid">
         <div class="pro-card fade-up">
-          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/levelupclub/Web%20Images/instructors/Headshots/Lisa%20Dollard.webp" alt="Lisa Dollard" onerror="this.style.display='none'"></div>
+          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Lisa%20Dollard.webp" alt="Lisa Dollard" onerror="this.style.display='none'"></div>
           <div class="pro-info">
             <div class="pro-name">Lisa Dollard</div>
             <div class="pro-role">Founder / LevelUp Pickleball Camps</div>
@@ -1755,7 +1868,7 @@
           </div>
         </div>
         <div class="pro-card fade-up">
-          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/levelupclub/Web%20Images/instructors/Headshots/Brenden%20Dollard.webp" alt="Brenden Dollard" onerror="this.style.display='none'"></div>
+          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Brenden%20Dollard.webp" alt="Brenden Dollard" onerror="this.style.display='none'"></div>
           <div class="pro-info">
             <div class="pro-name">Brenden Dollard</div>
             <div class="pro-role">Director of Programming / Head Pro</div>
@@ -1768,7 +1881,7 @@
           </div>
         </div>
         <div class="pro-card fade-up">
-          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/levelupclub/Web%20Images/instructors/Headshots/Berta%20Russo.webp" alt="Berta Russo" onerror="this.style.display='none'"></div>
+          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Berta%20Russo.webp" alt="Berta Russo" onerror="this.style.display='none'"></div>
           <div class="pro-info">
             <div class="pro-name">Berta Russo</div>
             <div class="pro-role">National Champion / Pro Instructor</div>
@@ -1781,7 +1894,7 @@
           </div>
         </div>
         <div class="pro-card fade-up">
-          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/levelupclub/Web%20Images/instructors/Headshots/Laurel%20Heilman.webp" alt="Laurel Heilman" onerror="this.style.display='none'"></div>
+          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Laurel%20Heilman.webp" alt="Laurel Heilman" onerror="this.style.display='none'"></div>
           <div class="pro-info">
             <div class="pro-name">Laurel Heilman</div>
             <div class="pro-role">Certified Pickleball Pro</div>
@@ -1792,20 +1905,9 @@
             </ul>
           </div>
         </div>
+
         <div class="pro-card fade-up">
-          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/levelupclub/Web%20Images/instructors/Headshots/Brenden%20Dollard.webp" alt="Joshua Raymundo" onerror="this.style.display='none'"></div>
-          <div class="pro-info">
-            <div class="pro-name">Joshua Raymundo</div>
-            <div class="pro-role">LevelUp Head Pro</div>
-            <ul class="pro-achievements">
-              <li>LevelUp Head Pro</li>
-              <li>Division I / 5.0 Tennis Player — James Madison (2020)</li>
-              <li>5.0 Touring Pro</li>
-            </ul>
-          </div>
-        </div>
-        <div class="pro-card fade-up">
-          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/levelupclub/Web%20Images/instructors/Headshots/Trisha%20Self.png" alt="Trisha Self" onerror="this.style.display='none'"></div>
+          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Trisha%20Self.png" alt="Trisha Self" onerror="this.style.display='none'"></div>
           <div class="pro-info">
             <div class="pro-name">Trisha Self</div>
             <div class="pro-role">Golf Instructor · 412-992-6080</div>
@@ -2188,12 +2290,15 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <h3>LEVEL<span>UP</span></h3>
-        <p style="font-size:0.75rem;color:rgba(255,255,255,0.3);margin-bottom:0.5rem;letter-spacing:0.2em;text-transform:uppercase;">Pickleball Club</p>
+        <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png" alt="LevelUp Pickleball Club" style="height:52px;width:auto;margin-bottom:1rem;">
         <p>The world's premier indoor pickleball club — right here in the South Hills of Pittsburgh.</p>
         <div class="footer-socials">
-          <a class="social-btn" href="https://facebook.com" target="_blank" title="Facebook">f</a>
-          <a class="social-btn" href="https://instagram.com" target="_blank" title="Instagram">in</a>
+          <a class="social-btn" href="https://www.facebook.com/p/LevelUp-Pickleball-Club-61565963884869/" target="_blank" title="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a class="social-btn" href="https://www.instagram.com/leveluppickleballclub/" target="_blank" title="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
         </div>
       </div>
       <div class="footer-col">
