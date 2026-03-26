@@ -163,6 +163,8 @@
     align-items: center;
     overflow: hidden;
     background: var(--navy-dark);
+    transform: translateZ(0);
+    will-change: transform;
   }
   .hero-bg {
     position: absolute;
@@ -171,6 +173,8 @@
       radial-gradient(ellipse at 70% 50%, rgba(60,196,64,0.12) 0%, transparent 60%),
       radial-gradient(ellipse at 20% 80%, rgba(30,43,110,0.8) 0%, transparent 60%),
       linear-gradient(135deg, #0D0F1A 0%, #1E2B6E 50%, #0D1420 100%);
+    will-change: transform;
+    transform: translateZ(0);
   }
   .hero-pattern {
     position: absolute;
