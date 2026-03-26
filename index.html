@@ -1208,10 +1208,28 @@
   .how-step p { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
 
   .replay-pricing-strip {
-    background: var(--navy);
+    background: var(--dark);
     padding: 4rem 0;
     text-align: center;
+    position: relative;
+    overflow: hidden;
   }
+  .replay-pricing-strip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Courts%20wideshots/DSC09391.webp');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+  }
+  .replay-pricing-strip::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(5,8,20,0.7);
+  }
+  .replay-pricing-strip h2, .replay-pricing-strip .pricing-pills { position: relative; z-index: 1; }
   .replay-pricing-strip h2 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 2.5rem;
@@ -2273,11 +2291,6 @@
         <div class="pp-price">$15</div>
         <div class="pp-note">Full session recording</div>
       </div>
-      <div class="pricing-pill fade-up">
-        <div class="pp-duration">2 Hours</div>
-        <div class="pp-price">$20</div>
-        <div class="pp-note">Tournament / league match</div>
-      </div>
     </div>
   </div>
 
@@ -2349,10 +2362,6 @@
             <div class="duration-option selected" onclick="selectDuration(this, '1 Hour', 15)">
               <div class="dur-label">1 Hour</div>
               <div class="dur-price">$15</div>
-            </div>
-            <div class="duration-option" onclick="selectDuration(this, '2 Hours', 20)">
-              <div class="dur-label">2 Hours</div>
-              <div class="dur-price">$20</div>
             </div>
           </div>
 
@@ -2440,8 +2449,10 @@
   </div>
 
   <!-- PRICING -->
-  <section style="background:var(--navy);padding:5rem 0;">
-    <div class="container">
+  <section style="background:var(--dark);padding:5rem 0;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Golf%20Sim/RDSC00765.webp');background-size:cover;background-position:center;opacity:0.25;"></div>
+    <div style="position:absolute;inset:0;background:rgba(5,8,20,0.75);"></div>
+    <div class="container" style="position:relative;z-index:1;">
       <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);text-align:center;margin-bottom:3rem;">SIMPLE <span style="color:var(--green)">PRICING</span></h2>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:700px;margin:0 auto 3rem;">
 
@@ -2547,9 +2558,8 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <div class="footer-info">
-          <div class="footer-info-item"><span class="icon">👤</span>Josh Raymundo</div>
-          <div class="footer-info-item"><span class="icon">✉️</span>j.raymundo@leveluppickleball.com</div>
-          <div class="footer-info-item"><span class="icon">📞</span>412-206-5755</div>
+          <div class="footer-info-item"><span class="icon">✉️</span><a href="mailto:j.raymundo@leveluppickleball.com" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">j.raymundo@leveluppickleball.com</a></div>
+          <div class="footer-info-item"><span class="icon">📞</span><a href="tel:4122065755" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">412-206-5755</a></div>
         </div>
       </div>
       <div class="footer-col">
