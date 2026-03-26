@@ -2279,20 +2279,96 @@
 
   <!-- PRICING STRIP -->
   <div class="replay-pricing-strip">
-    <h2>SIMPLE PRICING</h2>
-    <div class="pricing-pills">
-      <div class="pricing-pill fade-up">
-        <div class="pp-duration">30 Minutes</div>
-        <div class="pp-price">$10</div>
-        <div class="pp-note">Quick session clip</div>
-      </div>
-      <div class="pricing-pill fade-up">
-        <div class="pp-duration">1 Hour</div>
-        <div class="pp-price">$15</div>
-        <div class="pp-note">Full session recording</div>
+    <!-- Camera animation overlay -->
+    <div id="kc-camera-anim" style="display:flex;justify-content:center;align-items:center;padding:2rem 0;position:relative;z-index:2;">
+      <svg id="kc-camera-svg" width="100" height="76" viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg" style="opacity:0;">
+        <rect x="10" y="25" width="100" height="60" rx="8" fill="white" fill-opacity="0.12" stroke="white" stroke-width="2"/>
+        <rect x="38" y="14" width="30" height="16" rx="4" fill="white" fill-opacity="0.12" stroke="white" stroke-width="2"/>
+        <circle cx="60" cy="55" r="22" fill="none" stroke="white" stroke-width="2"/>
+        <circle cx="60" cy="55" r="15" fill="none" stroke="#3CC440" stroke-width="1.5"/>
+        <circle cx="60" cy="55" r="8" fill="#3CC440" opacity="0.9"/>
+        <circle cx="56" cy="51" r="2.5" fill="white" opacity="0.6"/>
+        <circle id="kc-rec-dot" cx="92" cy="36" r="5" fill="#F5900A"/>
+        <rect id="kc-flash" x="10" y="25" width="100" height="60" rx="8" fill="white" opacity="0"/>
+      </svg>
+    </div>
+    <!-- Pricing content — hidden until camera animation finishes -->
+    <div id="kc-pricing-content" style="opacity:0;transition:opacity 0.6s ease;position:relative;z-index:2;">
+      <h2>SIMPLE PRICING</h2>
+      <div class="pricing-pills">
+        <div class="pricing-pill fade-up">
+          <div class="pp-duration">30 Minutes</div>
+          <div class="pp-price">$10</div>
+          <div class="pp-note">Quick session clip</div>
+        </div>
+        <div class="pricing-pill fade-up">
+          <div class="pp-duration">1 Hour</div>
+          <div class="pp-price">$15</div>
+          <div class="pp-note">Full session recording</div>
+        </div>
       </div>
     </div>
   </div>
+
+  <script>
+  (function() {
+    function runKCAnimation() {
+      var svg = document.getElementById('kc-camera-svg');
+      var flash = document.getElementById('kc-flash');
+      var pricing = document.getElementById('kc-pricing-content');
+      var anim = document.getElementById('kc-camera-anim');
+      var dot = document.getElementById('kc-rec-dot');
+      if (!svg) return;
+
+      svg.style.transition = 'opacity 0.5s';
+      svg.style.opacity = '1';
+
+      var blinkCount = 0;
+      var blink = setInterval(function() {
+        dot.style.opacity = dot.style.opacity === '0' ? '1' : '0';
+        blinkCount++;
+        if (blinkCount >= 6) clearInterval(blink);
+      }, 250);
+
+      setTimeout(function() {
+        flash.style.transition = 'opacity 0.05s';
+        flash.style.opacity = '0.9';
+        setTimeout(function() {
+          flash.style.transition = 'opacity 0.3s';
+          flash.style.opacity = '0';
+        }, 80);
+      }, 1200);
+
+      setTimeout(function() {
+        svg.style.transition = 'opacity 0.4s';
+        svg.style.opacity = '0';
+      }, 1400);
+
+      setTimeout(function() {
+        anim.style.display = 'none';
+        pricing.style.opacity = '1';
+      }, 1800);
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        if (m.target.id === 'page-replay' && m.target.classList.contains('active')) {
+          var svg = document.getElementById('kc-camera-svg');
+          var pricing = document.getElementById('kc-pricing-content');
+          var anim = document.getElementById('kc-camera-anim');
+          var dot = document.getElementById('kc-rec-dot');
+          if (svg) { svg.style.opacity='0'; svg.style.transition=''; }
+          if (pricing) pricing.style.opacity='0';
+          if (anim) anim.style.display='flex';
+          if (dot) dot.style.opacity='1';
+          setTimeout(runKCAnimation, 300);
+        }
+      });
+    });
+    var page = document.getElementById('page-replay');
+    if (page) observer.observe(page, { attributes: true, attributeFilter: ['class'] });
+  })();
+  </script>
 
   <!-- BOOKING FORM -->
   <section class="replay-form-section">
@@ -2478,11 +2554,6 @@
   <!-- HOURS + INFO -->
   <section style="background:var(--off-white);color:var(--dark);padding:6rem 0;">
     <div class="container">
-
-      <!-- Full width photo top -->
-      <div class="fade-up" style="margin-bottom:4rem;">
-        <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Golf%20Sim/RDSC00765.webp" alt="Golf Simulator" style="width:100%;border-radius:14px;object-fit:cover;max-height:500px;box-shadow:0 20px 60px rgba(0,0,0,0.12);">
-      </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;max-width:1000px;margin:0 auto;">
 
