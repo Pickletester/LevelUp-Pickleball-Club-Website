@@ -2377,11 +2377,18 @@
   }
 
   // ===== SCROLL EFFECTS =====
+  let scrollTicking = false;
   window.addEventListener('scroll', () => {
-    const nav = document.getElementById('mainNav');
-    if (window.scrollY > 30) nav.classList.add('scrolled');
-    else nav.classList.remove('scrolled');
-    checkFades();
+    if (!scrollTicking) {
+      requestAnimationFrame(() => {
+        const nav = document.getElementById('mainNav');
+        if (window.scrollY > 30) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
+        checkFades();
+        scrollTicking = false;
+      });
+      scrollTicking = true;
+    }
   });
 
   function checkFades() {
@@ -2390,6 +2397,11 @@
       if (rect.top < window.innerHeight - 60) el.classList.add('visible');
     });
   }
+
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); fadeObserver.unobserve(el.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
   checkFades();
 
   // ===== FORM HANDLERS =====
