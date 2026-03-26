@@ -673,6 +673,8 @@
     overflow: hidden;
     box-shadow: 0 4px 16px rgba(0,0,0,0.07);
     transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
   }
   .pro-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.12); }
   .pro-photo {
@@ -681,22 +683,61 @@
     overflow: hidden;
     position: relative;
   }
-  .pro-photo img { width: 100%; height: 100%; object-fit: cover; }
-  .pro-photo-placeholder {
-    width: 100%;
-    height: 100%;
+  .pro-photo img {
+    width: 100%; height: 100%; object-fit: cover;
+    position: absolute; inset: 0;
+    transition: opacity 0.4s ease;
+  }
+  .pro-photo img.teaching {
+    opacity: 0;
+  }
+  .pro-card:hover .pro-photo img.headshot { opacity: 0; }
+  .pro-card:hover .pro-photo img.teaching { opacity: 1; }
+  .pro-contact-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(30,43,110,0.92);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .pro-card:hover .pro-contact-overlay { opacity: 1; }
+  .pro-contact-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: white; letter-spacing: 0.05em; }
+  .pro-contact-item { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; color: var(--green); letter-spacing: 0.05em; }
+  .pro-contact-btn {
+    margin-top: 1rem;
+    display: inline-block;
+    background: var(--green);
+    color: var(--dark);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .pro-photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
     font-size: 4rem;
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
   }
-  .pro-info { padding: 1.5rem; }
+  .pro-info { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
   .pro-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em; }
   .pro-role { font-size: 0.8rem; color: var(--green-dark); font-weight: 600; margin-bottom: 0.75rem; }
-  .pro-achievements { list-style: none; }
+  .pro-achievements { list-style: none; flex: 1; }
   .pro-achievements li { font-size: 0.8rem; color: #666; padding: 0.3rem 0; padding-left: 1rem; position: relative; }
   .pro-achievements li::before { content: '•'; color: var(--green); position: absolute; left: 0; }
+  .pro-book-btn { margin-top: 1.25rem; display: block; text-align: center; }
 
   /* ===== PRIVATE EVENTS PAGE ===== */
   .events-section { background: var(--off-white); color: var(--dark); padding: 7rem 0; }
@@ -1859,8 +1900,17 @@
   <section class="pros-section">
     <div class="container">
       <div class="pros-grid">
+        <!-- LISA DOLLARD -->
         <div class="pro-card fade-up">
-          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Lisa%20Dollard.webp" alt="Lisa Dollard" onerror="this.style.display='none'"></div>
+          <div class="pro-photo">
+            <img class="headshot" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Lisa%20Dollard.webp" alt="Lisa Dollard">
+            <img class="teaching" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Lisa%20Teaching%2001.webp" alt="Lisa Dollard Teaching">
+            <div class="pro-contact-overlay">
+              <div class="pro-contact-name">Lisa Dollard</div>
+              <div class="pro-contact-item">📧 lisa@leveluppickleball.com</div>
+              <a class="pro-contact-btn" href="mailto:lisa@leveluppickleball.com">Book a Lesson</a>
+            </div>
+          </div>
           <div class="pro-info">
             <div class="pro-name">Lisa Dollard</div>
             <div class="pro-role">Founder / LevelUp Pickleball Camps</div>
@@ -1869,10 +1919,21 @@
               <li>National 35+ Mixed Gold Medalist</li>
               <li>Founder / LevelUp Pickleball Camps</li>
             </ul>
+            <div class="pro-book-btn"><a class="btn btn-green" href="mailto:lisa@leveluppickleball.com">Book a Lesson</a></div>
           </div>
         </div>
+
+        <!-- BRENDEN DOLLARD -->
         <div class="pro-card fade-up">
-          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Brenden%20Dollard.webp" alt="Brenden Dollard" onerror="this.style.display='none'"></div>
+          <div class="pro-photo">
+            <img class="headshot" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Brenden%20Dollard.webp" alt="Brenden Dollard">
+            <img class="teaching" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Brenden%20teaching%2002.webp" alt="Brenden Dollard Teaching">
+            <div class="pro-contact-overlay">
+              <div class="pro-contact-name">Brenden Dollard</div>
+              <div class="pro-contact-item">📞 (412) 855-1965</div>
+              <a class="pro-contact-btn" href="tel:4128551965">Call to Book</a>
+            </div>
+          </div>
           <div class="pro-info">
             <div class="pro-name">Brenden Dollard</div>
             <div class="pro-role">Director of Programming / Head Pro</div>
@@ -1882,10 +1943,21 @@
               <li>Has instructed thousands of players around the world</li>
               <li>5.0 Touring Pro</li>
             </ul>
+            <div class="pro-book-btn"><a class="btn btn-green" href="tel:4128551965">Book a Lesson</a></div>
           </div>
         </div>
+
+        <!-- BERTA RUSSO -->
         <div class="pro-card fade-up">
-          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Berta%20Russo.webp" alt="Berta Russo" onerror="this.style.display='none'"></div>
+          <div class="pro-photo">
+            <img class="headshot" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Berta%20Russo.webp" alt="Berta Russo">
+            <img class="teaching" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Berta%20Teaching%2001.webp" alt="Berta Russo Teaching">
+            <div class="pro-contact-overlay">
+              <div class="pro-contact-name">Berta Russo</div>
+              <div class="pro-contact-item">📞 (412) 770-6030</div>
+              <a class="pro-contact-btn" href="tel:4127706030">Call to Book</a>
+            </div>
+          </div>
           <div class="pro-info">
             <div class="pro-name">Berta Russo</div>
             <div class="pro-role">National Champion / Pro Instructor</div>
@@ -1895,10 +1967,21 @@
               <li>APP Masters Senior Women's Pro Gold medal winner</li>
               <li>Two-time Gold Medal winner, U.S. Open</li>
             </ul>
+            <div class="pro-book-btn"><a class="btn btn-green" href="tel:4127706030">Book a Lesson</a></div>
           </div>
         </div>
+
+        <!-- LAUREL HEILMAN -->
         <div class="pro-card fade-up">
-          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Laurel%20Heilman.webp" alt="Laurel Heilman" onerror="this.style.display='none'"></div>
+          <div class="pro-photo">
+            <img class="headshot" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Laurel%20Heilman.webp" alt="Laurel Heilman">
+            <img class="teaching" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Laurel%20teaching%2001.webp" alt="Laurel Heilman Teaching">
+            <div class="pro-contact-overlay">
+              <div class="pro-contact-name">Laurel Heilman</div>
+              <div class="pro-contact-item">📞 (724) 421-5490</div>
+              <a class="pro-contact-btn" href="tel:7244215490">Call to Book</a>
+            </div>
+          </div>
           <div class="pro-info">
             <div class="pro-name">Laurel Heilman</div>
             <div class="pro-role">Certified Pickleball Pro</div>
@@ -1907,19 +1990,30 @@
               <li>Taught over 1100 lessons around Pittsburgh</li>
               <li>RacketPro, PPR, IPTPA, PCL, IFP certified instructor</li>
             </ul>
+            <div class="pro-book-btn"><a class="btn btn-green" href="tel:7244215490">Book a Lesson</a></div>
           </div>
         </div>
 
+        <!-- TRISHA SELF -->
         <div class="pro-card fade-up">
-          <div class="pro-photo"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Trisha%20Self.png" alt="Trisha Self" onerror="this.style.display='none'"></div>
+          <div class="pro-photo">
+            <img class="headshot" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Trisha%20Self.png" alt="Trisha Self">
+            <img class="teaching" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Headshots/Trisha%20Self.png" alt="Trisha Self Teaching">
+            <div class="pro-contact-overlay">
+              <div class="pro-contact-name">Trisha Self</div>
+              <div class="pro-contact-item">📞 (412) 398-5030</div>
+              <a class="pro-contact-btn" href="tel:4123985030">Call to Book</a>
+            </div>
+          </div>
           <div class="pro-info">
             <div class="pro-name">Trisha Self</div>
-            <div class="pro-role">Golf Instructor · 412-992-6080</div>
+            <div class="pro-role">Golf Instructor</div>
             <ul class="pro-achievements">
               <li>Over 30 years of experience in the golf industry</li>
               <li>Former NCAA Division I athlete and touring professional</li>
               <li>Passionate about helping all ages improve their swing</li>
             </ul>
+            <div class="pro-book-btn"><a class="btn btn-green" href="tel:4123985030">Book a Lesson</a></div>
           </div>
         </div>
       </div>
