@@ -500,6 +500,8 @@
     border: 2px solid transparent;
     transition: all 0.3s;
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
   .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.12); }
   .pricing-card.featured { border-color: var(--green); transform: scale(1.04); }
@@ -1291,7 +1293,7 @@
     <li><a href="#" onclick="showPage('events')" id="nav-events">Private Events</a></li>
     <li><a href="#" onclick="showPage('faq')" id="nav-faq">FAQ</a></li>
     <li><a href="#" onclick="showPage('golfsim')" id="nav-golfsim">⛳ Golf Sim</a></li>
-    <li><a href="#" onclick="showPage('replay')" id="nav-replay" style="color:white!important;">🎥 Kitchen<span style="color:var(--green)">Cam</span></a></li>
+    <li><a href="#" onclick="showPage('replay')" id="nav-replay" style="color:white!important;">🎥 Court<span style="color:var(--green)">Cam</span></a></li>
     <li><a href="https://app.courtreserve.com" target="_blank" class="nav-portal">Member Portal</a></li>
   </ul>
   <div class="nav-hamburger" onclick="toggleMobileMenu()" id="hamburger">
@@ -1309,7 +1311,7 @@
   <a onclick="showPage('events');toggleMobileMenu()">Private Events</a>
   <a onclick="showPage('faq');toggleMobileMenu()">FAQ</a>
   <a onclick="showPage('golfsim');toggleMobileMenu()">⛳ Golf Sim</a>
-  <a onclick="showPage('replay');toggleMobileMenu()">🎥 Kitchen<span style="color:var(--green)">Cam</span></a>
+  <a onclick="showPage('replay');toggleMobileMenu()">🎥 Court<span style="color:var(--green)">Cam</span></a>
   <a href="https://app.courtreserve.com" target="_blank">Member Portal ↗</a>
 </div>
 
@@ -1458,6 +1460,7 @@
             Show up at the designated morning and evening drop-in times and you'll be paired with random players of similar skill level. No reservation needed — just show up and play.<br><br>
             <strong style="color:var(--green);">Diamond members:</strong> Unlimited free drop-in.<br>
             <strong style="color:var(--green);">Gold members:</strong> 15 free sessions/month.*<br>
+            <strong style="color:rgba(255,255,255,0.6);">Silver members:</strong> $10 per session.<br>
             <strong style="color:rgba(255,255,255,0.5);">Non-members:</strong> $20 guest fee per session.
           </p>
           <a class="btn btn-green" href="https://app.courtreserve.com" target="_blank">Join Drop-In Play</a>
@@ -1694,8 +1697,8 @@
             <div class="pricing-price"><sup>$</sup>29<sub>/mo</sub></div>
             <div class="pricing-tagline">Great for occasional players</div>
           </div>
-          <div class="pricing-body">
-            <ul class="pricing-features">
+          <div class="pricing-body" style="display:flex;flex-direction:column;">
+            <ul class="pricing-features" style="flex:1;">
               <li><span class="check" style="color:#A8A9AD;">✓</span> Drop-in: $10 per session</li>
               <li><span class="check" style="color:#A8A9AD;">✓</span> Ladder Leagues: $15/session</li>
               <li><span class="check" style="color:#A8A9AD;">✓</span> Round Robins: $15/session</li>
@@ -1705,22 +1708,22 @@
           </div>
         </div>
         <!-- Gold -->
-        <div class="pricing-card featured fade-up" style="border-color:#D4AF37;">
-          <div class="pricing-badge" style="background:#D4AF37;color:white;">Most Popular</div>
+        <div class="pricing-card featured fade-up" style="border-color:#C9930A;">
+          <div class="pricing-badge" style="background:#C9930A;color:white;">Most Popular</div>
           <div class="pricing-header">
-            <div class="pricing-tier" style="color:#D4AF37;">Gold</div>
+            <div class="pricing-tier" style="color:#C9930A;">Gold</div>
             <div class="pricing-price"><sup>$</sup>124<sub>/mo</sub></div>
             <div class="pricing-tagline">Best value for regular players</div>
           </div>
-          <div class="pricing-body">
-            <ul class="pricing-features">
-              <li><span class="check" style="color:#D4AF37;">✓</span> 15 Drop-in Sessions Included</li>
-              <li><span class="check" style="color:#D4AF37;">✓</span> Ladder Leagues: $15/session</li>
-              <li><span class="check" style="color:#D4AF37;">✓</span> Round Robins: $10/session</li>
-              <li><span class="check" style="color:#D4AF37;">✓</span> Event Advance Reg: 1 week</li>
-              <li><span class="check" style="color:#D4AF37;">✓</span> 10% off All Instruction</li>
+          <div class="pricing-body" style="display:flex;flex-direction:column;">
+            <ul class="pricing-features" style="flex:1;">
+              <li><span class="check" style="color:#C9930A;">✓</span> 15 Drop-in Sessions Included</li>
+              <li><span class="check" style="color:#C9930A;">✓</span> Ladder Leagues: $15/session</li>
+              <li><span class="check" style="color:#C9930A;">✓</span> Round Robins: $10/session</li>
+              <li><span class="check" style="color:#C9930A;">✓</span> Event Advance Reg: 1 week</li>
+              <li><span class="check" style="color:#C9930A;">✓</span> 10% off All Instruction</li>
             </ul>
-            <a class="btn" style="background:#D4AF37;color:white;width:100%;text-align:center;" href="https://app.courtreserve.com" target="_blank">Join Gold</a>
+            <a class="btn" style="background:#C9930A;color:white;width:100%;text-align:center;" href="https://app.courtreserve.com" target="_blank">Join Gold</a>
           </div>
         </div>
         <!-- Diamond -->
@@ -1730,8 +1733,8 @@
             <div class="pricing-price"><sup>$</sup>149<sub>/mo</sub></div>
             <div class="pricing-tagline">For the dedicated player</div>
           </div>
-          <div class="pricing-body">
-            <ul class="pricing-features">
+          <div class="pricing-body" style="display:flex;flex-direction:column;">
+            <ul class="pricing-features" style="flex:1;">
               <li><span class="check" style="color:#8B5CF6;">✓</span> Drop-in: INCLUDED (unlimited)</li>
               <li><span class="check" style="color:#8B5CF6;">✓</span> Ladder Leagues: INCLUDED</li>
               <li><span class="check" style="color:#8B5CF6;">✓</span> Round Robins: INCLUDED</li>
@@ -2195,7 +2198,7 @@
         <div class="section-tag" style="background:var(--navy);color:white;">Banquet &amp; Events</div>
         <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:var(--dark);margin-bottom:0.75rem;">GEORGETOWN OAKS<br>BANQUET HALL</h2>
         <p style="color:#666;max-width:600px;margin:0 auto 2rem;">LevelUp Pickleball Club boasts a 3,500 sq.ft. ballroom with a 1,280 sq.ft. outdoor viewing deck available for weddings, sports banquets, reunions, parties, and corporate events (capacity 250 people).</p>
-        <a class="btn btn-green" href="https://georgeoaksweddings.com" target="_blank">Visit Georgetown Oaks Site</a>
+        <a class="btn btn-green" href="https://georgetownoaks.com/" target="_blank">Visit Georgetown Oaks Site</a>
       </div>
     </div>
   </section>
@@ -2366,9 +2369,9 @@
   <div class="replay-hero">
     <div class="replay-hero-content">
       <div class="kitchencam-logo">
-        <div class="kc-kitchen">KITCHEN</div>
+        <div class="kc-kitchen">COURT</div>
         <div class="kc-cam">CAM</div>
-        <div class="kc-sub">COURT REPLAY · LEVELUP</div>
+        <div class="kc-sub">COURT CAM · LEVELUP</div>
       </div>
       <p style="color:rgba(255,255,255,0.45);font-size:1rem;margin-top:1.75rem;">Relive your best rallies. Review your technique. Share your highlights.<br>Video ready in 5–10 minutes.</p>
     </div>
