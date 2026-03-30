@@ -536,8 +536,8 @@
   .pricing-price sup { font-size: 1.5rem; vertical-align: super; }
   .pricing-price sub { font-size: 1rem; color: #999; }
   .pricing-tagline { font-size: 0.85rem; color: #888; }
-  .pricing-body { padding: 0 2rem 2rem; }
-  .pricing-features { list-style: none; margin-bottom: 2rem; }
+  .pricing-body { padding: 0 2rem 2rem; display: flex; flex-direction: column; flex: 1; }
+  .pricing-features { list-style: none; margin-bottom: 2rem; flex: 1; }
   .pricing-features li {
     display: flex;
     align-items: flex-start;
@@ -1460,7 +1460,7 @@
             Show up at the designated morning and evening drop-in times and you'll be paired with random players of similar skill level. No reservation needed — just show up and play.<br><br>
             <strong style="color:var(--green);">Diamond members:</strong> Unlimited free drop-in.<br>
             <strong style="color:var(--green);">Gold members:</strong> 15 free sessions/month.*<br>
-            <strong style="color:rgba(255,255,255,0.6);">Silver members:</strong> $10 per session.<br>
+            <strong style="color:var(--green);">Silver members:</strong> $10 per session.<br>
             <strong style="color:rgba(255,255,255,0.5);">Non-members:</strong> $20 guest fee per session.
           </p>
           <a class="btn btn-green" href="https://app.courtreserve.com" target="_blank">Join Drop-In Play</a>
@@ -1697,8 +1697,8 @@
             <div class="pricing-price"><sup>$</sup>29<sub>/mo</sub></div>
             <div class="pricing-tagline">Great for occasional players</div>
           </div>
-          <div class="pricing-body" style="display:flex;flex-direction:column;">
-            <ul class="pricing-features" style="flex:1;">
+          <div class="pricing-body" style="">
+            <ul class="pricing-features">
               <li><span class="check" style="color:#A8A9AD;">✓</span> Drop-in: $10 per session</li>
               <li><span class="check" style="color:#A8A9AD;">✓</span> Ladder Leagues: $15/session</li>
               <li><span class="check" style="color:#A8A9AD;">✓</span> Round Robins: $15/session</li>
@@ -1715,8 +1715,8 @@
             <div class="pricing-price"><sup>$</sup>124<sub>/mo</sub></div>
             <div class="pricing-tagline">Best value for regular players</div>
           </div>
-          <div class="pricing-body" style="display:flex;flex-direction:column;">
-            <ul class="pricing-features" style="flex:1;">
+          <div class="pricing-body" style="">
+            <ul class="pricing-features">
               <li><span class="check" style="color:#C9930A;">✓</span> 15 Drop-in Sessions Included</li>
               <li><span class="check" style="color:#C9930A;">✓</span> Ladder Leagues: $15/session</li>
               <li><span class="check" style="color:#C9930A;">✓</span> Round Robins: $10/session</li>
@@ -1733,8 +1733,8 @@
             <div class="pricing-price"><sup>$</sup>149<sub>/mo</sub></div>
             <div class="pricing-tagline">For the dedicated player</div>
           </div>
-          <div class="pricing-body" style="display:flex;flex-direction:column;">
-            <ul class="pricing-features" style="flex:1;">
+          <div class="pricing-body" style="">
+            <ul class="pricing-features">
               <li><span class="check" style="color:#8B5CF6;">✓</span> Drop-in: INCLUDED (unlimited)</li>
               <li><span class="check" style="color:#8B5CF6;">✓</span> Ladder Leagues: INCLUDED</li>
               <li><span class="check" style="color:#8B5CF6;">✓</span> Round Robins: INCLUDED</li>
@@ -2174,9 +2174,7 @@
           </div>
         </div>
       </div>
-      <div style="text-align:center;margin-top:4rem;" class="fade-up">
-        <a class="btn btn-green" href="https://app.courtreserve.com" target="_blank">Book a Lesson</a>
-      </div>
+
     </div>
   </section>
 </div><!-- /page-pros -->
@@ -2192,7 +2190,7 @@
     </div>
   </div>
 
-  <section style="background:var(--off-white);color:var(--dark);padding:7rem 0;">
+  <section style="background:var(--off-white);color:var(--dark);padding:3rem 0 0;">
     <div class="container">
       <div style="text-align:center;margin-bottom:2rem;" class="fade-up">
         <div class="section-tag" style="background:var(--navy);color:white;">Banquet &amp; Events</div>
@@ -2203,7 +2201,7 @@
     </div>
   </section>
 
-  <section class="events-section" style="padding-top:4rem;">
+  <section class="events-section" style="padding-top:2rem;">
     <div class="container">
       <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);text-align:center;color:var(--dark);margin-bottom:3rem;">ADDITIONAL RENTAL OPTIONS</h2>
       <div class="events-grid">
