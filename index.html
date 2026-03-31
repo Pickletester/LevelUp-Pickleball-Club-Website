@@ -2092,7 +2092,7 @@
             <div class="pro-contact-overlay">
               <div class="pro-contact-name">Lisa Dollard</div>
               <div class="pro-contact-item">📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dab6b3a9bb9ab6bfacbfb6afaaaab3b9b1b6bfb8bbb6b6f4b9b5b7">[email&#160;protected]</a></div>
-              <a class="pro-contact-btn" href="/cdn-cgi/l/email-protection#cfa3a6bcae8fa3aab9aaa3babfbfa6aca4a3aaadaea3a3e1aca0a2">Book a Lesson</a>
+              <a class="pro-contact-btn" href="mailto:lisa@leveluppickleball.com">Book a Lesson</a>
             </div>
           </div>
           <div class="pro-info">
@@ -2103,7 +2103,7 @@
               <li>National 35+ Mixed Gold Medalist</li>
               <li>Founder / LevelUp Pickleball Camps</li>
             </ul>
-            <div class="pro-book-btn"><a class="btn btn-green" href="/cdn-cgi/l/email-protection#d0bcb9a3b190bcb5a6b5bca5a0a0b9b3bbbcb5b2b1bcbcfeb3bfbd">Book a Lesson</a></div>
+            <div class="pro-book-btn"><a class="btn btn-green" href="mailto:lisa@leveluppickleball.com">Book a Lesson</a></div>
           </div>
         </div>
 
@@ -2225,7 +2225,7 @@
           <div class="event-card-body">
             <div class="event-card-title">Up to Four Party Courts</div>
             <div class="event-card-desc">Reserve courts 7 through 10 for your pickleball, badminton, or social party event. Perfect for group celebrations.</div>
-            <a class="btn btn-green" href="/cdn-cgi/l/email-protection#274d0955465e4a52494348674b4251424b5257574e444c4b4245464b4b0944484a">Contact Us</a>
+            <a class="btn btn-green" href="mailto:Morgan@georgetownoaks.com">Contact Us</a>
           </div>
         </div>
         <div class="event-card fade-up">
@@ -2749,7 +2749,7 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <div class="footer-info">
-          <div class="footer-info-item"><span class="icon">✉️</span><a href="/cdn-cgi/l/email-protection#ec86c29e8d958199828883ac80899a8980999c9c858f8780898e8d8080c28f8381" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><span class="__cf_email__" data-cfemail="ed87c39f8c948098838982ad81889b8881989d9d848e8681888f8c8181c38e8280">[email&#160;protected]</span></a></div>
+          <div class="footer-info-item"><span class="icon">✉️</span><a href="mailto:j.raymundo@leveluppickleball.com" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">j.raymundo@leveluppickleball.com</a></div>
           <div class="footer-info-item"><span class="icon">📞</span><a href="tel:4122065755" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">412-206-5755</a></div>
         </div>
       </div>
@@ -2873,16 +2873,6 @@
       btn.style.borderColor = 'var(--green)';
     }
   }
-  // Set date picker limits - today max, 20 days back min
-  const dateInput = document.getElementById('replayDate');
-  if (dateInput) {
-    const today = new Date();
-    const minDate = new Date();
-    minDate.setDate(today.getDate() - 20);
-    dateInput.max = today.toISOString().split('T')[0];
-    dateInput.min = minDate.toISOString().split('T')[0];
-  }
-
   let selectedDuration = '1 Hour';
   let selectedPrice = 15;
 
@@ -2895,10 +2885,19 @@
     if (btn) btn.textContent = 'GET MY RECORDING — $' + price;
   }
 
+  // Set date picker limits - today max, 20 days back min
+  const dateInput = document.getElementById('replayDate');
+  if (dateInput) {
+    const today = new Date();
+    const minDate = new Date();
+    minDate.setDate(today.getDate() - 20);
+    dateInput.max = today.toISOString().split('T')[0];
+    dateInput.min = minDate.toISOString().split('T')[0];
+  }
+
   // ===== STRIPE PAYMENT =====
   const stripePublishableKey = 'pk_live_51Phz4uByPDcoX1D7ypZ6h0w4fJ4mi2g9yx8orNfHKl7Q4ItIjsb5m2lGbVWmbFg0wk5J2WYp1WTgZTRRNwuzOs0B00AssY70P3';
 
-  // Loading overlay
   function showLoadingOverlay(message) {
     let overlay = document.getElementById('paymentOverlay');
     if (!overlay) {
