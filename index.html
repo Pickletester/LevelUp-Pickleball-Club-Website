@@ -2884,18 +2884,46 @@
     if (btn) btn.textContent = 'GET MY RECORDING — $' + price;
   }
 
-  function handleReplaySubmit(btn) {
+  async function handleReplaySubmit(btn) {
     const court = document.getElementById('replayCourt').value;
     const date = document.getElementById('replayDate').value;
+    const time = document.getElementById('replayTime').value;
     const email = document.getElementById('replayEmail').value;
-    if (!court || !date || !email) {
-      alert('Please fill in all required fields: Court, Date, and Email.');
+
+    if (!court || !date || !time || !email) {
+      alert('Please fill in all fields: Court, Date, Time, and Email.');
       return;
     }
-    btn.textContent = '✓ Order Placed! Check your email.';
-    btn.style.background = 'var(--navy)';
-    btn.style.color = 'white';
+
+    btn.textContent = 'REDIRECTING TO PAYMENT...';
     btn.disabled = true;
+
+    try {
+      const response = await fetch('https://levelup-camera-backend.onrender.com/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          court,
+          date,
+          time,
+          duration: selectedDuration === '30 Minutes' ? '30min' : '1hour',
+          email
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        btn.textContent = 'ERROR — TRY AGAIN';
+        btn.disabled = false;
+      }
+    } catch (err) {
+      console.error(err);
+      btn.textContent = 'ERROR — TRY AGAIN';
+      btn.disabled = false;
+    }
   }
 </script>
 
