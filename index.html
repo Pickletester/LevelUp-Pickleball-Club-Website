@@ -2873,6 +2873,16 @@
       btn.style.borderColor = 'var(--green)';
     }
   }
+  // Set date picker limits - today max, 20 days back min
+  const dateInput = document.getElementById('replayDate');
+  if (dateInput) {
+    const today = new Date();
+    const minDate = new Date();
+    minDate.setDate(today.getDate() - 20);
+    dateInput.max = today.toISOString().split('T')[0];
+    dateInput.min = minDate.toISOString().split('T')[0];
+  }
+
   let selectedDuration = '1 Hour';
   let selectedPrice = 15;
 
