@@ -960,15 +960,124 @@
     .rental-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 700px) {
+    /* Nav */
     .nav-links { display: none; }
     .nav-hamburger { display: flex; }
-    .amenities-grid { grid-template-columns: 1fr 1fr; }
+    nav { padding: 0 1rem; }
+
+    /* Alert bar */
+    .alert-bar { font-size: 0.8rem; padding: 0.5rem 1rem; }
+
+    /* Page padding */
+    .page { padding-top: 108px; }
+    .container { padding: 0 1rem; }
+
+    /* Hero */
+    .hero-content { padding: 2rem 1rem; }
+    .hero-title { font-size: clamp(3rem, 12vw, 5rem); }
+    .hero-subtitle { font-size: 1rem; }
+    .hero-stats { grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+    .hero-stat-num { font-size: 2.5rem; }
+    .hero-ctas { flex-direction: column; }
+    .hero-ctas .btn { text-align: center; }
+
+    /* Facility */
+    .facility { padding: 4rem 0; }
+    .amenities-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .amenity-card { padding: 1.25rem 1rem; }
+
+    /* Drop-in */
+    .dropin { padding: 4rem 0; }
+    .dropin-inner { gap: 2rem; }
+    .schedule-table th, .schedule-table td { padding: 0.6rem 0.5rem; font-size: 0.8rem; }
+
+    /* Testimonials */
+    .testimonials { padding: 4rem 0; }
     .testimonials-grid { grid-template-columns: 1fr; }
-    .play-grid { grid-template-columns: 1fr; }
-    .pros-grid { grid-template-columns: 1fr 1fr; }
-    .footer-grid { grid-template-columns: 1fr; }
+
+    /* CTA Banner */
+    .cta-banner { padding: 3rem 0; }
+    .cta-banner h2 { font-size: clamp(2.5rem, 8vw, 4rem); }
+
+    /* Owners story */
+    .owners-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+
+    /* App section */
+    .app-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+
+    /* Newsletter */
+    .newsletter { padding: 3rem 0; }
+    .newsletter-inner { padding: 2rem 1.25rem; }
+
+    /* Page hero */
+    .page-hero { padding: 3rem 0 2rem; }
+    .page-hero h1 { font-size: clamp(3rem, 10vw, 5rem); }
+
+    /* Membership */
+    .pricing-section { padding: 4rem 0; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .rental-section { padding: 3rem 0; }
+    .rental-grid { grid-template-columns: 1fr; }
+    .policies { padding: 3rem 0; }
     .policies-grid { grid-template-columns: 1fr; }
+
+    /* Play */
+    .play-options { padding: 4rem 0; }
+    .play-grid { grid-template-columns: 1fr; }
+
+    /* Learn */
+    .lessons-section { padding: 4rem 0; }
+    .lessons-inline-grid { grid-template-columns: 1fr; }
+    .clinics-camps { padding: 4rem 0; }
+    .clinics-grid { grid-template-columns: 1fr; }
+    .camps-btns { flex-direction: column; }
+    .camps-btns .btn { text-align: center; }
+
+    /* Pros */
+    .pros-section { padding: 4rem 0; }
+    .pros-grid { grid-template-columns: 1fr 1fr; }
+
+    /* Events */
+    .events-section { padding: 3rem 0; }
+    .events-grid { grid-template-columns: 1fr; }
+    .event-form-section { padding: 2rem 1.25rem; }
+
+    /* Footer */
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .footer-bottom-links { justify-content: center; }
+
+    /* Golf sim */
+    .golfsim-grid { grid-template-columns: 1fr !important; }
+    .golfsim-pricing { grid-template-columns: 1fr !important; }
+
+    /* Court Replay */
+    .replay-hero { padding: 3rem 0 2rem; }
+    .replay-fields { grid-template-columns: 1fr; }
+    .replay-card-body { padding: 1.25rem; }
+    .replay-trust { grid-template-columns: 1fr; }
+    .trust-item { border-right: none; border-bottom: 1.5px solid #F0F1F5; }
+    .trust-item:last-child { border-bottom: none; }
+    .how-steps { grid-template-columns: repeat(2, 1fr); }
+    .how-steps::before { display: none; }
+    .replay-how { padding: 3rem 0; }
+    .duration-options { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    /* Extra small phones */
+    .amenities-grid { grid-template-columns: 1fr; }
+    .pros-grid { grid-template-columns: 1fr; }
+    .how-steps { grid-template-columns: 1fr; }
     .hero-stats { grid-template-columns: repeat(3, 1fr); }
+    .hero-stat-num { font-size: 2rem; }
+    .hero-stat-label { font-size: 0.65rem; }
+    .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; }
+    .alert-bar { font-size: 0.72rem; line-height: 1.4; }
+    .golfsim-pricing { grid-template-columns: 1fr !important; }
+    .footer-grid { gap: 1.5rem; }
+    .replay-form-section { padding: 3rem 0; }
+    .lessons-inline-grid { grid-template-columns: 1fr !important; }
   }
 
   /* Mobile menu */
@@ -1546,7 +1655,7 @@
   <!-- OWNERS STORY -->
   <section style="background:var(--off-white);color:var(--dark);padding:7rem 0;">
     <div class="container">
-      <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:center;">
+      <div class="owners-grid" style="display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:center;">
 
         <!-- Photo -->
         <div class="fade-up" style="position:relative;">
@@ -1595,7 +1704,7 @@
   <!-- APP SECTION -->
   <section style="background:var(--dark);padding:7rem 0;overflow:hidden;">
     <div class="container">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;">
+      <div class="app-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;">
 
         <!-- Left: iPhone mockup -->
         <div class="fade-up" style="display:flex;justify-content:center;position:relative;">
@@ -1937,7 +2046,7 @@
     <div class="container">
       <div class="section-tag" style="display:block;text-align:center;">Lessons</div>
       <h2 class="play-title" style="color:var(--dark)">PRIVATE INSTRUCTION</h2>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:3rem;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:3rem;" class="lessons-inline-grid">
         <div class="lesson-card fade-up">
           <div style="overflow:hidden;">
             <img class="lesson-card-photo" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/PRIVATE%20INSTRUCTION/Private%20less.webp" alt="Private Lesson" loading="lazy">
@@ -1998,7 +2107,7 @@
       <!-- CLINICS -->
       <div class="section-tag" style="display:block;text-align:center;margin-top:2rem;">Clinics</div>
       <h2 class="play-title" style="color:var(--dark)">GROUP CLINICS</h2>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:3rem;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:3rem;" class="lessons-inline-grid">
         <div class="lesson-card fade-up">
           <div style="overflow:hidden;">
             <img class="lesson-card-photo" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/People%20playing%20pickleball/DSC09270.webp" alt="Beginner Clinic" loading="lazy">
@@ -2647,7 +2756,7 @@
     <div style="position:absolute;inset:0;background:rgba(5,8,20,0.75);"></div>
     <div class="container" style="position:relative;z-index:1;">
       <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);text-align:center;margin-bottom:3rem;">SIMPLE <span style="color:var(--green)">PRICING</span></h2>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:700px;margin:0 auto 3rem;">
+      <div class="golfsim-pricing" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:700px;margin:0 auto 3rem;">
 
         <div style="background:rgba(255,255,255,0.07);border:2px solid rgba(255,255,255,0.12);border-radius:14px;padding:2.5rem;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--green)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.12)';this.style.transform='translateY(0)'">
           <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.5rem;">Monday – Thursday</div>
@@ -2672,7 +2781,7 @@
   <section style="background:var(--off-white);color:var(--dark);padding:6rem 0;">
     <div class="container">
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;max-width:1000px;margin:0 auto;">
+      <div class="golfsim-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;max-width:1000px;margin:0 auto;">
 
         <div class="fade-up">
           <div class="section-tag" style="background:var(--navy);color:white;">Hours</div>
@@ -2746,7 +2855,7 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <div class="footer-info">
-          <div class="footer-info-item"><span class="icon">✉️</span><a href="mailto:j.raymundo@leveluppickleball.com" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">j.raymundo@leveluppickleball.com</a></div>
+          <div class="footer-info-item"><span class="icon">✉️</span><a href="mailto:j.raymundo@leveluppickleball.com" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"></a></div>
           <div class="footer-info-item"><span class="icon">📞</span><a href="tel:4122065755" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">412-206-5755</a></div>
         </div>
       </div>
@@ -2882,7 +2991,7 @@
     if (btn) btn.textContent = 'GET MY RECORDING — $' + price;
   }
 
-  // Set date picker limits - today max, 20 days back min
+  // Set date picker limits
   const dateInput = document.getElementById('replayDate');
   if (dateInput) {
     const today = new Date();
@@ -2900,20 +3009,8 @@
     if (!overlay) {
       overlay = document.createElement('div');
       overlay.id = 'paymentOverlay';
-      overlay.style.cssText = `
-        position:fixed;top:0;left:0;right:0;bottom:0;
-        background:rgba(13,15,26,0.92);
-        display:flex;flex-direction:column;align-items:center;justify-content:center;
-        z-index:9999;backdrop-filter:blur(6px);
-      `;
-      overlay.innerHTML = `
-        <div style="text-align:center;">
-          <div style="width:56px;height:56px;border:4px solid rgba(60,196,64,0.2);border-top-color:#3CC440;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 24px;"></div>
-          <div id="overlayMsg" style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:white;"></div>
-          <div style="font-size:0.85rem;color:rgba(255,255,255,0.4);margin-top:8px;">This may take a few seconds</div>
-        </div>
-        <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
-      `;
+      overlay.style.cssText = `position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(13,15,26,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(6px);`;
+      overlay.innerHTML = `<div style="text-align:center;padding:2rem;"><div style="width:56px;height:56px;border:4px solid rgba(60,196,64,0.2);border-top-color:#3CC440;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 24px;"></div><div id="overlayMsg" style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:white;"></div><div style="font-size:0.85rem;color:rgba(255,255,255,0.4);margin-top:8px;">This may take a few seconds</div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>`;
       document.body.appendChild(overlay);
     }
     document.getElementById('overlayMsg').textContent = message;
@@ -2930,31 +3027,20 @@
     const date = document.getElementById('replayDate').value;
     const time = document.getElementById('replayTime').value;
     const email = document.getElementById('replayEmail').value;
-
     if (!court || !date || !time || !email) {
       alert('Please fill in all fields: Court, Date, Time, and Email.');
       return;
     }
-
     btn.textContent = 'LOADING...';
     btn.disabled = true;
     showLoadingOverlay('Preparing your checkout...');
-
     try {
       const response = await fetch('https://levelup-camera-backend.onrender.com/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          court,
-          date,
-          time,
-          duration: selectedDuration === '30 Minutes' ? '30min' : '1hour',
-          email
-        })
+        body: JSON.stringify({ court, date, time, duration: selectedDuration === '30 Minutes' ? '30min' : '1hour', email })
       });
-
       const data = await response.json();
-
       if (data.url) {
         showLoadingOverlay('Redirecting to secure payment...');
         window.open(data.url, '_blank', 'width=500,height=700,scrollbars=yes');
