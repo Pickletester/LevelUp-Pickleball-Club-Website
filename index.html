@@ -2951,7 +2951,10 @@
 
       if (data.url) {
         showLoadingOverlay('Redirecting to secure payment...');
-        window.location.href = data.url;
+        window.open(data.url, '_blank', 'width=500,height=700,scrollbars=yes');
+        hideLoadingOverlay();
+        btn.textContent = 'GET MY RECORDING — $' + selectedPrice;
+        btn.disabled = false;
       } else {
         hideLoadingOverlay();
         btn.textContent = 'ERROR — TRY AGAIN';
