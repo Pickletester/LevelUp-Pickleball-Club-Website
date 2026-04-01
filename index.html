@@ -2851,59 +2851,26 @@
             <input type="hidden" name="from_name" value="LevelUp Golf Sim Booking">
 
             <!-- Name row -->
-            <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
-              <div>
-                <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">First Name *</label>
-                <input type="text" name="first_name" placeholder="First name" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
-              </div>
-              <div>
-                <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Last Name *</label>
-                <input type="text" name="last_name" placeholder="Last name" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
-              </div>
+            <!-- Date picker -->
+            <div style="margin-bottom:1rem;">
+              <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Preferred Date *</label>
+              <input type="date" name="preferred_date" id="golfSimDate" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;color-scheme:dark;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
             </div>
 
-            <!-- Email + Phone -->
-            <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
-              <div>
-                <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Email *</label>
-                <input type="email" name="email" placeholder="you@email.com" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
-              </div>
-              <div>
-                <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Phone *</label>
-                <input type="tel" name="phone" placeholder="(412) 555-0000" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
-              </div>
-            </div>
-
-            <!-- Date + Time -->
-            <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
-              <div>
-                <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Preferred Date *</label>
-                <input type="date" name="preferred_date" id="golfSimDate" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;color-scheme:dark;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
-              </div>
-              <div>
-                <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Preferred Start Time *</label>
-                <div style="position:relative;">
-                  <select name="preferred_time" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;appearance:none;cursor:pointer;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
-                    <option value="">Select a time...</option>
-                    <option>7:00 AM</option><option>7:30 AM</option>
-                    <option>8:00 AM</option><option>8:30 AM</option>
-                    <option>9:00 AM</option><option>9:30 AM</option>
-                    <option>10:00 AM</option><option>10:30 AM</option>
-                    <option>11:00 AM</option><option>11:30 AM</option>
-                    <option>12:00 PM</option><option>12:30 PM</option>
-                    <option>1:00 PM</option><option>1:30 PM</option>
-                    <option>2:00 PM</option><option>2:30 PM</option>
-                    <option>3:00 PM</option><option>3:30 PM</option>
-                    <option>4:00 PM</option><option>4:30 PM</option>
-                    <option>5:00 PM</option><option>5:30 PM</option>
-                    <option>6:00 PM</option><option>6:30 PM</option>
-                    <option>7:00 PM</option><option>7:30 PM</option>
-                    <option>8:00 PM</option><option>8:30 PM</option>
-                    <option>9:00 PM</option>
-                  </select>
-                  <div style="position:absolute;right:0.85rem;top:50%;transform:translateY(-50%);pointer-events:none;color:rgba(255,255,255,0.4);">▾</div>
+            <!-- Live availability time grid -->
+            <div style="margin-bottom:1rem;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <label style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);">Select Start Time *</label>
+                <div style="display:flex;gap:1rem;font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;">
+                  <span style="display:flex;align-items:center;gap:0.3rem;color:rgba(255,255,255,0.4);"><span style="display:inline-block;width:10px;height:10px;background:rgba(60,196,64,0.3);border:1px solid var(--green);border-radius:2px;"></span>Available</span>
+                  <span style="display:flex;align-items:center;gap:0.3rem;color:rgba(255,255,255,0.3);"><span style="display:inline-block;width:10px;height:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:2px;"></span>Booked</span>
                 </div>
               </div>
+              <input type="hidden" name="preferred_time" id="golfSimSelectedTime" required>
+              <div id="timeGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.35rem;">
+                <div style="grid-column:1/-1;text-align:center;color:rgba(255,255,255,0.25);font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:1rem 0.5rem;border:1px dashed rgba(255,255,255,0.1);border-radius:6px;">← Select a date to see available times</div>
+              </div>
+              <div id="timeGridLoading" style="display:none;text-align:center;padding:1rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;letter-spacing:0.08em;">Loading availability...</div>
             </div>
 
             <!-- Duration -->
@@ -3030,6 +2997,16 @@
           }, 100);
         }
       }
+      // Handle hash anchor for manage section
+      if (window.location.hash === '#manage') {
+        setTimeout(function() {
+          showPage('golfsim');
+          setTimeout(function() {
+            var el = document.getElementById('manage');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 200);
+        }, 50);
+      }
     })();
 
     var selectedGolfDuration = '';
@@ -3071,7 +3048,10 @@
     }
 
     // Update prices when date changes
-    document.getElementById('golfSimDate')?.addEventListener('change', updatePriceDisplay);
+    document.getElementById('golfSimDate')?.addEventListener('change', function() {
+      updatePriceDisplay();
+      loadTimeGrid(this.value);
+    });
 
     function selectGolfDuration(el, label) {
       document.querySelectorAll('#golfDurationPicker > div').forEach(function(d) {
@@ -3085,7 +3065,117 @@
       document.getElementById('golfDurationValue').value = label;
     }
 
-    async function applyPromoCode() {
+    // ── Live availability time grid ───────────────────────────────────────
+    var ALL_TIMES = [
+      '7:00 AM','7:30 AM','8:00 AM','8:30 AM','9:00 AM','9:30 AM',
+      '10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM',
+      '1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM',
+      '4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM','6:30 PM',
+      '7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM'
+    ];
+
+    function timeToMinutes(timeStr) {
+      var parts = timeStr.split(' ');
+      var hm = parts[0].split(':');
+      var h = parseInt(hm[0]), m = parseInt(hm[1]);
+      if (parts[1] === 'PM' && h !== 12) h += 12;
+      if (parts[1] === 'AM' && h === 12) h = 0;
+      return h * 60 + m;
+    }
+
+    function isTimeBooked(timeStr, bookedSlots, durationMins) {
+      var slotStart = timeToMinutes(timeStr);
+      var slotEnd = slotStart + (durationMins || 60);
+      for (var i = 0; i < bookedSlots.length; i++) {
+        var bStart = new Date(bookedSlots[i].start).getUTCHours() * 60 + new Date(bookedSlots[i].start).getUTCMinutes();
+        var bEnd = new Date(bookedSlots[i].end).getUTCHours() * 60 + new Date(bookedSlots[i].end).getUTCMinutes();
+        if (slotStart < bEnd && bStart < slotEnd) return true;
+      }
+      return false;
+    }
+
+    async function loadTimeGrid(date) {
+      var grid = document.getElementById('timeGrid');
+      var loading = document.getElementById('timeGridLoading');
+      if (!grid || !date) return;
+
+      grid.style.display = 'none';
+      loading.style.display = 'block';
+      document.getElementById('golfSimSelectedTime').value = '';
+
+      try {
+        var res = await fetch('https://levelup-golfsim-booking.s-jackson.workers.dev/availability?date=' + date);
+        var data = await res.json();
+        var bookedSlots = data.bookedSlots || [];
+        var durMins = durationToMinutesVal(selectedGolfDuration || '1 Hour');
+
+        // Get current time if today
+        var now = new Date();
+        var todayStr = now.toISOString().split('T')[0];
+        var nowMins = date === todayStr ? now.getHours() * 60 + now.getMinutes() : -1;
+
+        grid.innerHTML = '';
+        ALL_TIMES.forEach(function(t) {
+          var mins = timeToMinutes(t);
+          var booked = isTimeBooked(t, bookedSlots, durMins);
+          var past = nowMins > 0 && mins <= nowMins;
+          var tile = document.createElement('div');
+          tile.style.cssText = 'padding:0.5rem 0.25rem;text-align:center;border-radius:6px;font-family:"Barlow Condensed",sans-serif;font-size:0.8rem;letter-spacing:0.04em;font-weight:700;transition:all 0.15s;';
+
+          if (booked || past) {
+            tile.style.background = 'rgba(255,255,255,0.04)';
+            tile.style.border = '1px solid rgba(255,255,255,0.08)';
+            tile.style.color = 'rgba(255,255,255,0.2)';
+            tile.style.cursor = 'not-allowed';
+            tile.textContent = t;
+            if (booked) {
+              tile.title = 'Already booked';
+              tile.style.textDecoration = 'line-through';
+            }
+          } else {
+            tile.style.background = 'rgba(60,196,64,0.1)';
+            tile.style.border = '1px solid rgba(60,196,64,0.4)';
+            tile.style.color = 'rgba(255,255,255,0.9)';
+            tile.style.cursor = 'pointer';
+            tile.textContent = t;
+            tile.onclick = function() {
+              document.querySelectorAll('#timeGrid div').forEach(function(d) {
+                if (d.style.cursor === 'pointer') {
+                  d.style.background = 'rgba(60,196,64,0.1)';
+                  d.style.border = '1px solid rgba(60,196,64,0.4)';
+                  d.style.color = 'rgba(255,255,255,0.9)';
+                }
+              });
+              tile.style.background = 'var(--green)';
+              tile.style.border = '1px solid var(--green)';
+              tile.style.color = 'var(--dark)';
+              document.getElementById('golfSimSelectedTime').value = t;
+            };
+          }
+          grid.appendChild(tile);
+        });
+
+        loading.style.display = 'none';
+        grid.style.display = 'grid';
+      } catch(err) {
+        loading.style.display = 'none';
+        grid.style.display = 'grid';
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:rgba(255,255,255,0.3);font-family:\'Barlow Condensed\',sans-serif;font-size:0.8rem;padding:1rem;">Could not load availability. Please call 412-206-5755.</div>';
+      }
+    }
+
+    function durationToMinutesVal(dur) {
+      var map = {'1 Hour':60,'1.5 Hours':90,'2 Hours':120,'2.5 Hours':150,'3 Hours':180};
+      return map[dur] || 60;
+    }
+
+    // Reload grid when duration changes so booked detection updates
+    var _origSelectDur = selectGolfDuration;
+    selectGolfDuration = function(el, label) {
+      _origSelectDur(el, label);
+      var date = document.getElementById('golfSimDate')?.value;
+      if (date) loadTimeGrid(date);
+    };
       var code = document.getElementById('promoCodeInput').value.trim();
       var msg = document.getElementById('promoMsg');
       if (!code) return;
@@ -3134,7 +3224,7 @@
         email: form.querySelector('[name="email"]').value,
         phone: form.querySelector('[name="phone"]').value,
         date: form.querySelector('[name="preferred_date"]').value,
-        time: form.querySelector('[name="preferred_time"]').value,
+        time: form.querySelector('[name="preferred_time"]').value || document.getElementById('golfSimSelectedTime').value,
         duration: selectedGolfDuration,
         players: form.querySelector('[name="players"]').value,
         notes: form.querySelector('[name="message"]').value,
