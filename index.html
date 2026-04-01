@@ -2909,18 +2909,26 @@
             <!-- Duration -->
             <div style="margin-bottom:1.25rem;">
               <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.75rem;">Duration *</label>
-              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;" id="golfDurationPicker">
-                <div onclick="selectGolfDuration(this,'1 Hour')" data-dur="1 Hour" style="padding:0.85rem;text-align:center;border:2px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;transition:all 0.2s;">
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:white;">1 HR</div>
-                  <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em;">Most popular</div>
+              <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.5rem;" id="golfDurationPicker">
+                <div onclick="selectGolfDuration(this,'1 Hour')" data-dur="1 Hour" style="padding:0.75rem 0.5rem;text-align:center;border:2px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;transition:all 0.2s;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:white;">1 HR</div>
+                  <div id="price-1-Hour" style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;">$50</div>
                 </div>
-                <div onclick="selectGolfDuration(this,'2 Hours')" data-dur="2 Hours" style="padding:0.85rem;text-align:center;border:2px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;transition:all 0.2s;">
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:white;">2 HRS</div>
-                  <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em;">Full round</div>
+                <div onclick="selectGolfDuration(this,'1.5 Hours')" data-dur="1.5 Hours" style="padding:0.75rem 0.5rem;text-align:center;border:2px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;transition:all 0.2s;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:white;">1.5 HR</div>
+                  <div id="price-1.5-Hours" style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;">$75</div>
                 </div>
-                <div onclick="selectGolfDuration(this,'3+ Hours')" data-dur="3+ Hours" style="padding:0.85rem;text-align:center;border:2px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;transition:all 0.2s;">
-                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:white;">3+ HRS</div>
-                  <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em;">Event / party</div>
+                <div onclick="selectGolfDuration(this,'2 Hours')" data-dur="2 Hours" style="padding:0.75rem 0.5rem;text-align:center;border:2px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;transition:all 0.2s;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:white;">2 HR</div>
+                  <div id="price-2-Hours" style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;">$100</div>
+                </div>
+                <div onclick="selectGolfDuration(this,'2.5 Hours')" data-dur="2.5 Hours" style="padding:0.75rem 0.5rem;text-align:center;border:2px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;transition:all 0.2s;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:white;">2.5 HR</div>
+                  <div id="price-2.5-Hours" style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;">$125</div>
+                </div>
+                <div onclick="selectGolfDuration(this,'3 Hours')" data-dur="3 Hours" style="padding:0.75rem 0.5rem;text-align:center;border:2px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;transition:all 0.2s;">
+                  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:white;">3 HR</div>
+                  <div id="price-3-Hours" style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;">$150</div>
                 </div>
               </div>
               <input type="hidden" name="duration" id="golfDurationValue" required>
@@ -2936,10 +2944,23 @@
                   <option>2 players</option>
                   <option>3 players</option>
                   <option>4 players</option>
-                  <option>5+ players</option>
+                  <option>5 players</option>
+                  <option>6 players</option>
+                  <option>7 players</option>
+                  <option>8 players</option>
                 </select>
                 <div style="position:absolute;right:0.85rem;top:50%;transform:translateY(-50%);pointer-events:none;color:rgba(255,255,255,0.4);">▾</div>
               </div>
+            </div>
+
+            <!-- Promo code -->
+            <div style="margin-bottom:1.25rem;">
+              <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Promo Code</label>
+              <div style="display:flex;gap:0.5rem;">
+                <input type="text" id="promoCodeInput" placeholder="Enter code" style="flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;text-transform:uppercase;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+                <button type="button" onclick="applyPromoCode()" style="background:var(--navy);color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.75rem 1.25rem;border:1px solid rgba(255,255,255,0.2);border-radius:6px;cursor:pointer;white-space:nowrap;">Apply</button>
+              </div>
+              <div id="promoMsg" style="display:none;margin-top:0.5rem;font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;letter-spacing:0.05em;"></div>
             </div>
 
             <!-- Notes -->
@@ -3012,6 +3033,45 @@
     })();
 
     var selectedGolfDuration = '';
+    var activePromoCode = '';
+    var promoDiscount = 0;
+
+    // Weekday vs weekend prices
+    var PRICES = {
+      '1 Hour':    { weekday: 50,  weekend: 75    },
+      '1.5 Hours': { weekday: 75,  weekend: 112.5 },
+      '2 Hours':   { weekday: 100, weekend: 150   },
+      '2.5 Hours': { weekday: 125, weekend: 187.5 },
+      '3 Hours':   { weekday: 150, weekend: 225   },
+    };
+
+    function getIsWeekend(dateStr) {
+      if (!dateStr) return false;
+      var d = new Date(dateStr + 'T12:00:00Z');
+      var day = d.getUTCDay();
+      return day === 0 || day === 5 || day === 6;
+    }
+
+    function updatePriceDisplay() {
+      var dateStr = document.getElementById('golfSimDate')?.value || '';
+      var weekend = getIsWeekend(dateStr);
+      Object.keys(PRICES).forEach(function(dur) {
+        var id = 'price-' + dur.replace(/ /g, '-').replace('.', '.');
+        var el = document.getElementById(id);
+        if (!el) return;
+        var price = weekend ? PRICES[dur].weekend : PRICES[dur].weekday;
+        if (promoDiscount === 100) {
+          el.textContent = 'FREE';
+          el.style.color = 'var(--green)';
+        } else {
+          el.textContent = '$' + price;
+          el.style.color = 'rgba(255,255,255,0.4)';
+        }
+      });
+    }
+
+    // Update prices when date changes
+    document.getElementById('golfSimDate')?.addEventListener('change', updatePriceDisplay);
 
     function selectGolfDuration(el, label) {
       document.querySelectorAll('#golfDurationPicker > div').forEach(function(d) {
@@ -3023,6 +3083,39 @@
       el.style.background = 'rgba(60,196,64,0.1)';
       selectedGolfDuration = label;
       document.getElementById('golfDurationValue').value = label;
+    }
+
+    async function applyPromoCode() {
+      var code = document.getElementById('promoCodeInput').value.trim();
+      var msg = document.getElementById('promoMsg');
+      if (!code) return;
+      try {
+        var res = await fetch('https://levelup-golfsim-booking.s-jackson.workers.dev/validate-promo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code })
+        });
+        var data = await res.json();
+        if (data.valid) {
+          activePromoCode = code;
+          promoDiscount = data.discount;
+          msg.style.cssText = 'display:block;color:var(--green);font-family:"Barlow Condensed",sans-serif;font-size:0.85rem;';
+          msg.textContent = '✓ ' + data.message;
+          updatePriceDisplay();
+          // Update submit button
+          if (promoDiscount === 100) {
+            document.getElementById('golfSimSubmitBtn').textContent = '⛳ Book for Free';
+          }
+        } else {
+          activePromoCode = '';
+          promoDiscount = 0;
+          msg.style.cssText = 'display:block;color:var(--orange);font-family:"Barlow Condensed",sans-serif;font-size:0.85rem;';
+          msg.textContent = '✗ ' + data.message;
+        }
+      } catch(err) {
+        msg.style.cssText = 'display:block;color:var(--orange);font-family:"Barlow Condensed",sans-serif;font-size:0.85rem;';
+        msg.textContent = '✗ Could not validate code.';
+      }
     }
 
     async function handleGolfSimSubmit(e, form) {
@@ -3044,7 +3137,8 @@
         time: form.querySelector('[name="preferred_time"]').value,
         duration: selectedGolfDuration,
         players: form.querySelector('[name="players"]').value,
-        notes: form.querySelector('[name="message"]').value
+        notes: form.querySelector('[name="message"]').value,
+        promoCode: activePromoCode || ''
       };
 
       try {
@@ -3055,10 +3149,13 @@
         });
         var data = await res.json();
         if (data.success && data.url) {
-          // Redirect to Stripe Checkout
           window.location.href = data.url;
+        } else if (data.success && data.free) {
+          // Free promo booking — show success directly
+          form.style.display = 'none';
+          document.getElementById('golfSimSuccess').style.display = 'block';
         } else if (data.conflict) {
-          btn.textContent = '⛳ Reserve & Pay';
+          btn.textContent = promoDiscount === 100 ? '⛳ Book for Free' : '⛳ Reserve & Pay';
           btn.disabled = false;
           var existing = document.getElementById('golfSimConflictMsg');
           if (!existing) {
@@ -3070,12 +3167,12 @@
           existing.innerHTML = '⚠️ <strong>Time Not Available</strong> — ' + data.error + ' Please select a different time above.';
           existing.style.display = 'block';
         } else {
-          btn.textContent = '⛳ Reserve & Pay';
+          btn.textContent = promoDiscount === 100 ? '⛳ Book for Free' : '⛳ Reserve & Pay';
           btn.disabled = false;
           alert('Error: ' + (data.error || 'Please call us at 412-206-5755'));
         }
       } catch(err) {
-        btn.textContent = '⛳ Reserve & Pay';
+        btn.textContent = promoDiscount === 100 ? '⛳ Book for Free' : '⛳ Reserve & Pay';
         btn.disabled = false;
         alert('Something went wrong. Please call us at 412-206-5755');
       }
@@ -3097,8 +3194,8 @@
               <input type="text" id="cancelResId" placeholder="e.g. 51699459" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
             </div>
             <div style="margin-bottom:1rem;">
-              <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Cancellation Code *</label>
-              <input type="text" id="cancelCode" placeholder="e.g. 5310-0409" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+              <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Phone Number Used to Book *</label>
+              <input type="tel" id="cancelPhone" placeholder="(412) 555-0000" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
             </div>
             <div style="margin-bottom:1.5rem;">
               <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Email (for confirmation)</label>
@@ -3126,7 +3223,7 @@
 
       var payload = {
         reservationId: document.getElementById('cancelResId').value.trim(),
-        cancelCode: document.getElementById('cancelCode').value.trim(),
+        phone: document.getElementById('cancelPhone').value.trim(),
         email: document.getElementById('cancelEmail').value.trim()
       };
 
