@@ -3188,6 +3188,8 @@
       var date = document.getElementById('golfSimDate')?.value;
       if (date) loadTimeGrid(date);
     };
+
+    async function applyPromoCode() {
       var code = document.getElementById('promoCodeInput').value.trim();
       var msg = document.getElementById('promoMsg');
       if (!code) return;
@@ -3279,9 +3281,13 @@
         alert('Something went wrong. Please call us at 412-206-5755');
       }
     }
-  </script>
+    // Expose functions globally for inline onclick handlers
+    window.selectGolfDuration = selectGolfDuration;
+    window.applyPromoCode = applyPromoCode;
+    window.loadTimeGrid = loadTimeGrid;
+    window.updatePriceDisplay = updatePriceDisplay;
 
-  <!-- CANCEL / MODIFY -->
+  </script>
   <section id="manage" style="background:var(--navy-dark);padding:5rem 0;border-top:1px solid rgba(255,255,255,0.06);">
     <div class="container">
       <div style="max-width:520px;margin:0 auto;text-align:center;" class="fade-up">
