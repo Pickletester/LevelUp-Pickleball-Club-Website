@@ -3146,6 +3146,16 @@
       try {
         var res = await fetch('https://levelup-golfsim-booking.s-jackson.workers.dev/availability?date=' + date);
         var data = await res.json();
+
+        // Handle facility closed
+        if (data.closed) {
+          loading.style.display = 'none';
+          grid.style.display = 'grid';
+          grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;background:rgba(245,144,10,0.1);border:1px solid rgba(245,144,10,0.3);border-radius:6px;padding:1rem;color:var(--orange);font-family:\'Barlow Condensed\',sans-serif;font-size:0.9rem;letter-spacing:0.05em;">🚫 Facility closed — ' + data.reason + '</div>';
+          document.getElementById('golfSimSelectedTime').value = '';
+          return;
+        }
+
         var bookedSlots = data.bookedSlots || [];
         var durMins = durationToMinutesVal(selectedGolfDuration || '1 Hour');
 
