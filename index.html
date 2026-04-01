@@ -3180,75 +3180,212 @@
   </script>
 
   <!-- CANCEL / MODIFY -->
-  <section style="background:var(--navy-dark);padding:5rem 0;border-top:1px solid rgba(255,255,255,0.06);">
+  <section id="manage" style="background:var(--navy-dark);padding:5rem 0;border-top:1px solid rgba(255,255,255,0.06);">
     <div class="container">
-      <div style="max-width:500px;margin:0 auto;text-align:center;" class="fade-up">
+      <div style="max-width:520px;margin:0 auto;text-align:center;" class="fade-up">
         <div class="section-tag" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);">Manage Booking</div>
-        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);color:white;margin:0.5rem 0 0.75rem;">CANCEL OR MODIFY</h2>
-        <p style="color:rgba(255,255,255,0.5);font-size:0.9rem;margin-bottom:2rem;">Enter your reservation ID and cancellation code from your confirmation email.</p>
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);color:white;margin:0.5rem 0 0.75rem;">CHANGE OR CANCEL</h2>
+        <p style="color:rgba(255,255,255,0.5);font-size:0.9rem;margin-bottom:2rem;">Enter your reservation ID and the phone number you used to book.</p>
 
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:2rem;text-align:left;">
-          <form id="golfCancelForm" onsubmit="handleGolfCancel(event, this)">
-            <div style="margin-bottom:1rem;">
-              <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Reservation ID *</label>
-              <input type="text" id="cancelResId" placeholder="e.g. 51699459" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
-            </div>
-            <div style="margin-bottom:1rem;">
-              <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Phone Number Used to Book *</label>
-              <input type="tel" id="cancelPhone" placeholder="(412) 555-0000" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
-            </div>
-            <div style="margin-bottom:1.5rem;">
-              <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Email (for confirmation)</label>
-              <input type="email" id="cancelEmail" placeholder="you@email.com" style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
-            </div>
-            <div id="cancelMsg" style="display:none;border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:'Barlow Condensed',sans-serif;font-size:0.9rem;letter-spacing:0.03em;"></div>
-            <button type="submit" id="cancelBtn" style="width:100%;background:var(--orange);color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.9rem 2rem;border:none;border-radius:6px;cursor:pointer;transition:all 0.2s;">
-              Cancel My Booking
+        <!-- STEP 1: Lookup form -->
+        <div id="manageStep1" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:2rem;text-align:left;">
+          <div style="margin-bottom:1rem;">
+            <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Reservation ID *</label>
+            <input type="text" id="cancelResId" placeholder="e.g. 51699459" style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Phone Number Used to Book *</label>
+            <input type="tel" id="cancelPhone" placeholder="(412) 555-0000" style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+          </div>
+          <div style="margin-bottom:1.5rem;">
+            <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Email (for confirmation)</label>
+            <input type="email" id="cancelEmail" placeholder="you@email.com" style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+          </div>
+          <div id="cancelMsg" style="display:none;border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:'Barlow Condensed',sans-serif;font-size:0.9rem;letter-spacing:0.03em;"></div>
+          <!-- Two action buttons -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+            <button onclick="handleManage('modify')" id="modifyBtn" style="background:var(--navy);color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.9rem 1rem;border:2px solid rgba(255,255,255,0.2);border-radius:6px;cursor:pointer;transition:all 0.2s;">
+              ✏️ Modify Time
             </button>
-          </form>
+            <button onclick="handleManage('cancel')" id="cancelBtn" style="background:var(--orange);color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.9rem 1rem;border:none;border-radius:6px;cursor:pointer;transition:all 0.2s;">
+              ✕ Cancel
+            </button>
+          </div>
           <p style="text-align:center;font-size:0.75rem;color:rgba(255,255,255,0.25);margin-top:1rem;">Need help? Call <a href="tel:4122065755" style="color:rgba(255,255,255,0.4);">412-206-5755</a></p>
         </div>
+
+        <!-- STEP 2: Pick new time (modify only) -->
+        <div id="manageStep2" style="display:none;background:rgba(255,255,255,0.04);border:1px solid rgba(60,196,64,0.3);border-radius:12px;padding:2rem;text-align:left;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);margin-bottom:1rem;">Step 2 — Pick Your New Time</div>
+          <p style="color:rgba(255,255,255,0.55);font-size:0.85rem;margin-bottom:1.25rem;">Your original booking has been cancelled. Select a new time slot for the <strong id="modifyDateLabel" style="color:white;"></strong>.</p>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">New Start Time *</label>
+            <div style="position:relative;">
+              <select id="modifyNewTime" style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;appearance:none;cursor:pointer;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+                <option value="">Select a time...</option>
+                <option>7:00 AM</option><option>7:30 AM</option>
+                <option>8:00 AM</option><option>8:30 AM</option>
+                <option>9:00 AM</option><option>9:30 AM</option>
+                <option>10:00 AM</option><option>10:30 AM</option>
+                <option>11:00 AM</option><option>11:30 AM</option>
+                <option>12:00 PM</option><option>12:30 PM</option>
+                <option>1:00 PM</option><option>1:30 PM</option>
+                <option>2:00 PM</option><option>2:30 PM</option>
+                <option>3:00 PM</option><option>3:30 PM</option>
+                <option>4:00 PM</option><option>4:30 PM</option>
+                <option>5:00 PM</option><option>5:30 PM</option>
+                <option>6:00 PM</option><option>6:30 PM</option>
+                <option>7:00 PM</option><option>7:30 PM</option>
+                <option>8:00 PM</option><option>8:30 PM</option>
+                <option>9:00 PM</option>
+              </select>
+              <div style="position:absolute;right:0.85rem;top:50%;transform:translateY(-50%);pointer-events:none;color:rgba(255,255,255,0.4);">▾</div>
+            </div>
+          </div>
+          <div id="modifyMsg" style="display:none;border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:'Barlow Condensed',sans-serif;font-size:0.9rem;"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+            <button onclick="document.getElementById('manageStep2').style.display='none';document.getElementById('manageStep1').style.display='block';" style="background:transparent;color:rgba(255,255,255,0.5);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.9rem 1rem;border:1px solid rgba(255,255,255,0.15);border-radius:6px;cursor:pointer;">
+              ← Back
+            </button>
+            <button onclick="handleModifyRebook()" id="rebookBtn" style="background:var(--green);color:var(--dark);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.9rem 1rem;border:none;border-radius:6px;cursor:pointer;">
+              ⛳ Book New Time
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <script>
-    async function handleGolfCancel(e, form) {
-      e.preventDefault();
-      var btn = document.getElementById('cancelBtn');
-      var msg = document.getElementById('cancelMsg');
-      btn.textContent = 'Cancelling...';
-      btn.disabled = true;
-      msg.style.display = 'none';
+    var modifyBookingData = {}; // stores original booking info during modify flow
 
-      var payload = {
-        reservationId: document.getElementById('cancelResId').value.trim(),
-        phone: document.getElementById('cancelPhone').value.trim(),
-        email: document.getElementById('cancelEmail').value.trim()
-      };
+    async function handleManage(action) {
+      var resId = document.getElementById('cancelResId').value.trim();
+      var phone = document.getElementById('cancelPhone').value.trim();
+      var email = document.getElementById('cancelEmail').value.trim();
+      var msg = document.getElementById('cancelMsg');
+
+      if (!resId || !phone) {
+        msg.style.cssText = 'display:block;background:rgba(245,144,10,0.15);border:1px solid var(--orange);color:var(--orange);border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:"Barlow Condensed",sans-serif;font-size:0.9rem;';
+        msg.textContent = '⚠️ Please enter your Reservation ID and phone number.';
+        return;
+      }
+
+      var cancelBtn = document.getElementById('cancelBtn');
+      var modifyBtn = document.getElementById('modifyBtn');
+      cancelBtn.disabled = true;
+      modifyBtn.disabled = true;
+      cancelBtn.textContent = '...';
+      modifyBtn.textContent = '...';
+      msg.style.display = 'none';
 
       try {
         var res = await fetch('https://levelup-golfsim-booking.s-jackson.workers.dev/cancel', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reservationId: resId, phone, email })
+        });
+        var data = await res.json();
+
+        if (data.success) {
+          if (action === 'cancel') {
+            msg.style.cssText = 'display:block;background:rgba(60,196,64,0.15);border:1px solid var(--green);color:var(--green);border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:"Barlow Condensed",sans-serif;font-size:0.9rem;';
+            msg.textContent = '✓ Booking cancelled. A confirmation email has been sent.';
+            document.getElementById('cancelResId').value = '';
+            document.getElementById('cancelPhone').value = '';
+            cancelBtn.textContent = 'Booking Cancelled';
+            modifyBtn.textContent = '✏️ Modify Time';
+            modifyBtn.disabled = false;
+          } else {
+            // Modify — store data and show step 2
+            modifyBookingData = { resId, phone, email,
+              date: data.bookingDate || '',
+              duration: data.bookingDuration || '1 Hour',
+              firstName: data.firstName || '',
+              lastName: data.lastName || '',
+              players: data.players || ''
+            };
+            // Show step 2 with the date locked
+            var dateLabel = data.bookingDate ? new Date(data.bookingDate + 'T12:00:00Z').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',timeZone:'UTC'}) : 'same day';
+            document.getElementById('modifyDateLabel').textContent = dateLabel;
+            document.getElementById('manageStep1').style.display = 'none';
+            document.getElementById('manageStep2').style.display = 'block';
+          }
+        } else {
+          msg.style.cssText = 'display:block;background:rgba(245,144,10,0.15);border:1px solid var(--orange);color:var(--orange);border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:"Barlow Condensed",sans-serif;font-size:0.9rem;';
+          msg.textContent = '⚠️ ' + (data.error || 'Could not process. Please call 412-206-5755.');
+          cancelBtn.textContent = '✕ Cancel';
+          modifyBtn.textContent = '✏️ Modify Time';
+          cancelBtn.disabled = false;
+          modifyBtn.disabled = false;
+        }
+      } catch(err) {
+        msg.style.cssText = 'display:block;background:rgba(245,144,10,0.15);border:1px solid var(--orange);color:var(--orange);border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:"Barlow Condensed",sans-serif;font-size:0.9rem;';
+        msg.textContent = '⚠️ Something went wrong. Please call 412-206-5755.';
+        cancelBtn.textContent = '✕ Cancel';
+        modifyBtn.textContent = '✏️ Modify Time';
+        cancelBtn.disabled = false;
+        modifyBtn.disabled = false;
+      }
+    }
+
+    async function handleModifyRebook() {
+      var newTime = document.getElementById('modifyNewTime').value;
+      var msg = document.getElementById('modifyMsg');
+      var btn = document.getElementById('rebookBtn');
+
+      if (!newTime) {
+        msg.style.cssText = 'display:block;background:rgba(245,144,10,0.15);border:1px solid var(--orange);color:var(--orange);border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:"Barlow Condensed",sans-serif;font-size:0.9rem;';
+        msg.textContent = '⚠️ Please select a new time.';
+        return;
+      }
+
+      btn.textContent = 'Booking...';
+      btn.disabled = true;
+      msg.style.display = 'none';
+
+      var payload = {
+        firstName: modifyBookingData.firstName || 'Guest',
+        lastName: modifyBookingData.lastName || '',
+        email: modifyBookingData.email || '',
+        phone: modifyBookingData.phone || '',
+        date: modifyBookingData.date || '',
+        time: newTime,
+        duration: modifyBookingData.duration || '1 Hour',
+        players: modifyBookingData.players || '',
+        notes: 'Modified booking',
+        promoCode: ''
+      };
+
+      try {
+        var res = await fetch('https://levelup-golfsim-booking.s-jackson.workers.dev/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
         var data = await res.json();
-        if (data.success) {
+        if (data.success && data.url) {
+          window.location.href = data.url;
+        } else if (data.success && data.free) {
           msg.style.cssText = 'display:block;background:rgba(60,196,64,0.15);border:1px solid var(--green);color:var(--green);border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:"Barlow Condensed",sans-serif;font-size:0.9rem;';
-          msg.textContent = '✓ Booking cancelled successfully. A confirmation email has been sent.';
-          form.reset();
-          btn.textContent = 'Booking Cancelled';
+          msg.textContent = '✓ New time booked! Check your email for confirmation.';
+          btn.textContent = '✓ Booked!';
+        } else if (data.conflict) {
+          msg.style.cssText = 'display:block;background:rgba(245,144,10,0.15);border:1px solid var(--orange);color:var(--orange);border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:"Barlow Condensed",sans-serif;font-size:0.9rem;';
+          msg.textContent = '⚠️ ' + data.error + ' Please pick a different time.';
+          btn.textContent = '⛳ Book New Time';
+          btn.disabled = false;
         } else {
           msg.style.cssText = 'display:block;background:rgba(245,144,10,0.15);border:1px solid var(--orange);color:var(--orange);border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:"Barlow Condensed",sans-serif;font-size:0.9rem;';
-          msg.textContent = '⚠️ ' + (data.error || 'Cancellation failed. Please call 412-206-5755.');
-          btn.textContent = 'Cancel My Booking';
+          msg.textContent = '⚠️ ' + (data.error || 'Please call 412-206-5755.');
+          btn.textContent = '⛳ Book New Time';
           btn.disabled = false;
         }
       } catch(err) {
         msg.style.cssText = 'display:block;background:rgba(245,144,10,0.15);border:1px solid var(--orange);color:var(--orange);border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:"Barlow Condensed",sans-serif;font-size:0.9rem;';
         msg.textContent = '⚠️ Something went wrong. Please call 412-206-5755.';
-        btn.textContent = 'Cancel My Booking';
+        btn.textContent = '⛳ Book New Time';
         btn.disabled = false;
       }
     }
