@@ -2846,9 +2846,6 @@
 
         <div style="padding:2rem;">
           <form id="golfSimForm" onsubmit="handleGolfSimSubmit(event, this)">
-            <input type="hidden" name="access_key" value="13e4b698-dbeb-41d8-ade1-de5487dcf74a">
-            <input type="hidden" name="subject" value="Golf Simulator Booking Request — LevelUp">
-            <input type="hidden" name="from_name" value="LevelUp Golf Sim Booking">
 
             <!-- Name row -->
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
@@ -3257,6 +3254,11 @@
       e.preventDefault();
       if (!selectedGolfDuration) {
         alert('Please select a duration.');
+        return;
+      }
+      var selectedTime = document.getElementById('golfSimSelectedTime').value;
+      if (!selectedTime) {
+        alert('Please select a start time from the availability grid.');
         return;
       }
       var btn = document.getElementById('golfSimSubmitBtn');
