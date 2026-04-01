@@ -2949,16 +2949,24 @@
             </div>
 
             <button type="submit" id="golfSimSubmitBtn" style="width:100%;background:var(--green);color:var(--dark);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:0.1em;text-transform:uppercase;padding:1rem 2rem;border:none;border-radius:6px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--green-light)'" onmouseout="this.style.background='var(--green)'">
-              ⛳ Request This Time Slot
+              ⛳ Reserve & Pay
             </button>
           </form>
 
-          <!-- Success state -->
+          <!-- Success state (returned from Stripe) -->
           <div id="golfSimSuccess" style="display:none;text-align:center;padding:2rem 0;">
             <div style="font-size:3rem;margin-bottom:1rem;">✅</div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--green);margin-bottom:0.5rem;">Request Sent!</div>
-            <p style="color:rgba(255,255,255,0.6);font-size:0.95rem;">We'll confirm your golf simulator time within a few hours. Check your email for a confirmation.</p>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--green);margin-bottom:0.5rem;">Booking Confirmed!</div>
+            <p style="color:rgba(255,255,255,0.6);font-size:0.95rem;">Payment received! Your golf simulator time is locked in. Check your email for your confirmation and cancellation code.</p>
             <p style="color:rgba(255,255,255,0.35);font-size:0.8rem;margin-top:1rem;">Questions? Call us at <a href="tel:4122065755" style="color:var(--green);">412-206-5755</a></p>
+          </div>
+
+          <!-- Cancelled state -->
+          <div id="golfSimCancelled" style="display:none;text-align:center;padding:2rem 0;">
+            <div style="font-size:3rem;margin-bottom:1rem;">❌</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--orange);margin-bottom:0.5rem;">Payment Cancelled</div>
+            <p style="color:rgba(255,255,255,0.6);font-size:0.95rem;">No charge was made. Want to try again?</p>
+            <button onclick="document.getElementById('golfSimCancelled').style.display='none';" style="margin-top:1rem;background:var(--green);color:var(--dark);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.75rem 2rem;border:none;border-radius:6px;cursor:pointer;">Try Again</button>
           </div>
         </div>
       </div>
@@ -2979,10 +2987,28 @@
   </section>
 
   <script>
-    // Set min date to today for golf sim booking
+    // Set min date + detect Stripe return
     (function() {
       var d = document.getElementById('golfSimDate');
       if (d) d.min = new Date().toISOString().split('T')[0];
+      // Detect Stripe redirect back
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('page') === 'golfsim') {
+        setTimeout(function() { showPage('golfsim'); }, 50);
+        if (params.get('booking') === 'success') {
+          setTimeout(function() {
+            var f = document.getElementById('golfSimForm');
+            var s = document.getElementById('golfSimSuccess');
+            if (f) f.style.display = 'none';
+            if (s) s.style.display = 'block';
+          }, 100);
+        } else if (params.get('booking') === 'cancelled') {
+          setTimeout(function() {
+            var c = document.getElementById('golfSimCancelled');
+            if (c) c.style.display = 'block';
+          }, 100);
+        }
+      }
     })();
 
     var selectedGolfDuration = '';
@@ -3022,23 +3048,18 @@
       };
 
       try {
-        var res = await fetch('https://levelup-golfsim-booking.s-jackson.workers.dev/book', {
+        var res = await fetch('https://levelup-golfsim-booking.s-jackson.workers.dev/checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
         var data = await res.json();
-        if (data.success) {
-          form.style.display = 'none';
-          document.getElementById('golfSimSuccess').style.display = 'block';
-          if (data.reservationId) {
-            document.getElementById('golfSimSuccess').querySelector('p').textContent =
-              'Your golf simulator time is confirmed! Confirmation #' + data.reservationId + '. Check your email for details.';
-          }
+        if (data.success && data.url) {
+          // Redirect to Stripe Checkout
+          window.location.href = data.url;
         } else if (data.conflict) {
-          btn.textContent = '⛳ Request This Time Slot';
+          btn.textContent = '⛳ Reserve & Pay';
           btn.disabled = false;
-          // Show inline conflict message
           var existing = document.getElementById('golfSimConflictMsg');
           if (!existing) {
             existing = document.createElement('div');
@@ -3049,14 +3070,89 @@
           existing.innerHTML = '⚠️ <strong>Time Not Available</strong> — ' + data.error + ' Please select a different time above.';
           existing.style.display = 'block';
         } else {
-          btn.textContent = '⛳ Request This Time Slot';
+          btn.textContent = '⛳ Reserve & Pay';
           btn.disabled = false;
-          alert('Booking error: ' + (data.error || 'Please call us at 412-206-5755'));
+          alert('Error: ' + (data.error || 'Please call us at 412-206-5755'));
         }
       } catch(err) {
-        btn.textContent = 'Error — Try Again';
+        btn.textContent = '⛳ Reserve & Pay';
         btn.disabled = false;
         alert('Something went wrong. Please call us at 412-206-5755');
+      }
+    }
+  </script>
+
+  <!-- CANCEL / MODIFY -->
+  <section style="background:var(--navy-dark);padding:5rem 0;border-top:1px solid rgba(255,255,255,0.06);">
+    <div class="container">
+      <div style="max-width:500px;margin:0 auto;text-align:center;" class="fade-up">
+        <div class="section-tag" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);">Manage Booking</div>
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);color:white;margin:0.5rem 0 0.75rem;">CANCEL OR MODIFY</h2>
+        <p style="color:rgba(255,255,255,0.5);font-size:0.9rem;margin-bottom:2rem;">Enter your reservation ID and cancellation code from your confirmation email.</p>
+
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:2rem;text-align:left;">
+          <form id="golfCancelForm" onsubmit="handleGolfCancel(event, this)">
+            <div style="margin-bottom:1rem;">
+              <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Reservation ID *</label>
+              <input type="text" id="cancelResId" placeholder="e.g. 51699459" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+            </div>
+            <div style="margin-bottom:1rem;">
+              <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Cancellation Code *</label>
+              <input type="text" id="cancelCode" placeholder="e.g. 5310-0409" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+            </div>
+            <div style="margin-bottom:1.5rem;">
+              <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Email (for confirmation)</label>
+              <input type="email" id="cancelEmail" placeholder="you@email.com" style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+            </div>
+            <div id="cancelMsg" style="display:none;border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:'Barlow Condensed',sans-serif;font-size:0.9rem;letter-spacing:0.03em;"></div>
+            <button type="submit" id="cancelBtn" style="width:100%;background:var(--orange);color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.9rem 2rem;border:none;border-radius:6px;cursor:pointer;transition:all 0.2s;">
+              Cancel My Booking
+            </button>
+          </form>
+          <p style="text-align:center;font-size:0.75rem;color:rgba(255,255,255,0.25);margin-top:1rem;">Need help? Call <a href="tel:4122065755" style="color:rgba(255,255,255,0.4);">412-206-5755</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    async function handleGolfCancel(e, form) {
+      e.preventDefault();
+      var btn = document.getElementById('cancelBtn');
+      var msg = document.getElementById('cancelMsg');
+      btn.textContent = 'Cancelling...';
+      btn.disabled = true;
+      msg.style.display = 'none';
+
+      var payload = {
+        reservationId: document.getElementById('cancelResId').value.trim(),
+        cancelCode: document.getElementById('cancelCode').value.trim(),
+        email: document.getElementById('cancelEmail').value.trim()
+      };
+
+      try {
+        var res = await fetch('https://levelup-golfsim-booking.s-jackson.workers.dev/cancel', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        var data = await res.json();
+        if (data.success) {
+          msg.style.cssText = 'display:block;background:rgba(60,196,64,0.15);border:1px solid var(--green);color:var(--green);border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:"Barlow Condensed",sans-serif;font-size:0.9rem;';
+          msg.textContent = '✓ Booking cancelled successfully. A confirmation email has been sent.';
+          form.reset();
+          btn.textContent = 'Booking Cancelled';
+        } else {
+          msg.style.cssText = 'display:block;background:rgba(245,144,10,0.15);border:1px solid var(--orange);color:var(--orange);border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:"Barlow Condensed",sans-serif;font-size:0.9rem;';
+          msg.textContent = '⚠️ ' + (data.error || 'Cancellation failed. Please call 412-206-5755.');
+          btn.textContent = 'Cancel My Booking';
+          btn.disabled = false;
+        }
+      } catch(err) {
+        msg.style.cssText = 'display:block;background:rgba(245,144,10,0.15);border:1px solid var(--orange);color:var(--orange);border-radius:6px;padding:0.85rem 1rem;margin-bottom:1rem;font-family:"Barlow Condensed",sans-serif;font-size:0.9rem;';
+        msg.textContent = '⚠️ Something went wrong. Please call 412-206-5755.';
+        btn.textContent = 'Cancel My Booking';
+        btn.disabled = false;
       }
     }
   </script>
