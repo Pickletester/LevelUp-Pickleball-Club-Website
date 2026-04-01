@@ -3031,13 +3031,25 @@
         if (data.success) {
           form.style.display = 'none';
           document.getElementById('golfSimSuccess').style.display = 'block';
-          // Update success message with reservation ID if available
           if (data.reservationId) {
             document.getElementById('golfSimSuccess').querySelector('p').textContent =
               'Your golf simulator time is confirmed! Confirmation #' + data.reservationId + '. Check your email for details.';
           }
+        } else if (data.conflict) {
+          btn.textContent = '⛳ Request This Time Slot';
+          btn.disabled = false;
+          // Show inline conflict message
+          var existing = document.getElementById('golfSimConflictMsg');
+          if (!existing) {
+            existing = document.createElement('div');
+            existing.id = 'golfSimConflictMsg';
+            existing.style.cssText = 'background:rgba(245,144,10,0.15);border:1px solid var(--orange);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.25rem;color:var(--orange);font-family:"Barlow Condensed",sans-serif;font-size:0.95rem;letter-spacing:0.03em;';
+            btn.parentNode.insertBefore(existing, btn);
+          }
+          existing.innerHTML = '⚠️ <strong>Time Not Available</strong> — ' + data.error + ' Please select a different time above.';
+          existing.style.display = 'block';
         } else {
-          btn.textContent = 'Error — Try Again';
+          btn.textContent = '⛳ Request This Time Slot';
           btn.disabled = false;
           alert('Booking error: ' + (data.error || 'Please call us at 412-206-5755'));
         }
