@@ -3014,7 +3014,10 @@
             var f = document.getElementById('golfSimForm');
             var s = document.getElementById('golfSimSuccess');
             if (f) f.style.display = 'none';
-            if (s) s.style.display = 'block';
+            if (s) {
+              s.style.display = 'block';
+              s.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
           }, 100);
         } else if (params.get('booking') === 'cancelled') {
           setTimeout(function() {
@@ -3023,8 +3026,8 @@
           }, 100);
         }
       }
-      // Handle hash anchor for manage section
-      if (window.location.hash === '#manage') {
+      // Handle hash anchor for manage section — only if not a Stripe return
+      if (window.location.hash === '#manage' && !params.get('booking')) {
         setTimeout(function() {
           showPage('golfsim');
           setTimeout(function() {
