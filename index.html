@@ -2857,22 +2857,6 @@
               <input type="date" name="preferred_date" id="golfSimDate" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;color-scheme:dark;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'" onchange="updatePriceDisplay();loadTimeGrid(this.value);" oninput="updatePriceDisplay();loadTimeGrid(this.value);">
             </div>
 
-            <!-- Live availability time grid -->
-            <div style="margin-bottom:1rem;">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
-                <label style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);">Select Start Time *</label>
-                <div style="display:flex;gap:1rem;font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;">
-                  <span style="display:flex;align-items:center;gap:0.3rem;color:rgba(255,255,255,0.4);"><span style="display:inline-block;width:10px;height:10px;background:rgba(60,196,64,0.3);border:1px solid var(--green);border-radius:2px;"></span>Available</span>
-                  <span style="display:flex;align-items:center;gap:0.3rem;color:rgba(255,255,255,0.3);"><span style="display:inline-block;width:10px;height:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:2px;"></span>Booked</span>
-                </div>
-              </div>
-              <input type="hidden" name="preferred_time" id="golfSimSelectedTime" required>
-              <div id="timeGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.35rem;">
-                <div style="grid-column:1/-1;text-align:center;color:rgba(255,255,255,0.25);font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:1rem 0.5rem;border:1px dashed rgba(255,255,255,0.1);border-radius:6px;cursor:pointer;" onclick="var d=document.getElementById('golfSimDate');if(d&&d.value)loadTimeGrid(d.value);">← Select a date to see available times</div>
-              </div>
-              <div id="timeGridLoading" style="display:none;text-align:center;padding:1rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;letter-spacing:0.08em;">Loading availability...</div>
-            </div>
-
             <!-- Duration -->
             <div style="margin-bottom:1.25rem;">
               <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.75rem;">Duration *</label>
@@ -2899,6 +2883,22 @@
                 </div>
               </div>
               <input type="hidden" name="duration" id="golfDurationValue" required>
+            </div>
+
+            <!-- Live availability time grid -->
+            <div style="margin-bottom:1rem;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <label style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);">Select Start Time *</label>
+                <div style="display:flex;gap:1rem;font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;">
+                  <span style="display:flex;align-items:center;gap:0.3rem;color:rgba(255,255,255,0.4);"><span style="display:inline-block;width:10px;height:10px;background:rgba(60,196,64,0.3);border:1px solid var(--green);border-radius:2px;"></span>Available</span>
+                  <span style="display:flex;align-items:center;gap:0.3rem;color:rgba(255,255,255,0.3);"><span style="display:inline-block;width:10px;height:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:2px;"></span>Booked</span>
+                </div>
+              </div>
+              <input type="hidden" name="preferred_time" id="golfSimSelectedTime" required>
+              <div id="timeGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.35rem;">
+                <div style="grid-column:1/-1;text-align:center;color:rgba(255,255,255,0.25);font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;letter-spacing:0.1em;padding:1rem 0.5rem;border:1px dashed rgba(255,255,255,0.1);border-radius:6px;cursor:pointer;" onclick="var d=document.getElementById('golfSimDate');if(d&&d.value)loadTimeGrid(d.value);">← Select a date to see available times</div>
+              </div>
+              <div id="timeGridLoading" style="display:none;text-align:center;padding:1rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;letter-spacing:0.08em;">Loading availability...</div>
             </div>
 
             <!-- Number of players -->
