@@ -2780,7 +2780,7 @@
 
       </div>
       <div style="text-align:center;">
-        <a class="btn btn-green" href="https://app.courtreserve.com" target="_blank">Book the Golf Simulator</a>
+        <a class="btn btn-green" href="#" onclick="document.getElementById('golfSimForm').scrollIntoView({behavior:'smooth',block:'start'});return false;">Book the Golf Simulator</a>
       </div>
     </div>
   </section>
@@ -2851,6 +2851,29 @@
             <input type="hidden" name="from_name" value="LevelUp Golf Sim Booking">
 
             <!-- Name row -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+              <div>
+                <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">First Name *</label>
+                <input type="text" name="first_name" placeholder="First name" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+              </div>
+              <div>
+                <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Last Name *</label>
+                <input type="text" name="last_name" placeholder="Last name" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+              </div>
+            </div>
+
+            <!-- Email + Phone -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+              <div>
+                <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Email *</label>
+                <input type="email" name="email" placeholder="you@email.com" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+              </div>
+              <div>
+                <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Phone *</label>
+                <input type="tel" name="phone" placeholder="(412) 555-0000" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+              </div>
+            </div>
+
             <!-- Date picker -->
             <div style="margin-bottom:1rem;">
               <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Preferred Date *</label>
@@ -3099,8 +3122,16 @@
       var slotStart = timeToMinutes(timeStr);
       var slotEnd = slotStart + (durationMins || 60);
       for (var i = 0; i < bookedSlots.length; i++) {
-        var bStart = new Date(bookedSlots[i].start).getUTCHours() * 60 + new Date(bookedSlots[i].start).getUTCMinutes();
-        var bEnd = new Date(bookedSlots[i].end).getUTCHours() * 60 + new Date(bookedSlots[i].end).getUTCMinutes();
+        // Parse times — CourtReserve returns ISO strings, convert to Eastern time
+        var bStartDate = new Date(bookedSlots[i].start);
+        var bEndDate = new Date(bookedSlots[i].end);
+        // Convert to Eastern by using toLocaleString
+        var bStartStr = bStartDate.toLocaleString('en-US', {timeZone:'America/New_York', hour:'numeric', minute:'2-digit', hour12:false});
+        var bEndStr = bEndDate.toLocaleString('en-US', {timeZone:'America/New_York', hour:'numeric', minute:'2-digit', hour12:false});
+        var bStartParts = bStartStr.split(':');
+        var bEndParts = bEndStr.split(':');
+        var bStart = parseInt(bStartParts[0]) * 60 + parseInt(bStartParts[1]);
+        var bEnd = parseInt(bEndParts[0]) * 60 + parseInt(bEndParts[1]);
         if (slotStart < bEnd && bStart < slotEnd) return true;
       }
       return false;
