@@ -1810,33 +1810,32 @@
             <div class="pricing-price"><sup>$</sup>29<sub>/mo</sub></div>
             <div class="pricing-tagline">Great for occasional players</div>
           </div>
-          <div class="pricing-body" style="">
+          <div class="pricing-body">
             <ul class="pricing-features">
               <li><span class="check" style="color:#A8A9AD;">✓</span> Drop-in: $10 per session</li>
-              <li><span class="check" style="color:#A8A9AD;">✓</span> Ladder Leagues: $15/session</li>
-              <li><span class="check" style="color:#A8A9AD;">✓</span> Round Robins: $15/session</li>
+              <li><span class="check" style="color:#A8A9AD;">✓</span> Ladder Leagues: $10/session</li>
+              <li><span class="check" style="color:#A8A9AD;">✓</span> Round Robins: $10/session</li>
               <li><span class="check" style="color:#A8A9AD;">✓</span> Event Advance Reg: 2 days</li>
             </ul>
             <a class="btn" style="background:#A8A9AD;color:white;width:100%;text-align:center;" href="https://app.courtreserve.com" target="_blank">Get Started</a>
           </div>
         </div>
         <!-- Gold -->
-        <div class="pricing-card featured fade-up" style="border-color:#C9930A;">
-          <div class="pricing-badge" style="background:#C9930A;color:white;">Most Popular</div>
+        <div class="pricing-card featured fade-up" style="border-color:#F5C518;">
+          <div class="pricing-badge" style="background:#F5C518;color:#1a1a00;">Most Popular</div>
           <div class="pricing-header">
-            <div class="pricing-tier" style="color:#C9930A;">Gold</div>
+            <div class="pricing-tier" style="color:#F5C518;">Gold</div>
             <div class="pricing-price"><sup>$</sup>124<sub>/mo</sub></div>
             <div class="pricing-tagline">Best value for regular players</div>
           </div>
-          <div class="pricing-body" style="">
+          <div class="pricing-body">
             <ul class="pricing-features">
-              <li><span class="check" style="color:#C9930A;">✓</span> 16 Drop-in Sessions Included</li>
-              <li><span class="check" style="color:#C9930A;">✓</span> Ladder Leagues: $15/session</li>
-              <li><span class="check" style="color:#C9930A;">✓</span> Round Robins: $10/session</li>
-              <li><span class="check" style="color:#C9930A;">✓</span> Event Advance Reg: 1 week</li>
-              <li><span class="check" style="color:#C9930A;">✓</span> 10% off All Instruction</li>
+              <li><span class="check" style="color:#F5C518;">✓</span> 16 Drop-in Sessions Included</li>
+              <li><span class="check" style="color:#F5C518;">✓</span> Ladder Leagues: $6/session</li>
+              <li><span class="check" style="color:#F5C518;">✓</span> Round Robins: $6/session</li>
+              <li><span class="check" style="color:#F5C518;">✓</span> Event Advance Reg: 1 week</li>
             </ul>
-            <a class="btn" style="background:#C9930A;color:white;width:100%;text-align:center;" href="https://app.courtreserve.com" target="_blank">Join Gold</a>
+            <a class="btn" style="background:#F5C518;color:#1a1a00;width:100%;text-align:center;" href="https://app.courtreserve.com" target="_blank">Join Gold</a>
           </div>
         </div>
         <!-- Diamond -->
@@ -1846,14 +1845,13 @@
             <div class="pricing-price"><sup>$</sup>149<sub>/mo</sub></div>
             <div class="pricing-tagline">For the dedicated player</div>
           </div>
-          <div class="pricing-body" style="">
+          <div class="pricing-body">
             <ul class="pricing-features">
               <li><span class="check" style="color:#8B5CF6;">✓</span> Drop-in: INCLUDED (unlimited)</li>
               <li><span class="check" style="color:#8B5CF6;">✓</span> Ladder Leagues: INCLUDED</li>
               <li><span class="check" style="color:#8B5CF6;">✓</span> Round Robins: INCLUDED</li>
               <li><span class="check" style="color:#8B5CF6;">✓</span> Event Advance Reg: 2 weeks</li>
-              <li><span class="check" style="color:#8B5CF6;">✓</span> Locker: $25/month</li>
-              <li><span class="check" style="color:#8B5CF6;">✓</span> 10% off All Instruction</li>
+              <li><span class="check" style="color:#8B5CF6;">✓</span> Locker: $10/month</li>
             </ul>
             <a class="btn" style="background:#8B5CF6;color:white;width:100%;text-align:center;" href="https://app.courtreserve.com" target="_blank">Join Diamond</a>
           </div>
@@ -3908,4 +3906,15 @@
         const todayStr = eastern.getFullYear() + '-' +
           String(eastern.getMonth() + 1).padStart(2, '0') + '-' +
           String(eastern.getDate()).padStart(2, '0');
-        const todayEvents = events.filter(e => e.Sta
+        const todayEvents = events.filter(e => e.StartDateTime && e.StartDateTime.startsWith(todayStr));
+        renderSchedule(todayEvents);
+      })
+      .catch(function() {
+        const tbody = document.getElementById('dropinTableBody');
+        if (tbody) tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:rgba(255,255,255,0.4);padding:1.5rem;">Schedule unavailable — check back soon.</td></tr>';
+      });
+  })();
+  </script>
+
+</body>
+</html>
