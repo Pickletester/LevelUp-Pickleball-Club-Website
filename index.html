@@ -3423,6 +3423,17 @@
     }
   }
 
+  // ===== URL PARAM ROUTING ON LOAD =====
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get('page');
+    const validPages = ['home','membership','play','learn','pros','events','faq','golfsim','replay'];
+    if (page && validPages.includes(page)) {
+      // Small delay so DOM is ready
+      setTimeout(function() { showPage(page); }, 50);
+    }
+  })();
+
   // ===== MOBILE MENU =====
   function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
