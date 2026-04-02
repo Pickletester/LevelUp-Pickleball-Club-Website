@@ -3693,8 +3693,14 @@
       const rows = Object.values(slots).map(slot => {
         const session = getSession(slot.start);
         const time = formatTime(slot.start) + ' – ' + formatTime(slot.end);
-        const uniqueBadges = [...new Set(slot.badges)].join(' ');
-        return '<tr><td>' + session + '</td><td>' + time + '</td><td>' + uniqueBadges + '</td></tr>';
+        const uniqueBadges = [...new Set(slot.badges)];
+        const hasAll = uniqueBadges.some(b => b.includes('level-beg')) &&
+                       uniqueBadges.some(b => b.includes('level-int')) &&
+                       uniqueBadges.some(b => b.includes('level-adv'));
+        const badgeHtml = hasAll
+          ? '<span class="level-badge level-int">All Level Drop-In Play</span>'
+          : uniqueBadges.join(' ');
+        return '<tr><td>' + session + '</td><td>' + time + '</td><td>' + badgeHtml + '</td></tr>';
       });
 
       tbody.innerHTML = rows.join('');
