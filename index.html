@@ -3783,6 +3783,13 @@
         if (tbody) tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:rgba(255,255,255,0.4);padding:1.5rem;">Schedule unavailable — check back soon.</td></tr>';
       });
   })();
+
+  // Read ?page= URL param and show correct page
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get('page');
+    if (page) showPage(page);
+  })();
   </script>
 
 <!-- LEGAL MODAL -->
