@@ -3500,7 +3500,7 @@
   });
 
   // ===== URL PATH ROUTING ON LOAD =====
-  (function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const pathToPage = {
       '/membership': 'membership',
       '/play': 'play',
@@ -3513,8 +3513,8 @@
     };
     const path = window.location.pathname;
     const page = pathToPage[path];
-    if (page) setTimeout(function() { showPage(page); }, 50);
-  })();
+    if (page) showPage(page);
+  });
 
   // ===== MOBILE MENU =====
   function toggleMobileMenu() {
