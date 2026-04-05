@@ -3464,6 +3464,21 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(checkFades, 100);
 
+    // Update URL without reload
+    const pageToPath = {
+      'home': '/',
+      'membership': '/membership',
+      'play': '/play',
+      'learn': '/learn',
+      'pros': '/pros',
+      'events': '/events',
+      'faq': '/faq',
+      'golfsim': '/golf-sim',
+      'replay': '/replay'
+    };
+    const path = pageToPath[id] || '/';
+    history.pushState({ page: id }, '', path);
+
     // Pause hero video when leaving home, resume when returning
     const heroVideo = document.getElementById('heroVideo');
     if (heroVideo) {
@@ -3475,15 +3490,30 @@
     }
   }
 
-  // ===== URL PARAM ROUTING ON LOAD =====
-  (function() {
-    const params = new URLSearchParams(window.location.search);
-    const page = params.get('page');
-    const validPages = ['home','membership','play','learn','pros','events','faq','golfsim','replay'];
-    if (page && validPages.includes(page)) {
-      // Small delay so DOM is ready
-      setTimeout(function() { showPage(page); }, 50);
+  // Handle browser back/forward buttons
+  window.addEventListener('popstate', function(e) {
+    if (e.state && e.state.page) {
+      showPage(e.state.page);
+    } else {
+      showPage('home');
     }
+  });
+
+  // ===== URL PATH ROUTING ON LOAD =====
+  (function() {
+    const pathToPage = {
+      '/membership': 'membership',
+      '/play': 'play',
+      '/learn': 'learn',
+      '/pros': 'pros',
+      '/events': 'events',
+      '/faq': 'faq',
+      '/golf-sim': 'golfsim',
+      '/replay': 'replay'
+    };
+    const path = window.location.pathname;
+    const page = pathToPage[path];
+    if (page) showPage(page);
   })();
 
   // ===== MOBILE MENU =====
