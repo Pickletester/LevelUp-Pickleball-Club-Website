@@ -1628,7 +1628,11 @@
           <a class="btn btn-green" href="https://app.courtreserve.com" target="_blank">Join Drop-In Play</a>
         </div>
         <div class="fade-up">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:0.75rem;">Today's Drop-In Times</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
+            <button id="schedPrev" onclick="changeScheduleDay(-1)" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:rgba(255,255,255,0.6);width:32px;height:32px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;" onmouseover="this.style.background='rgba(60,196,64,0.2)';this.style.color='var(--green)'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.color='rgba(255,255,255,0.6)'">&#8249;</button>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);" id="schedDayLabel">Today's Drop-In Times</div>
+            <button id="schedNext" onclick="changeScheduleDay(1)" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:rgba(255,255,255,0.6);width:32px;height:32px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;" onmouseover="this.style.background='rgba(60,196,64,0.2)';this.style.color='var(--green)'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.color='rgba(255,255,255,0.6)'">&#8250;</button>
+          </div>
           <table class="schedule-table">
             <thead>
               <tr>
@@ -3720,6 +3724,28 @@
   // ===== LIVE DROP-IN SCHEDULE =====
   (function() {
     const WORKER_URL = 'https://levelup-schedule-sync.s-jackson.workers.dev/';
+    let allEvents = [];
+    let schedDayOffset = 0; // 0 = today, 1 = tomorrow, etc.
+
+    function getEasternDateStr(offset) {
+      const now = new Date();
+      const eastern = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      eastern.setDate(eastern.getDate() + offset);
+      return eastern.getFullYear() + '-' +
+        String(eastern.getMonth() + 1).padStart(2, '0') + '-' +
+        String(eastern.getDate()).padStart(2, '0');
+    }
+
+    function getDayLabel(offset) {
+      if (offset === 0) return "Today's Drop-In Times";
+      if (offset === 1) return "Tomorrow's Drop-In Times";
+      const now = new Date();
+      const eastern = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      eastern.setDate(eastern.getDate() + offset);
+      const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return days[eastern.getDay()] + ', ' + months[eastern.getMonth()] + ' ' + eastern.getDate();
+    }
 
     function formatTime(dtStr) {
       const d = new Date(dtStr);
@@ -3738,11 +3764,9 @@
       const name = ev.EventName || '';
       const cat = ev.EventCategoryName || '';
       const n = name.toLowerCase();
-
       if (cat === 'Badminton Drop-In') {
         return '<span class="level-badge" style="background:rgba(100,180,255,0.2);color:#80c8ff;">Badminton</span>';
       }
-
       if (n.includes('2.0') || n.includes('2.9') || n.includes('beginner') || n.includes('ladies only')) {
         return '<span class="level-badge level-beg">Beginner</span>';
       } else if (n.includes('4.0') || n.includes('4.5') || n.includes('5.0') || n.includes('advanced')) {
@@ -3763,23 +3787,17 @@
     function renderSchedule(events) {
       const tbody = document.getElementById('dropinTableBody');
       if (!tbody) return;
-
       if (!events || events.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:rgba(255,255,255,0.4);padding:1.5rem;">No drop-in sessions scheduled for today.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:rgba(255,255,255,0.4);padding:1.5rem;">No drop-in sessions scheduled.</td></tr>';
         return;
       }
-
       events.sort((a, b) => new Date(a.StartDateTime) - new Date(b.StartDateTime));
-
       const slots = {};
       events.forEach(ev => {
         const key = ev.StartDateTime + '|' + ev.EndDateTime + '|' + ev.EventCategoryName;
-        if (!slots[key]) {
-          slots[key] = { start: ev.StartDateTime, end: ev.EndDateTime, badges: [] };
-        }
+        if (!slots[key]) slots[key] = { start: ev.StartDateTime, end: ev.EndDateTime, badges: [] };
         slots[key].badges.push(getLevelBadge(ev));
       });
-
       const rows = Object.values(slots).map(slot => {
         const session = getSession(slot.start);
         const time = formatTime(slot.start) + ' – ' + formatTime(slot.end);
@@ -3787,26 +3805,39 @@
         const hasAll = uniqueBadges.some(b => b.includes('level-beg')) &&
                        uniqueBadges.some(b => b.includes('level-int')) &&
                        uniqueBadges.some(b => b.includes('level-adv'));
-        const badgeHtml = hasAll
-          ? '<span class="level-badge level-int">All Level Drop-In Play</span>'
-          : uniqueBadges.join(' ');
+        const badgeHtml = hasAll ? '<span class="level-badge level-int">All Level Drop-In Play</span>' : uniqueBadges.join(' ');
         return '<tr><td>' + session + '</td><td>' + time + '</td><td>' + badgeHtml + '</td></tr>';
       });
-
       tbody.innerHTML = rows.join('');
     }
+
+    function showDay(offset) {
+      schedDayOffset = offset;
+      // Update label
+      const label = document.getElementById('schedDayLabel');
+      if (label) label.textContent = getDayLabel(offset);
+      // Update arrow states
+      const prev = document.getElementById('schedPrev');
+      const next = document.getElementById('schedNext');
+      if (prev) prev.style.opacity = offset <= 0 ? '0.3' : '1';
+      if (next) next.style.opacity = offset >= 3 ? '0.3' : '1';
+      // Filter events for this day
+      const dateStr = getEasternDateStr(offset);
+      const dayEvents = allEvents.filter(e => e.StartDateTime && e.StartDateTime.startsWith(dateStr));
+      renderSchedule(dayEvents);
+    }
+
+    window.changeScheduleDay = function(dir) {
+      const newOffset = schedDayOffset + dir;
+      if (newOffset < 0 || newOffset > 3) return;
+      showDay(newOffset);
+    };
 
     fetch(WORKER_URL)
       .then(function(r) { return r.json(); })
       .then(function(data) {
-        const events = Array.isArray(data) ? data : (data.Data || []);
-        const now = new Date();
-        const eastern = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
-        const todayStr = eastern.getFullYear() + '-' +
-          String(eastern.getMonth() + 1).padStart(2, '0') + '-' +
-          String(eastern.getDate()).padStart(2, '0');
-        const todayEvents = events.filter(e => e.StartDateTime && e.StartDateTime.startsWith(todayStr));
-        renderSchedule(todayEvents);
+        allEvents = Array.isArray(data) ? data : (data.Data || []);
+        showDay(0);
       })
       .catch(function() {
         const tbody = document.getElementById('dropinTableBody');
