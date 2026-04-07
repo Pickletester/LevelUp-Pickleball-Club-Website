@@ -1139,12 +1139,14 @@
   .mobile-menu {
     display: none;
     position: fixed;
-    top: 68px; left: 0; right: 0;
+    top: 108px; left: 0; right: 0;
     background: var(--navy-dark);
     border-bottom: 2px solid var(--green);
     padding: 1rem 0;
-    z-index: 998;
+    z-index: 1001;
     flex-direction: column;
+    max-height: calc(100vh - 108px);
+    overflow-y: auto;
   }
   .mobile-menu.open { display: flex; }
   .mobile-menu a {
@@ -1973,26 +1975,25 @@
   // ===== NEW UNMUTE FUNCTION =====
   function toggleHeroMute() {
     const video = document.getElementById('heroVideo');
-    const muteBtn = document.getElementById('heroMuteBtn');
     const muteLabel = document.getElementById('heroMuteLabel');
     const muteIcon = document.getElementById('heroMuteIcon');
 
     if (video.muted) {
+      // iOS requires play() to be called again after unmuting
       video.muted = false;
+      video.volume = 1;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(function() {
+          // If play fails, still update UI
+        });
+      }
       muteLabel.textContent = 'MUTE';
-      // Change icon to 'volume up'
-      muteIcon.innerHTML = `
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-      `;
+      muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>';
     } else {
       video.muted = true;
       muteLabel.textContent = 'UNMUTE';
-      // Change icon back to 'volume x'
-      muteIcon.innerHTML = `
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-        <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
-      `;
+      muteIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>';
     }
   }
 
