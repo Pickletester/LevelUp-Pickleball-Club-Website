@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-31TFRX7MMP"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-31TFRX7MMP');
-</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LevelUp Pickleball Club | #1 Indoor Pickleball — Canonsburg, PA</title>
@@ -1587,7 +1578,7 @@
           <div class="amenity-desc">Serves &amp; Slices — Full Food &amp; Bar Service</div>
         </div>
         <div class="amenity-card fade-up">
-          <div class="amenity-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Amenities/Garage.webp')"></div>
+          <div class="amenity-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Emojis/Garage%20door%20emjoi.png')"></div>
           <div class="amenity-icon"><img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Emojis/Garage%20door%20emjoi.png" alt="Garage Doors" loading="lazy" style="width:32px;height:32px;object-fit:contain;"></div>
           <div class="amenity-title">Glass Garage Doors</div>
           <div class="amenity-desc">Outdoor Patios with Firepits</div>
@@ -1875,7 +1866,7 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <div class="footer-info">
-          <div class="footer-info-item"><span class="icon">✉️</span><a href="/cdn-cgi/l/email-protection#4822663a2931253d262c2708242d3e2d243d3838212b23242d2a292424662b2725" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><span class="__cf_email__" data-cfemail="a4ce8ad6c5ddc9d1cac0cbe4c8c1d2c1c8d1d4d4cdc7cfc8c1c6c5c8c88ac7cbc9">[email&#160;protected]</span></a></div>
+          <div class="footer-info-item"><span class="icon">✉️</span><a href="mailto:j.raymundo@leveluppickleball.com" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">j.raymundo@leveluppickleball.com</a></div>
           <div class="footer-info-item"><span class="icon">📞</span><a href="tel:4122065755" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">412-206-5755</a></div>
         </div>
       </div>
@@ -1908,22 +1899,7 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-
-
-  function toggleHeroMute() {
-    const video = document.getElementById('heroVideo');
-    const icon = document.getElementById('heroMuteIcon');
-    const label = document.getElementById('heroMuteLabel');
-    video.muted = !video.muted;
-    if (video.muted) {
-      icon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>';
-      label.textContent = 'UNMUTE';
-    } else {
-      icon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>';
-      label.textContent = 'MUTE';
-    }
-  }
+<script>
 
   function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
@@ -1981,6 +1957,32 @@
 
   window.addEventListener('load', checkFades);
   setTimeout(checkFades, 100);
+
+  // ===== NEW UNMUTE FUNCTION =====
+  function toggleHeroMute() {
+    const video = document.getElementById('heroVideo');
+    const muteBtn = document.getElementById('heroMuteBtn');
+    const muteLabel = document.getElementById('heroMuteLabel');
+    const muteIcon = document.getElementById('heroMuteIcon');
+
+    if (video.muted) {
+      video.muted = false;
+      muteLabel.textContent = 'MUTE';
+      // Change icon to 'volume up'
+      muteIcon.innerHTML = `
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+      `;
+    } else {
+      video.muted = true;
+      muteLabel.textContent = 'UNMUTE';
+      // Change icon back to 'volume x'
+      muteIcon.innerHTML = `
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+      `;
+    }
+  }
 
 
   (function() {
@@ -2217,4 +2219,16 @@
   }
 
   function closeLegalModal() {
-    document.getElementById('l
+    document.getElementById('legalModal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // Close on backdrop click
+  document.getElementById('legalModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLegalModal();
+  });
+
+</script>
+
+</body>
+</html>
