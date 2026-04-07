@@ -1137,12 +1137,14 @@
   .mobile-menu {
     display: none;
     position: fixed;
-    top: 68px; left: 0; right: 0;
+    top: 108px; left: 0; right: 0;
     background: var(--navy-dark);
     border-bottom: 2px solid var(--green);
     padding: 1rem 0;
-    z-index: 998;
+    z-index: 1001;
     flex-direction: column;
+    max-height: calc(100vh - 108px);
+    overflow-y: auto;
   }
   .mobile-menu.open { display: flex; }
   .mobile-menu a {
@@ -1426,6 +1428,17 @@
     .replay-trust { grid-template-columns: 1fr; }
     .trust-item { border-right: none; border-bottom: 1.5px solid #F0F1F5; }
     .trust-item:last-child { border-bottom: none; }
+
+    /* Golf sim mobile fixes */
+    #golfDurationPicker { grid-template-columns: repeat(3, 1fr) !important; }
+    #timeGrid { grid-template-columns: repeat(3, 1fr) !important; }
+    .golfsim-pricing { grid-template-columns: 1fr !important; }
+    .golfsim-grid { grid-template-columns: 1fr !important; }
+  }
+
+  @media (max-width: 480px) {
+    #golfDurationPicker { grid-template-columns: repeat(3, 1fr) !important; }
+    #timeGrid { grid-template-columns: repeat(3, 1fr) !important; }
   }
 
   /* Animate on scroll */
@@ -1620,7 +1633,7 @@
             <!-- Duration -->
             <div style="margin-bottom:1.25rem;">
               <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.75rem;">Duration *</label>
-              <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.5rem;" id="golfDurationPicker">
+              <div id="golfDurationPicker" style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.5rem;">
                 <div onclick="selectGolfDuration(this,'1 Hour')" data-dur="1 Hour" style="padding:0.75rem 0.5rem;text-align:center;border:2px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;transition:all 0.2s;">
                   <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:white;">1 HR</div>
                   <div id="price-1-Hour" style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-family:'Barlow Condensed',sans-serif;">$50</div>
