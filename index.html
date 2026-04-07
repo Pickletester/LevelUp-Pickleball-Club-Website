@@ -193,7 +193,7 @@
     position: fixed;
     top: 68px;
     left: 0; right: 0;
-    z-index: 999;
+    z-index: 998;
     background: var(--orange);
     text-align: center;
     padding: 0.65rem 2rem;
@@ -1924,6 +1924,13 @@
     const menu = document.getElementById('mobileMenu');
     menu.classList.toggle('open');
   }
+
+  // Close mobile menu when any link inside it is tapped
+  document.getElementById('mobileMenu').querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      document.getElementById('mobileMenu').classList.remove('open');
+    });
+  });
 
   function toggleFaq(item) {
     const isOpen = item.classList.contains('open');
