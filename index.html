@@ -1150,6 +1150,14 @@
     -webkit-overflow-scrolling: touch;
   }
   .mobile-menu.open { display: flex; }
+  body.menu-open .hero,
+  body.menu-open .facility,
+  body.menu-open .dropin,
+  body.menu-open .testimonials,
+  body.menu-open .cta-banner,
+  body.menu-open section,
+  body.menu-open footer,
+  body.menu-open .alert-bar { pointer-events: none !important; }
   .mobile-menu a {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
@@ -1928,6 +1936,7 @@
 
   function toggleMobileMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
+    document.body.classList.toggle('menu-open');
   }
 
 
