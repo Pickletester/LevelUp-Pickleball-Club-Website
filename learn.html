@@ -1433,9 +1433,13 @@
 
   /* Animate on scroll */
   .fade-up {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .js-loaded .fade-up {
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
   }
   .fade-up.visible {
     opacity: 1;
@@ -1468,14 +1472,14 @@
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <a>Home</a>
-  <a>Membership</a>
-  <a>Play</a>
-  <a>Learn</a>
-  <a>Our Pros</a>
-  <a>Private Events</a>
-  <a>FAQ</a>
-  <a>⛳ Golf Sim</a>
+  <a href="/">Home</a>
+  <a href="/membership">Membership</a>
+  <a href="/play">Play</a>
+  <a href="/learn">Learn</a>
+  <a href="/pros">Our Pros</a>
+  <a href="/events">Private Events</a>
+  <a href="/faq">FAQ</a>
+  <a href="/golf-sim">⛳ Golf Sim</a>
   
   <a href="https://app.courtreserve.com" target="_blank">Member Portal ↗</a>
 </div>
@@ -1693,13 +1697,6 @@
     }
   }
 
-  function checkFades() {
-    document.querySelectorAll('.fade-up:not(.visible)').forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight - 60) el.classList.add('visible');
-    });
-  }
-
   // ===== SCROLL EFFECTS =====
   let scrollTicking = false;
   window.addEventListener('scroll', () => {
@@ -1722,15 +1719,17 @@
     });
   }
 
+  document.body.classList.add('js-loaded');
+
   const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); fadeObserver.unobserve(el.target); } });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.05 });
   document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
   checkFades();
 
-
   window.addEventListener('load', checkFades);
   setTimeout(checkFades, 100);
+  setTimeout(checkFades, 500);
 
 
   var LEGAL_CONTENT = {
