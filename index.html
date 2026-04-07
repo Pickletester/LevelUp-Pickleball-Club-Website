@@ -1152,15 +1152,8 @@
     -webkit-overflow-scrolling: touch;
   }
   .mobile-menu.open { display: flex; }
-  body.menu-open .hero,
-  body.menu-open .facility,
-  body.menu-open .dropin,
-  body.menu-open .testimonials,
-  body.menu-open .cta-banner,
-  body.menu-open section,
-  body.menu-open footer,
-  body.menu-open .alert-bar { pointer-events: none !important; }
-  .mobile-menu a, .mobile-menu button {
+
+  .mobile-menu a {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
     font-size: 1.2rem;
@@ -1169,16 +1162,11 @@
     color: rgba(255,255,255,0.9);
     text-decoration: none;
     padding: 1.1rem 2rem;
-    border: none;
     border-bottom: 1px solid rgba(255,255,255,0.08);
     display: block;
     width: 100%;
-    background: transparent;
-    text-align: left;
-    cursor: pointer;
-    touch-action: manipulation;
   }
-  .mobile-menu a:active, .mobile-menu button:active { background: rgba(60,196,64,0.15); color: var(--green); }
+  .mobile-menu a:active { background: rgba(60,196,64,0.15); color: var(--green); }
 
   /* ===== COURT REPLAY PAGE ===== */
   .replay-hero {
@@ -1489,15 +1477,15 @@
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <button onclick="window.location.href='/'">Home</button>
-  <button onclick="window.location.href='/membership'">Membership</button>
-  <button onclick="window.location.href='/play'">Play</button>
-  <button onclick="window.location.href='/learn'">Learn</button>
-  <button onclick="window.location.href='/pros'">Our Pros</button>
-  <button onclick="window.location.href='/events'">Private Events</button>
-  <button onclick="window.location.href='/faq'">FAQ</button>
-  <button onclick="window.location.href='/golf-sim'">⛳ Golf Sim</button>
-  <button onclick="window.open('https://app.courtreserve.com','_blank')">Member Portal ↗</button>
+  <a href="/">Home</a>
+  <a href="/membership">Membership</a>
+  <a href="/play">Play</a>
+  <a href="/learn">Learn</a>
+  <a href="/pros">Our Pros</a>
+  <a href="/events">Private Events</a>
+  <a href="/faq">FAQ</a>
+  <a href="/golf-sim">⛳ Golf Sim</a>
+  <a href="https://app.courtreserve.com" target="_blank">Member Portal ↗</a>
 </div>
 
 <!-- ALERT BAR -->
@@ -1937,7 +1925,6 @@
 
   function toggleMobileMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
-    document.body.classList.toggle('menu-open');
   }
 
 
