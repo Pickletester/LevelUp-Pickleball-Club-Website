@@ -1162,7 +1162,11 @@
     border-bottom: 1px solid rgba(255,255,255,0.08);
     display: block;
     width: 100%;
-    -webkit-tap-highlight-color: rgba(60,196,64,0.2);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
   }
   .mobile-menu a:active { background: rgba(60,196,64,0.15); color: var(--green); }
 
@@ -1925,6 +1929,21 @@
   function toggleMobileMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
   }
+
+  // Force immediate navigation on touch — prevents long-press context menu
+  document.querySelectorAll('.mobile-menu a').forEach(function(link) {
+    link.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      var href = this.getAttribute('href');
+      if (href && href !== '#') {
+        if (this.target === '_blank') {
+          window.open(href, '_blank');
+        } else {
+          window.location.href = href;
+        }
+      }
+    }, { passive: false });
+  });
 
   function toggleFaq(item) {
     const isOpen = item.classList.contains('open');
