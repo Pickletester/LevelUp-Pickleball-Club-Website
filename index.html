@@ -2232,4 +2232,37 @@
   }
 
   function closeLegalModal() {
-    document.getElementById('l
+    document.getElementById('legalModal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // Close on backdrop click
+  document.getElementById('legalModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLegalModal();
+  });
+
+  function handleNewsletterSubmit(e, form) {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: new FormData(form)
+    }).then(r => r.json()).then(data => {
+      if (data.success) {
+        btn.textContent = '✓ Sent!';
+        form.reset();
+      } else {
+        btn.textContent = 'Try Again';
+        btn.disabled = false;
+      }
+    }).catch(() => {
+      btn.textContent = 'Try Again';
+      btn.disabled = false;
+    });
+  }
+
+</script>
+</body>
+</html>
