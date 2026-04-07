@@ -1021,7 +1021,7 @@
     nav { padding: 0 1rem; }
 
     /* Alert bar */
-    .alert-bar { font-size: 0.8rem; padding: 0.5rem 1rem; }
+    .alert-bar { font-size: 0.72rem; padding: 0.4rem 0.75rem; line-height: 1.3; }
 
     /* Page padding */
     .page { padding-top: 108px; }
@@ -2648,3 +2648,14 @@
 
   function closeLegalModal() {
     document.getElementById('
+legalModal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('legalModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLegalModal();
+  });
+
+</script>
+</body>
+</html>
