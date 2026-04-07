@@ -1473,6 +1473,22 @@
     #timeGrid { grid-template-columns: repeat(3, 1fr) !important; }
   }
 </style>
+
+<style>
+@media (max-width: 700px) {
+  #golfSimPricing { grid-template-columns: 1fr !important; gap: 1rem !important; }
+  #golfSimGrid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  .form-2col { grid-template-columns: 1fr !important; }
+  #golfDurationPicker { grid-template-columns: repeat(3, 1fr) !important; }
+  #timeGrid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+@media (max-width: 480px) {
+  #golfSimPricing { grid-template-columns: 1fr !important; }
+  #golfSimGrid { grid-template-columns: 1fr !important; }
+  #golfDurationPicker { grid-template-columns: repeat(3, 1fr) !important; }
+  #timeGrid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+</style>
 </head>
 <body>
 
@@ -1534,7 +1550,7 @@
     <div style="position:absolute;inset:0;background:rgba(5,8,20,0.75);"></div>
     <div class="container" style="position:relative;z-index:1;">
       <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);text-align:center;margin-bottom:3rem;">SIMPLE <span style="color:var(--green)">PRICING</span></h2>
-      <div class="golfsim-pricing" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:700px;margin:0 auto 3rem;">
+      <div class="golfsim-pricing" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:700px;margin:0 auto 3rem;" id="golfSimPricing">
 
         <div style="background:rgba(255,255,255,0.07);border:2px solid rgba(255,255,255,0.12);border-radius:14px;padding:2.5rem;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--green)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.12)';this.style.transform='translateY(0)'">
           <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.5rem;">Monday – Thursday</div>
@@ -1559,7 +1575,7 @@
   <section style="background:var(--off-white);color:var(--dark);padding:6rem 0;">
     <div class="container">
 
-      <div class="golfsim-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;max-width:1000px;margin:0 auto;">
+      <div class="golfsim-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;max-width:1000px;margin:0 auto;" id="golfSimGrid">
 
         <div class="fade-up">
           <div class="section-tag" style="background:var(--navy);color:white;">Hours</div>
