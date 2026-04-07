@@ -1429,16 +1429,27 @@
     .trust-item { border-right: none; border-bottom: 1.5px solid #F0F1F5; }
     .trust-item:last-child { border-bottom: none; }
 
-    /* Golf sim mobile fixes */
+    /* Golf sim mobile */
+    .golfsim-pricing { grid-template-columns: 1fr !important; gap: 1rem !important; }
+    .golfsim-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
     #golfDurationPicker { grid-template-columns: repeat(3, 1fr) !important; }
     #timeGrid { grid-template-columns: repeat(3, 1fr) !important; }
-    .golfsim-pricing { grid-template-columns: 1fr !important; }
-    .golfsim-grid { grid-template-columns: 1fr !important; }
+
+    /* Booking form on mobile */
+    #golfSimForm [style*="grid-template-columns:1fr 1fr"] {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    #golfSimForm [style*="grid-template-columns: 1fr 1fr"] {
+      display: flex !important;
+      flex-direction: column !important;
+    }
   }
 
   @media (max-width: 480px) {
     #golfDurationPicker { grid-template-columns: repeat(3, 1fr) !important; }
-    #timeGrid { grid-template-columns: repeat(3, 1fr) !important; }
+    #timeGrid { grid-template-columns: repeat(2, 1fr) !important; }
+    .golfsim-pricing { grid-template-columns: 1fr !important; }
   }
 
   /* Animate on scroll */
@@ -1454,6 +1465,12 @@
   .fade-up.visible {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  @media (max-width: 600px) {
+    .form-2col { grid-template-columns: 1fr !important; }
+    #golfDurationPicker { grid-template-columns: repeat(3, 1fr) !important; }
+    #timeGrid { grid-template-columns: repeat(3, 1fr) !important; }
   }
 </style>
 </head>
@@ -1601,7 +1618,7 @@
           <form id="golfSimForm" onsubmit="handleGolfSimSubmit(event, this)">
 
             <!-- Name row -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;" class="form-2col">
               <div>
                 <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">First Name *</label>
                 <input type="text" name="first_name" placeholder="First name" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
@@ -1613,7 +1630,7 @@
             </div>
 
             <!-- Email + Phone -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;" class="form-2col">
               <div>
                 <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Email *</label>
                 <input type="email" name="email" placeholder="you@email.com" required style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:0.75rem 1rem;color:white;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
