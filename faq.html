@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-31TFRX7MMP"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-31TFRX7MMP');
-    </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ | LevelUp Pickleball Club — Canonsburg, PA</title>
@@ -1584,7 +1576,7 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <div class="footer-info">
-          <div class="footer-info-item"><span class="icon">✉️</span><a href="/cdn-cgi/l/email-protection#fc96d28e9d859189929893bc90998a9990898c8c959f9790999e9d9090d29f9391" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><span class="__cf_email__" data-cfemail="0963277b6870647c676d6649656c7f6c657c7979606a62656c6b686565276a6664">[email&#160;protected]</span></a></div>
+          <div class="footer-info-item"><span class="icon">✉️</span><a href="mailto:j.raymundo@leveluppickleball.com" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">j.raymundo@leveluppickleball.com</a></div>
           <div class="footer-info-item"><span class="icon">📞</span><a href="tel:4122065755" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">412-206-5755</a></div>
         </div>
       </div>
@@ -1617,7 +1609,7 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 
   function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
@@ -1725,4 +1717,16 @@
   }
 
   function closeLegalModal() {
-    document.getElementById('
+    document.getElementById('legalModal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // Close on backdrop click
+  document.getElementById('legalModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLegalModal();
+  });
+
+</script>
+
+</body>
+</html>
