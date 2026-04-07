@@ -1161,6 +1161,10 @@
     border-bottom: 1px solid rgba(255,255,255,0.05);
     transition: color 0.2s;
     cursor: pointer;
+    display: block;
+    position: relative;
+    z-index: 1003;
+    pointer-events: all;
   }
   .mobile-menu a:hover { color: var(--green); }
 
@@ -1484,9 +1488,6 @@
   
   <a href="https://app.courtreserve.com" target="_blank">Member Portal ↗</a>
 </div>
-
-<!-- Menu overlay to capture clicks outside -->
-<div id="menuOverlay" onclick="toggleMobileMenu()" style="display:none;position:fixed;inset:0;top:108px;z-index:1000;background:rgba(0,0,0,0.5);"></div>
 
 <!-- ALERT BAR -->
 <div class="alert-bar">
@@ -1924,26 +1925,8 @@
   }
 
   function toggleMobileMenu() {
-    const menu = document.getElementById('mobileMenu');
-    const overlay = document.getElementById('menuOverlay');
-    const isOpen = menu.classList.contains('open');
-    if (isOpen) {
-      menu.classList.remove('open');
-      if (overlay) overlay.style.display = 'none';
-    } else {
-      menu.classList.add('open');
-      if (overlay) overlay.style.display = 'block';
-    }
+    document.getElementById('mobileMenu').classList.toggle('open');
   }
-
-  // Close menu when any link is tapped
-  document.getElementById('mobileMenu').querySelectorAll('a').forEach(function(link) {
-    link.addEventListener('click', function() {
-      document.getElementById('mobileMenu').classList.remove('open');
-      var overlay = document.getElementById('menuOverlay');
-      if (overlay) overlay.style.display = 'none';
-    });
-  });
 
   function toggleFaq(item) {
     const isOpen = item.classList.contains('open');
