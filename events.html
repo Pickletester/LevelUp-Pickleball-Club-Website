@@ -1140,28 +1140,32 @@
   .mobile-menu {
     display: none;
     position: fixed;
-    top: 68px; left: 0; right: 0;
+    top: 108px; left: 0; right: 0;
+    bottom: 0;
     background: var(--navy-dark);
-    border-bottom: 2px solid var(--green);
-    padding: 1rem 0;
-    z-index: 998;
+    border-top: 2px solid var(--green);
+    padding: 0;
+    z-index: 9998;
     flex-direction: column;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .mobile-menu.open { display: flex; }
   .mobile-menu a {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.8);
+    color: rgba(255,255,255,0.9);
     text-decoration: none;
-    padding: 0.9rem 2rem;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    transition: color 0.2s;
-    cursor: pointer;
+    padding: 1.1rem 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: block;
+    width: 100%;
+    -webkit-tap-highlight-color: rgba(60,196,64,0.2);
   }
-  .mobile-menu a:hover { color: var(--green); }
+  .mobile-menu a:active { background: rgba(60,196,64,0.15); color: var(--green); }
 
   /* ===== COURT REPLAY PAGE ===== */
   .replay-hero {
