@@ -1430,9 +1430,13 @@
 
   /* Animate on scroll */
   .fade-up {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .js-loaded .fade-up {
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
   }
   .fade-up.visible {
     opacity: 1;
@@ -1872,7 +1876,7 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <div class="footer-info">
-          <div class="footer-info-item"><span class="icon">✉️</span><a href="mailto:j.raymundo@leveluppickleball.com" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">j.raymundo@leveluppickleball.com</a></div>
+          <div class="footer-info-item"><span class="icon">✉️</span><a href="/cdn-cgi/l/email-protection#e58fcb97849c88908b818aa589809380899095958c868e898087848989cb868a88" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'"><span class="__cf_email__" data-cfemail="bed490ccdfc7d3cbd0dad1fed2dbc8dbd2cbceced7ddd5d2dbdcdfd2d290ddd1d3">[email&#160;protected]</span></a></div>
           <div class="footer-info-item"><span class="icon">📞</span><a href="tel:4122065755" style="color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">412-206-5755</a></div>
         </div>
       </div>
@@ -1905,7 +1909,12 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+
+  function showPage(page) {
+    window.location.href = '/' + page;
+  }
 
   function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
@@ -1923,13 +1932,6 @@
       const ans = item.querySelector('.faq-answer');
       ans.style.maxHeight = ans.scrollHeight + 'px';
     }
-  }
-
-  function checkFades() {
-    document.querySelectorAll('.fade-up:not(.visible)').forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight - 60) el.classList.add('visible');
-    });
   }
 
   // ===== SCROLL EFFECTS =====
@@ -1954,15 +1956,17 @@
     });
   }
 
+  document.body.classList.add('js-loaded');
+
   const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); fadeObserver.unobserve(el.target); } });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.05 });
   document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
   checkFades();
 
-
   window.addEventListener('load', checkFades);
   setTimeout(checkFades, 100);
+  setTimeout(checkFades, 500);
 
   // ===== NEW UNMUTE FUNCTION =====
   function toggleHeroMute() {
@@ -2225,16 +2229,4 @@
   }
 
   function closeLegalModal() {
-    document.getElementById('legalModal').style.display = 'none';
-    document.body.style.overflow = '';
-  }
-
-  // Close on backdrop click
-  document.getElementById('legalModal').addEventListener('click', function(e) {
-    if (e.target === this) closeLegalModal();
-  });
-
-</script>
-
-</body>
-</html>
+    document.getElementById('l
