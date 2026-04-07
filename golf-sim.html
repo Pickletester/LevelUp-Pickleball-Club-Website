@@ -1428,34 +1428,39 @@
   .pricing-pill .pp-price { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--green); line-height: 1; }
   .pricing-pill .pp-note { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 0.4rem; }
 
+  /* ===== GOLF SIM MOBILE ===== */
   @media (max-width: 700px) {
+    /* Nav */
+    .nav-links { display: none !important; }
+    .nav-hamburger { display: flex !important; }
+    nav { padding: 0 1rem !important; }
+
+    /* Replay */
     .replay-fields { grid-template-columns: 1fr; }
     .how-steps { grid-template-columns: repeat(2, 1fr); }
     .replay-trust { grid-template-columns: 1fr; }
     .trust-item { border-right: none; border-bottom: 1.5px solid #F0F1F5; }
     .trust-item:last-child { border-bottom: none; }
 
-    /* Golf sim mobile */
-    .golfsim-pricing { grid-template-columns: 1fr !important; gap: 1rem !important; }
-    .golfsim-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+    /* Golf sim pricing + info */
+    #golfSimPricing { grid-template-columns: 1fr !important; gap: 1rem !important; max-width: 100% !important; }
+    #golfSimGrid { grid-template-columns: 1fr !important; gap: 2rem !important; max-width: 100% !important; }
+
+    /* Booking form */
+    .form-2col { grid-template-columns: 1fr !important; }
     #golfDurationPicker { grid-template-columns: repeat(3, 1fr) !important; }
     #timeGrid { grid-template-columns: repeat(3, 1fr) !important; }
 
-    /* Booking form on mobile */
-    #golfSimForm [style*="grid-template-columns:1fr 1fr"] {
-      display: flex !important;
-      flex-direction: column !important;
-    }
-    #golfSimForm [style*="grid-template-columns: 1fr 1fr"] {
-      display: flex !important;
-      flex-direction: column !important;
-    }
+    /* Padding */
+    .page-hero { padding: 3rem 0 2rem; }
+    .container { padding: 0 1rem; }
   }
 
   @media (max-width: 480px) {
+    #golfSimPricing { grid-template-columns: 1fr !important; }
+    #golfSimGrid { grid-template-columns: 1fr !important; }
     #golfDurationPicker { grid-template-columns: repeat(3, 1fr) !important; }
     #timeGrid { grid-template-columns: repeat(2, 1fr) !important; }
-    .golfsim-pricing { grid-template-columns: 1fr !important; }
   }
 
   /* Animate on scroll */
@@ -1478,26 +1483,6 @@
     #golfDurationPicker { grid-template-columns: repeat(3, 1fr) !important; }
     #timeGrid { grid-template-columns: repeat(3, 1fr) !important; }
   }
-</style>
-
-<style>
-@media (max-width: 700px) {
-  /* Golf sim grid defaults */
-  #golfSimPricing { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 700px; margin: 0 auto 3rem; }
-  #golfSimGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; max-width: 1000px; margin: 0 auto; }
-  .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-  #golfSimPricing { grid-template-columns: 1fr; gap: 1rem; }
-  #golfSimGrid { grid-template-columns: 1fr; gap: 2rem; }
-  .form-2col { grid-template-columns: 1fr !important; }
-  #golfDurationPicker { grid-template-columns: repeat(3, 1fr) !important; }
-  #timeGrid { grid-template-columns: repeat(3, 1fr) !important; }
-}
-@media (max-width: 480px) {
-  #golfSimPricing { grid-template-columns: 1fr !important; }
-  #golfSimGrid { grid-template-columns: 1fr !important; }
-  #golfDurationPicker { grid-template-columns: repeat(3, 1fr) !important; }
-  #timeGrid { grid-template-columns: repeat(2, 1fr) !important; }
-}
 </style>
 </head>
 <body>
