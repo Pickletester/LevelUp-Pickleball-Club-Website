@@ -2089,7 +2089,9 @@
         } else if (data.success && data.free) {
           // Free promo booking — show success directly
           form.style.display = 'none';
-          document.getElementById('golfSimSuccess').style.display = 'block';
+          var s = document.getElementById('golfSimSuccess');
+          s.style.display = 'block';
+          setTimeout(function() { s.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
         } else if (data.conflict) {
           btn.textContent = promoDiscount === 100 ? '⛳ Book for Free' : '⛳ Reserve & Pay';
           btn.disabled = false;
@@ -2563,7 +2565,9 @@
         } else if (data.success && data.free) {
           // Free promo booking — show success directly
           form.style.display = 'none';
-          document.getElementById('golfSimSuccess').style.display = 'block';
+          var s2 = document.getElementById('golfSimSuccess');
+          s2.style.display = 'block';
+          setTimeout(function() { s2.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
         } else if (data.conflict) {
           btn.textContent = promoDiscount === 100 ? '⛳ Book for Free' : '⛳ Reserve & Pay';
           btn.disabled = false;
