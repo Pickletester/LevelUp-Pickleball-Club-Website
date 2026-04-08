@@ -1530,7 +1530,7 @@
 
 <!-- ALERT BAR -->
 <div class="alert-bar" style="background:linear-gradient(90deg,#d4700a 0%,var(--orange) 40%,#f5a623 60%,var(--orange) 80%,#d4700a 100%);cursor:default;padding:0.85rem 2rem;font-size:1rem;letter-spacing:0.06em;">
-  🏌️ &nbsp;<strong>LIMITED TIME</strong> &nbsp;·&nbsp; Use code &nbsp;<span style="background:white;color:var(--orange);padding:0.2rem 1rem;border-radius:4px;letter-spacing:0.2em;font-size:1.2rem;font-weight:900;box-shadow:0 2px 12px rgba(0,0,0,0.25);text-shadow:none;border:2px solid rgba(255,255,255,0.8);">LEVELUP50</span>&nbsp; for &nbsp;<strong style="font-size:1.15rem;">50% OFF</strong>&nbsp; your golf simulator booking! &nbsp;🏌️
+  🏌️ &nbsp;<strong>LIMITED TIME</strong> &nbsp;·&nbsp; Use code &nbsp;<span style="background:white;color:var(--orange);padding:0.2rem 1rem;border-radius:4px;letter-spacing:0.2em;font-size:1.2rem;font-weight:900;box-shadow:0 2px 12px rgba(0,0,0,0.25);border:2px solid rgba(255,255,255,0.8);">LEVELUP50</span>&nbsp; for &nbsp;<strong style="font-size:1.15rem;">50% OFF</strong>&nbsp; your golf simulator booking! &nbsp;🏌️
 </div>
 
 
@@ -1750,10 +1750,30 @@
 
           <!-- Success state (returned from Stripe) -->
           <div id="golfSimSuccess" style="display:none;text-align:center;padding:2rem 0;">
-            <div style="font-size:3rem;margin-bottom:1rem;">✅</div>
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--green);margin-bottom:0.5rem;">Booking Confirmed!</div>
-            <p style="color:rgba(255,255,255,0.6);font-size:0.95rem;">Payment received! Your golf simulator time is locked in. Check your email for your confirmation and cancellation code.</p>
-            <p style="color:rgba(255,255,255,0.35);font-size:0.8rem;margin-top:1rem;">Questions? Call us at <a href="tel:4122065755" style="color:var(--green);">412-206-5755</a></p>
+            <div style="font-size:3.5rem;margin-bottom:1rem;">⛳</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--green);margin-bottom:0.5rem;">Booking Confirmed!</div>
+            <div id="golfSimSuccessDetails" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:1.5rem;margin:1.25rem auto;max-width:380px;text-align:left;">
+              <div style="display:flex;flex-direction:column;gap:0.75rem;">
+                <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.07);padding-bottom:0.75rem;">
+                  <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Date</span>
+                  <span id="successDate" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:white;font-size:1rem;">—</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.07);padding-bottom:0.75rem;">
+                  <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Time</span>
+                  <span id="successTime" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:white;font-size:1rem;">—</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.07);padding-bottom:0.75rem;">
+                  <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Duration</span>
+                  <span id="successDuration" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:white;font-size:1rem;">—</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Confirmation #</span>
+                  <span id="successRid" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--green);font-size:1rem;">—</span>
+                </div>
+              </div>
+            </div>
+            <p style="color:rgba(255,255,255,0.6);font-size:0.9rem;margin-bottom:0.5rem;">A confirmation email is on its way to you.</p>
+            <p style="color:rgba(255,255,255,0.35);font-size:0.8rem;margin-top:0.5rem;">Questions? Call us at <a href="tel:4122065755" style="color:var(--green);">412-206-5755</a></p>
           </div>
 
           <!-- Cancelled state -->
@@ -1803,6 +1823,21 @@
             if (f) f.style.display = 'none';
             if (s) {
               s.style.display = 'block';
+              // Populate details from sessionStorage
+              var rid = params.get('rid') || '—';
+              var date = sessionStorage.getItem('golf_date') || '';
+              var time = sessionStorage.getItem('golf_time') || '';
+              var duration = sessionStorage.getItem('golf_duration') || '';
+              if (date) {
+                var d = new Date(date + 'T12:00:00Z');
+                document.getElementById('successDate').textContent = d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric', timeZone:'UTC' });
+              }
+              if (time) document.getElementById('successTime').textContent = time;
+              if (duration) document.getElementById('successDuration').textContent = duration;
+              document.getElementById('successRid').textContent = rid !== '{CHECKOUT_SESSION_ID}' ? '#' + rid : '—';
+              sessionStorage.removeItem('golf_date');
+              sessionStorage.removeItem('golf_time');
+              sessionStorage.removeItem('golf_duration');
               s.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
           }, 100);
@@ -2086,6 +2121,10 @@
         });
         var data = await res.json();
         if (data.success && data.url) {
+          // Save booking details to sessionStorage before redirecting
+          sessionStorage.setItem('golf_date', payload.date);
+          sessionStorage.setItem('golf_time', payload.time);
+          sessionStorage.setItem('golf_duration', payload.duration);
           window.location.href = data.url;
         } else if (data.success && data.free) {
           // Free promo booking — show success directly
