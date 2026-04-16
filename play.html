@@ -657,11 +657,12 @@
     border-radius: 14px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-    transition: all 0.3s;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-bottom-color 0.25s ease;
     border-bottom: 4px solid transparent;
     position: relative;
     display: flex;
     flex-direction: column;
+    will-change: transform;
   }
   .play-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.12); border-bottom-color: var(--green); }
   .play-card-icon {
@@ -683,8 +684,15 @@
     opacity: 1;
     transition: transform 0.4s ease;
     display: block;
+    will-change: transform;
   }
   .play-card:hover .play-card-icon-bg { transform: scale(1.05); }
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .play-card, .play-card-icon-bg { transition: none; }
+    .play-card:hover { transform: none; }
+    .play-card:hover .play-card-icon-bg { transform: none; }
+  }
   .play-card-icon-emoji { display: none; }
   .play-card-body { padding: 1.75rem; display: flex; flex-direction: column; flex: 1; }
   .play-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--navy); margin-bottom: 0.6rem; letter-spacing: 0.03em; }
