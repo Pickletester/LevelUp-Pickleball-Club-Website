@@ -61,6 +61,9 @@
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev" crossorigin>
+  <link rel="preload" as="image" href="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Drop-in.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Court%20Rentals.webp" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
   
   <style>
@@ -673,10 +676,13 @@
   .play-card-icon-bg {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     opacity: 1;
     transition: transform 0.4s ease;
+    display: block;
   }
   .play-card:hover .play-card-icon-bg { transform: scale(1.05); }
   .play-card-icon-emoji { display: none; }
@@ -1638,7 +1644,7 @@
       <div class="play-grid">
         <div class="play-card fade-up">
           <div class="play-card-icon">
-            <div class="play-card-icon-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Drop-in.webp')"></div>
+            <img class="play-card-icon-bg" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Drop-in.webp" alt="Daily Drop-in Play" loading="eager" decoding="async" fetchpriority="high">
             <span class="play-card-icon-emoji">🏓</span>
             <button class="play-video-btn" aria-label="Watch Drop-in explainer video" onclick="openVideoModal('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Videos/Drop%20ins.mp4')">
               <span class="play-video-icon">
@@ -1661,7 +1667,7 @@
         </div>
         <div class="play-card fade-up">
           <div class="play-card-icon">
-            <div class="play-card-icon-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Court%20Rentals.webp')"></div>
+            <img class="play-card-icon-bg" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Court%20Rentals.webp" alt="Court Rentals" loading="eager" decoding="async" fetchpriority="high">
             <span class="play-card-icon-emoji">🏟️</span>
           </div>
           <div class="play-card-body">
@@ -1675,7 +1681,7 @@
         </div>
         <div class="play-card fade-up">
           <div class="play-card-icon">
-            <div class="play-card-icon-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Tournaments.webp')"></div>
+            <img class="play-card-icon-bg" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Tournaments.webp" alt="Tournaments" loading="lazy" decoding="async">
             <span class="play-card-icon-emoji">🏆</span>
           </div>
           <div class="play-card-body">
@@ -1689,7 +1695,7 @@
         </div>
         <div class="play-card fade-up">
           <div class="play-card-icon">
-            <div class="play-card-icon-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Leagues.webp')"></div>
+            <img class="play-card-icon-bg" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Leagues.webp" alt="Ladder Leagues" loading="lazy" decoding="async">
             <span class="play-card-icon-emoji">🪜</span>
             <button class="play-video-btn" aria-label="Watch Ladder Leagues explainer video" onclick="openVideoModal('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Videos/Latter.mp4')">
               <span class="play-video-icon">
@@ -1712,7 +1718,7 @@
         </div>
         <div class="play-card fade-up">
           <div class="play-card-icon">
-            <div class="play-card-icon-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Team%20L.webp')"></div>
+            <img class="play-card-icon-bg" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/WAYS%20TO%20PLAY/Team%20L.webp" alt="Team Leagues" loading="lazy" decoding="async">
             <span class="play-card-icon-emoji">⚔️</span>
             <button class="play-video-btn" aria-label="Watch Team Leagues explainer video" onclick="openVideoModal('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Videos/Team%20Leagues.mp4')">
               <span class="play-video-icon">
@@ -1735,7 +1741,7 @@
         </div>
         <div class="play-card fade-up">
           <div class="play-card-icon">
-            <div class="play-card-icon-bg" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/People%20having%20fun%20talking/DSC09470.webp')"></div>
+            <img class="play-card-icon-bg" src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/People%20having%20fun%20talking/DSC09470.webp" alt="Socials" loading="lazy" decoding="async">
             <span class="play-card-icon-emoji">🎉</span>
             <button class="play-video-btn" aria-label="Watch Socials explainer video" onclick="openVideoModal('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Videos/Socials.mp4')">
               <span class="play-video-icon">
