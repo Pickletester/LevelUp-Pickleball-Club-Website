@@ -770,45 +770,39 @@
   .video-modal-inner video { width: 100%; height: 100%; display: block; }
   .video-modal-close {
     position: absolute;
-    top: -56px;
-    right: 0;
+    top: 12px;
+    right: 12px;
+    z-index: 5;
     background: var(--green);
     border: none;
     color: var(--dark);
     cursor: pointer;
-    padding: 0.6rem 1.1rem 0.6rem 0.9rem;
+    padding: 0.55rem 1rem 0.55rem 0.85rem;
     border-radius: 100px;
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.95rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    gap: 0.45rem;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.5);
     transition: background 0.2s ease, transform 0.2s ease;
   }
   .video-modal-close:hover { background: var(--green-light); transform: scale(1.05); }
   .video-modal-close:focus-visible { outline: 3px solid var(--white); outline-offset: 2px; }
-  .video-modal-close svg { width: 16px; height: 16px; stroke: var(--dark); stroke-width: 3; fill: none; stroke-linecap: round; }
+  .video-modal-close svg { width: 15px; height: 15px; stroke: var(--dark); stroke-width: 3; fill: none; stroke-linecap: round; }
   @media (max-width: 600px) {
     .video-modal { padding: 0.75rem; align-items: center; }
-    .video-modal-inner {
-      /* Let height be driven by aspect ratio + width, but cap at 80vh so Close button stays visible */
-      max-height: 80vh;
-    }
+    .video-modal-inner { max-height: 80vh; }
     .video-modal-close {
-      /* Move Close INSIDE the video area on mobile so it can't get pushed off-screen */
       top: 10px;
       right: 10px;
-      padding: 0.5rem 0.85rem 0.5rem 0.7rem;
-      font-size: 0.85rem;
-      z-index: 2;
-      background: rgba(60,196,64,0.95);
-      backdrop-filter: blur(4px);
+      padding: 0.45rem 0.85rem 0.45rem 0.7rem;
+      font-size: 0.8rem;
     }
-    .video-modal-close svg { width: 14px; height: 14px; }
+    .video-modal-close svg { width: 13px; height: 13px; }
     .play-video-btn { padding: 1.5rem 0.85rem 0.85rem; gap: 0.6rem; }
     .play-video-icon { width: 34px; height: 34px; }
     .play-video-icon svg { width: 12px; height: 12px; }
