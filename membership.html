@@ -199,14 +199,47 @@
     text-align: center;
     padding: 0.65rem 2rem;
     font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.95rem;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     cursor: pointer;
     transition: background 0.2s;
+    overflow: hidden;
+  }
+  .alert-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.55) 50%,
+      rgba(255,255,255,0) 100%
+    );
+    transform: skewX(-20deg);
+    animation: alertShimmer 3.2s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @keyframes alertShimmer {
+    0%   { left: -75%; }
+    60%  { left: 125%; }
+    100% { left: 125%; }
   }
   .alert-bar:hover { background: #e07c00; }
-  .alert-bar a { color: white; text-decoration: none; }
+  .alert-bar a {
+    color: white;
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .alert-bar::before { animation: none; display: none; }
+  }
 
   /* ===== PAGE WRAPPER ===== */
   .page { display: none; padding-top: 108px; min-height: 100vh; }
@@ -1496,8 +1529,8 @@
 
 <!-- ALERT BAR -->
 <div class="alert-bar">
-  <a href="https://app.courtreserve.com" target="_blank">
-    Click Here to Access the Member Portal — Book courts, register for events &amp; manage your account. Download the app: <strong>"LevelUp Pickleball Club"</strong>
+  <a href="#pricing">
+    🎉 LIMITED TIME: INITIATION FEE WAIVED — AUTO-APPLIED AT CHECKOUT · ENDING SOON
   </a>
 </div>
 
