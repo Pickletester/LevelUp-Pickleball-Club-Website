@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-31TFRX7MMP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-31TFRX7MMP');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Pro | LevelUp Pickleball Club — Canonsburg, PA</title>
+  <meta name="description" content="Book a private lesson with one of LevelUp Pickleball Club's professional instructors in Canonsburg, PA.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://leveluppickleballclub.com/pro">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/pro.css">
+</head>
+<body>
+
+<nav id="mainNav">
+  <a class="nav-logo" href="/">
+    <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png" alt="LevelUp Pickleball Club" style="height:48px;width:auto;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/membership">Membership</a></li>
+    <li><a href="/play">Play</a></li>
+    <li><a href="/learn">Learn</a></li>
+    <li><a href="/pros" id="nav-pros">Our Pros</a></li>
+    <li><a href="/events">Private Events</a></li>
+    <li><a href="/faq">FAQ</a></li>
+    <li><a href="/golf-sim">⛳ Golf Sim</a></li>
+    <li><a href="https://app.courtreserve.com" target="_blank" class="nav-portal">Member Portal</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="toggleMobileMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">Home</a>
+  <a href="/membership">Membership</a>
+  <a href="/play">Play</a>
+  <a href="/learn">Learn</a>
+  <a href="/pros">Our Pros</a>
+  <a href="/events">Private Events</a>
+  <a href="/faq">FAQ</a>
+  <a href="/golf-sim">⛳ Golf Sim</a>
+  <a href="https://app.courtreserve.com" target="_blank">Member Portal ↗</a>
+</div>
+
+<div class="alert-bar">
+  <a href="https://app.courtreserve.com" target="_blank">
+    Click Here to Access the Member Portal — Book courts, register for events &amp; manage your account. Download the app: <strong>"LevelUp Pickleball Club"</strong>
+  </a>
+</div>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="section-tag">Private Lessons</div>
+    <h1>BOOK <span>BRENDEN</span></h1>
+    <p>Book a private lesson with Brenden Dollard — LevelUp's Head Pro. All skill levels welcome.</p>
+  </div>
+</div>
+
+<!-- FORM -->
+    <div class="book-form-wrap" id="bookFormWrap">
+      <!-- Brenden photo banner -->
+      <div style="position:relative;height:280px;overflow:hidden;">
+        <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/instructors/Brenden%20teaching%2002.webp" alt="Brenden Dollard" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(13,15,26,0.9) 0%,transparent 60%);"></div>
+        <div style="position:absolute;bottom:1.5rem;left:2rem;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:0.25rem;">Head Pro</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:white;line-height:1;">Brenden Dollard</div>
+        </div>
+      </div>
+      <div class="book-form-header">
+        <div class="book-form-step">1</div>
+        <h3>Fill Out Your Lesson Request</h3>
+      </div>
+      <div class="book-form-body">
+
+        <form id="proBookForm" onsubmit="handleProSubmit(event, this)">
+          <input type="hidden" name="access_key" value="edd7b90f-6051-4ec8-a1eb-526c8da06d9f">
+          <input type="hidden" name="subject" value="New Lesson Request — Brenden Dollard">
+          <input type="hidden" name="from_name" value="LevelUp Pro Booking">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name *</label>
+              <input type="text" name="first_name" placeholder="First name" required>
+            </div>
+            <div class="form-group">
+              <label>Last Name *</label>
+              <input type="text" name="last_name" placeholder="Last name" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" name="email" placeholder="you@email.com" required>
+            </div>
+            <div class="form-group">
+              <label>Phone *</label>
+              <input type="tel" name="phone" placeholder="(412) 555-0000" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Skill Level</label>
+              <div class="select-wrap">
+                <select name="skill_level">
+                  <option value="">Choose one...</option>
+                  <option>Beginner (2.0–2.9)</option>
+                  <option>Intermediate (3.0–3.9)</option>
+                  <option>Advanced (4.0+)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Lesson Type *</label>
+              <div class="select-wrap">
+                <select name="lesson_type" required>
+                  <option value="">Choose one...</option>
+                  <option>Private (1-on-1)</option>
+                  <option>Semi-Private (2 players)</option>
+                  <option>Group (3+ players)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Preferred Date</label>
+              <input type="date" name="preferred_date" id="proDate">
+            </div>
+            <div class="form-group">
+              <label>Preferred Time</label>
+              <div class="select-wrap">
+                <select name="preferred_time">
+                  <option value="">Choose one...</option>
+                  <option>Morning (7am–12pm)</option>
+                  <option>Afternoon (12pm–5pm)</option>
+                  <option>Evening (5pm–10pm)</option>
+                  <option>Flexible</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group full">
+              <label>Lesson Length</label>
+              <div class="select-wrap">
+                <select name="lesson_length">
+                  <option value="">Choose one...</option>
+                  <option>30 minutes</option>
+                  <option>1 hour</option>
+                  <option>1.5 hours</option>
+                  <option>2 hours</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group full">
+              <label>Additional Notes</label>
+              <textarea name="message" placeholder="What do you want to work on? Any injuries or limitations we should know about?"></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="form-submit" id="proSubmitBtn">📋 Request Lesson</button>
+        </form>
+
+        <div class="form-success" id="proFormSuccess">
+          <div class="check-icon">✅</div>
+          <h3>Request Sent!</h3>
+          <p>We'll be in touch within 24 hours to confirm your lesson details.<br><br>Questions? Call us at <a href="tel:4122065755" style="color:var(--green);">412-206-5755</a></p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<section class="trust-bar">
+  <div class="container">
+    <div class="trust-grid">
+      <div class="trust-item">
+        <div class="trust-icon">⚡</div>
+        <div>
+          <div class="trust-label">Fast Response</div>
+          <div class="trust-sub">Within 24 hours</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">🏆</div>
+        <div>
+          <div class="trust-label">Pro Instructors</div>
+          <div class="trust-sub">Certified & experienced</div>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">💳</div>
+        <div>
+          <div class="trust-label">Pay at the Club</div>
+          <div class="trust-sub">No upfront payment</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2025 LevelUp Pickleball Club · 33 Mayview Road, Canonsburg, PA 15317 · 412-206-5755</p>
+    </div>
+  </div>
+</footer>
+
+<!-- LEGAL MODAL -->
+<div id="legalModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(13,15,26,0.92);backdrop-filter:blur(6px);overflow-y:auto;">
+  <div style="max-width:780px;margin:3rem auto;background:var(--off-white);border-radius:12px;overflow:hidden;">
+    <div style="background:var(--navy);padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;">
+      <div id="legalModalTitle" style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:white;"></div>
+      <button onclick="closeLegalModal()" style="background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">✕</button>
+    </div>
+    <div id="legalModalContent" style="padding:2rem;color:#333;font-size:0.9rem;line-height:1.8;max-height:75vh;overflow-y:auto;"></div>
+  </div>
+</div>
+
+<script>
+  // Set min date
+  var d = document.getElementById('proDate');
+  if (d) d.min = new Date().toISOString().split('T')[0];
+
+  function handleProSubmit(e, form) {
+    e.preventDefault();
+    var btn = document.getElementById('proSubmitBtn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: new FormData(form)
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.success) {
+        document.getElementById('proBookForm').style.display = 'none';
+        var success = document.getElementById('proFormSuccess');
+        success.style.display = 'block';
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        btn.textContent = '📋 Request Lesson';
+        btn.disabled = false;
+        alert('Something went wrong. Please call us at 412-206-5755');
+      }
+    }).catch(function() {
+      btn.textContent = '📋 Request Lesson';
+      btn.disabled = false;
+      alert('Something went wrong. Please call us at 412-206-5755');
+    });
+  }
+
+  function showPage(page) {
+    window.location.href = '/' + page;
+  }
+
+  function toggleMobileMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  function closeLegalModal() {
+    document.getElementById('legalModal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // Scroll nav effect
+  window.addEventListener('scroll', function() {
+    var nav = document.getElementById('mainNav');
+    if (window.scrollY > 30) nav.style.boxShadow = '0 4px 30px rgba(0,0,0,0.5)';
+    else nav.style.boxShadow = '';
+  });
+</script>
+
+</body>
+</html>
