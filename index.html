@@ -432,7 +432,6 @@
         <form class="newsletter-form" action="https://api.web3forms.com/submit" method="POST" onsubmit="handleNewsletterSubmit(event, this)">
           <input type="hidden" name="access_key" value="b454642d-e81f-48f4-8fdd-5cb207eb2676">
           <input type="hidden" name="subject" value="New Newsletter Signup — LevelUp Pickleball">
-          <input type="hidden" name="from_name" value="LevelUp Website">
           <div class="newsletter-row">
             <div class="form-group">
               <label>First Name</label>
@@ -457,6 +456,7 @@
             <label>Message (optional)</label>
             <textarea name="message" placeholder="Ask us anything..."></textarea>
           </div>
+          <input type="hidden" name="from_name" value="LevelUp Website">
           <button type="submit" class="btn btn-green form-submit">Send It →</button>
         </form>
       </div>
