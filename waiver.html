@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#131d4f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>LevelUp Pickleball Club — Visitor Consent</title>
+<link rel="icon" type="image/png" href="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #3CC440;
+  --green-dark: #2aa32e;
+  --green-light: #7EE882;
+  --navy: #1E2B6E;
+  --navy-dark: #131d4f;
+  --orange: #F5900A;
+  --white: #ffffff;
+  --dark: #0D0F1A;
+  --gray: #8A8F9E;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--dark);
+  color: var(--white);
+  overflow-x: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Prevent iOS zoom on input focus */
+input, select, textarea, button { font-size: 16px; }
+
+/* ───── NAV ───── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--navy-dark);
+  border-bottom: 3px solid var(--green);
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding-top: env(safe-area-inset-top);
+  height: calc(60px + env(safe-area-inset-top));
+}
+.nav-logo img { height: 40px; width: auto; display: block; }
+.nav-badge {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(60,196,64,0.12);
+  border: 1px solid rgba(60,196,64,0.3);
+  color: var(--green);
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* ───── PROGRESS ───── */
+.progress-wrap {
+  height: 3px;
+  background: rgba(255,255,255,0.07);
+  position: sticky;
+  top: calc(60px + env(safe-area-inset-top));
+  z-index: 999;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* ───── HERO ───── */
+.page-hero {
+  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+  padding: 2rem 1.25rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(60,196,64,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(60,196,64,0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+.page-hero-content { position: relative; z-index: 1; }
+.section-tag {
+  display: inline-block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--green);
+  color: var(--dark);
+  padding: 0.25rem 0.7rem;
+  border-radius: 2px;
+  margin-bottom: 0.6rem;
+}
+.page-hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 11vw, 4rem);
+  line-height: 0.95;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+}
+.page-hero h1 span { color: var(--green); }
+.page-hero p {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+/* ───── STEP PIPS ───── */
+.steps-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 360px;
+  margin: 1.5rem auto 0;
+  padding: 0 0.5rem;
+  position: relative;
+}
+.step-pip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+.pip-circle {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--navy-dark);
+  border: 2px solid rgba(255,255,255,0.18);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.35);
+  transition: all 0.3s;
+}
+.pip-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  transition: color 0.3s;
+  white-space: nowrap;
+}
+.step-pip.active .pip-circle { background: var(--green); border-color: var(--green); color: var(--dark); }
+.step-pip.active .pip-label { color: var(--green); }
+.step-pip.done .pip-circle { background: var(--green-dark); border-color: var(--green-dark); color: var(--dark); }
+.step-pip.done .pip-label { color: var(--green); }
+
+/* connector line behind pips */
+.steps-row::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 30px;
+  right: 30px;
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  z-index: 1;
+}
+.steps-row::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 30px;
+  height: 2px;
+  background: var(--green-dark);
+  z-index: 1;
+  width: 0;
+  transition: width 0.4s ease;
+}
+.steps-row[data-progress="0"]::after { width: 0; }
+.steps-row[data-progress="1"]::after { width: calc(33.33% - 10px); }
+.steps-row[data-progress="2"]::after { width: calc(66.66% - 20px); }
+.steps-row[data-progress="3"]::after { width: calc(100% - 60px); }
+
+/* ───── WRAPPER ───── */
+.wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 6rem;
+}
+
+.step { display: none; }
+.step.active { display: block; animation: fadeUp 0.3s ease; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ───── CARDS ───── */
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.85rem;
+}
+.card-head {
+  background: var(--navy);
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.head-icon {
+  width: 28px; height: 28px;
+  background: var(--green);
+  color: var(--dark);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.card-head h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.card-body { padding: 1rem; }
+
+/* ───── FORM FIELDS ───── */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 0.85rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.85rem; }
+.form-group:last-child { margin-bottom: 0; }
+
+.form-group label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+.form-group label .req { color: var(--green); }
+
+.form-group input,
+.form-group select {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 0.85rem 0.9rem;
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 16px; /* prevents iOS zoom */
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 48px;
+}
+.form-group input:focus,
+.form-group select:focus { border-color: var(--green); background: rgba(255,255,255,0.1); }
+.form-group input::placeholder { color: rgba(255,255,255,0.25); }
+.form-group select option { background: var(--navy-dark); }
+
+/* iOS date input fix */
+input[type="date"] {
+  display: block;
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 48px;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) opacity(0.5);
+  cursor: pointer;
+}
+
+.field-err { font-size: 0.75rem; color: #ff6666; margin-top: 2px; display: none; }
+.form-group.has-error .field-err { display: block; }
+.form-group.has-error input { border-color: #ff5555; }
+
+/* ───── TOGGLE ───── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  user-select: none;
+  min-height: 44px;
+}
+.toggle-row input[type="checkbox"] { display: none; }
+.tog-track {
+  width: 48px; height: 28px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 14px;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.tog-track::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 22px; height: 22px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  transition: transform 0.2s, background 0.2s;
+}
+.toggle-row input:checked ~ .tog-track { background: var(--green); }
+.toggle-row input:checked ~ .tog-track::after { transform: translateX(20px); background: var(--dark); }
+.tog-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.3;
+}
+
+/* ───── MINORS ───── */
+.minors-area { display: none; }
+.minors-area.open { display: block; }
+.minor-entry {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.65rem;
+}
+.minor-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+.rm-btn {
+  background: transparent;
+  border: 1px solid rgba(255,102,102,0.3);
+  color: #ff6666;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 4px;
+  min-height: 32px;
+}
+.add-minor-btn {
+  width: 100%;
+  background: transparent;
+  border: 1.5px dashed rgba(60,196,64,0.45);
+  color: var(--green);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  min-height: 48px;
+}
+.add-minor-btn:active { background: rgba(60,196,64,0.12); border-color: var(--green); }
+
+/* ───── WAIVER ───── */
+.waiver-wrap {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.waiver-box {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+  max-height: 240px;
+  overflow-y: auto;
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.55);
+  -webkit-overflow-scrolling: touch;
+}
+.waiver-box::-webkit-scrollbar { width: 4px; }
+.waiver-box::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+.waiver-box h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin: 1rem 0 0.4rem;
+}
+.waiver-box h3:first-child { margin-top: 0; }
+.waiver-box p { margin-bottom: 0.55rem; }
+.waiver-box strong { color: rgba(255,255,255,0.78); }
+
+/* scroll fade indicator */
+.waiver-fade {
+  position: absolute;
+  bottom: 0; left: 1px; right: 1px;
+  height: 30px;
+  background: linear-gradient(to top, rgba(13,15,26,0.95), transparent);
+  pointer-events: none;
+  border-radius: 0 0 8px 8px;
+  transition: opacity 0.2s;
+}
+.waiver-fade.hidden { opacity: 0; }
+
+.waiver-hint {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* ───── CHECKBOXES ───── */
+.check-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-bottom: 0.85rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  min-height: 44px;
+}
+.check-item:last-child { margin-bottom: 0; }
+.check-item input[type="checkbox"] { display: none; }
+.check-box {
+  width: 24px; height: 24px;
+  background: rgba(255,255,255,0.07);
+  border: 1.5px solid rgba(255,255,255,0.22);
+  border-radius: 5px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  margin-top: 1px;
+}
+.check-item input:checked + .check-box { background: var(--green); border-color: var(--green); }
+.check-item input:checked + .check-box svg { display: block; }
+.check-box svg { display: none; }
+.check-text { font-size: 0.9rem; line-height: 1.5; color: rgba(255,255,255,0.82); }
+.check-text .req { color: var(--green); }
+
+/* ───── SIGNATURE ───── */
+.sig-wrap {
+  border: 1.5px solid rgba(255,255,255,0.18);
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+.sig-ghost {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.18);
+  pointer-events: none;
+  transition: opacity 0.2s;
+  text-align: center;
+}
+.sig-line {
+  position: absolute;
+  bottom: 30%;
+  left: 8%; right: 8%;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  pointer-events: none;
+}
+canvas {
+  display: block;
+  width: 100%;
+  height: 180px;
+  cursor: crosshair;
+  touch-action: none;
+}
+.sig-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.15);
+}
+.sig-status {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+.sig-status.signed { color: var(--green); }
+.sig-clear-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: var(--gray);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  min-height: 32px;
+}
+.sig-clear-btn:active { border-color: #ff6666; color: #ff6666; }
+
+/* ───── INFO NOTE ───── */
+.info-note {
+  background: rgba(60,196,64,0.08);
+  border: 1px solid rgba(60,196,64,0.22);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.info-note strong { color: var(--green); }
+
+/* ───── MINOR CONSENT ITEMS ───── */
+.minor-ci {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 0.45rem;
+  font-size: 0.88rem;
+}
+.minor-ci strong { color: var(--white); display: block; margin-bottom: 2px; }
+.minor-ci span { color: var(--gray); font-size: 0.78rem; }
+
+/* ───── BUTTONS ───── */
+.btn-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+.btn {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.95rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex: 1;
+  min-height: 52px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.btn-back {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: var(--gray);
+  flex: 0 0 auto;
+  padding: 0.95rem 1.1rem;
+}
+.btn-back:active { border-color: var(--green); color: var(--green); }
+.btn-green { background: var(--green); color: var(--dark); }
+.btn-green:active { background: var(--green-dark); transform: scale(0.98); }
+
+/* sticky bottom button bar on small screens */
+@media (max-width: 600px) {
+  .btn-row.sticky-bottom {
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(to top, var(--dark) 60%, rgba(13,15,26,0));
+    padding: 1rem 0 calc(1rem + env(safe-area-inset-bottom));
+    margin: 1.25rem -1rem 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    z-index: 10;
+  }
+}
+
+/* ───── SUCCESS ───── */
+.success-screen { display: none; text-align: center; padding: 3rem 1.25rem; }
+.success-screen.visible { display: block; animation: fadeUp 0.4s ease; }
+.suc-icon {
+  width: 72px; height: 72px;
+  background: var(--green);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.25rem;
+  font-size: 2rem;
+  color: var(--dark);
+  box-shadow: 0 0 0 8px rgba(60,196,64,0.12);
+}
+.success-screen h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 10vw, 3.5rem);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.success-screen h2 span { color: var(--green); }
+.success-screen p {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  max-width: 380px;
+  margin: 0 auto 1.5rem;
+}
+.suc-box {
+  background: var(--navy);
+  border: 1px solid rgba(60,196,64,0.22);
+  border-radius: 10px;
+  padding: 1.25rem;
+  max-width: 380px;
+  margin: 0 auto;
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.65;
+}
+.suc-box strong {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 0.4rem;
+}
+
+/* ───── FOOTER ───── */
+footer {
+  background: var(--navy-dark);
+  border-top: 3px solid var(--green);
+  padding: 1.25rem 1rem;
+  padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+  text-align: center;
+}
+footer p {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.3);
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+}
+footer a { color: inherit; }
+
+/* ───── MEDIA QUERIES ───── */
+@media (min-width: 601px) {
+  nav { padding: 0 2rem; height: 68px; }
+  .nav-logo img { height: 48px; }
+  .nav-badge { font-size: 0.78rem; padding: 0.4rem 1rem; }
+  .progress-wrap { top: 68px; }
+  .page-hero { padding: 3.5rem 2rem 3rem; }
+  .page-hero h1 { font-size: clamp(3rem, 8vw, 5.5rem); margin-bottom: 0.75rem; }
+  .page-hero p { font-size: 1rem; max-width: 480px; }
+  .steps-row { max-width: 480px; margin-top: 2rem; padding: 0; }
+  .pip-circle { width: 34px; height: 34px; font-size: 1rem; }
+  .pip-label { font-size: 0.65rem; letter-spacing: 0.1em; }
+  .steps-row::before, .steps-row::after { top: 16px; left: 34px; right: 34px; }
+  .steps-row[data-progress="1"]::after { width: calc(33.33% - 12px); }
+  .steps-row[data-progress="2"]::after { width: calc(66.66% - 24px); }
+  .steps-row[data-progress="3"]::after { width: calc(100% - 68px); }
+  .wrapper { padding: 2.5rem 1.5rem 5rem; }
+  .card { border-radius: 12px; margin-bottom: 1.25rem; }
+  .card-head { padding: 1rem 1.5rem; }
+  .head-icon { width: 30px; height: 30px; }
+  .card-head h3 { font-size: 1rem; letter-spacing: 0.1em; }
+  .card-body { padding: 1.5rem; }
+  .form-row { gap: 1rem; }
+  .waiver-box { max-height: 300px; padding: 1.25rem 1.5rem; }
+  canvas { height: 160px; }
+}
+
+@media (min-width: 768px) {
+  .form-row { gap: 1rem; }
+}
+
+/* prevent overscroll bounce showing white */
+html { background: var(--dark); }
+
+/* better landscape handling on phones */
+@media (max-height: 500px) and (orientation: landscape) {
+  .page-hero { padding: 1.5rem 1.25rem 1rem; }
+  .steps-row { margin-top: 1rem; }
+  canvas { height: 140px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://leveluppickleballclub.com">
+    <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png" alt="LevelUp Pickleball Club">
+  </a>
+  <div class="nav-badge">Visitor Check-In</div>
+</nav>
+<div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="section-tag">Non-Member</div>
+    <h1>Visitor <span>Consent</span></h1>
+    <p>Complete this quick form before your first visit. Covers our facility policies, liability waiver, and recording consent.</p>
+    <div class="steps-row" id="stepsRow" data-progress="0">
+      <div class="step-pip active" id="pip1"><div class="pip-circle">1</div><div class="pip-label">Info</div></div>
+      <div class="step-pip" id="pip2"><div class="pip-circle">2</div><div class="pip-label">Waiver</div></div>
+      <div class="step-pip" id="pip3"><div class="pip-circle">3</div><div class="pip-label">Minors</div></div>
+      <div class="step-pip" id="pip4"><div class="pip-circle">4</div><div class="pip-label">Sign</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper">
+
+  <!-- STEP 1 -->
+  <div class="step active" id="step1">
+    <div class="card">
+      <div class="card-head">
+        <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <h3>Personal Information</h3>
+      </div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group" id="fg-first">
+            <label>First Name <span class="req">*</span></label>
+            <input type="text" id="firstName" placeholder="Jane" autocomplete="given-name" autocapitalize="words">
+            <div class="field-err">Required</div>
+          </div>
+          <div class="form-group" id="fg-last">
+            <label>Last Name <span class="req">*</span></label>
+            <input type="text" id="lastName" placeholder="Smith" autocomplete="family-name" autocapitalize="words">
+            <div class="field-err">Required</div>
+          </div>
+        </div>
+        <div class="form-group" id="fg-dob">
+          <label>Date of Birth <span class="req">*</span></label>
+          <input type="date" id="dob" autocomplete="bday">
+          <div class="field-err">Required</div>
+        </div>
+        <div class="form-group" id="fg-email">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="jane@example.com" autocomplete="email" inputmode="email" autocapitalize="off">
+          <div class="field-err">Valid email required</div>
+        </div>
+        <div class="form-group" id="fg-phone">
+          <label>Phone Number <span class="req">*</span></label>
+          <input type="tel" id="phone" placeholder="(412) 555-0100" autocomplete="tel" inputmode="tel">
+          <div class="field-err">Required</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Minors / Children</h3>
+      </div>
+      <div class="card-body">
+        <label class="toggle-row">
+          <input type="checkbox" id="hasMinors" onchange="toggleMinors()">
+          <div class="tog-track"></div>
+          <span class="tog-label">Bringing a minor under 18</span>
+        </label>
+        <div class="minors-area" id="minorsArea">
+          <div id="minorsList"></div>
+          <button class="add-minor-btn" onclick="addMinor()">+ Add Minor</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row sticky-bottom">
+      <button class="btn btn-green" onclick="goStep(2)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="step2">
+    <div class="card">
+      <div class="card-head">
+        <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <h3>Waiver &amp; Release</h3>
+      </div>
+      <div class="card-body">
+        <div class="waiver-wrap">
+          <div class="waiver-box" id="waiverBox">
+            <h3>Assumption of Risk</h3>
+            <p>You acknowledge that there are inherent risks involved with any fitness, sports, and physical activity, including the use of courts and equipment, and participation in activities such as pickleball, badminton, and table tennis. Such risks may include serious bodily injury or death. You knowingly and voluntarily assume all risks of liability, loss, illness, death, or injury caused or arising out of the use of LevelUp Pickleball Club courts, equipment, services, facilities, or your participation in any activities at LevelUp Pickleball Club.</p>
+            <h3>Health Attestation</h3>
+            <p>You attest that you are fully able to participate in pickleball, badminton, table tennis, and other physical activities at the facility without undue risk, and you are not aware of any medical condition that would prevent safe participation.</p>
+            <h3>Rules &amp; Conduct</h3>
+            <p>You shall abide by all safety guidelines, rules, instructions, signage, and regulations set by LevelUp Pickleball Club. You and your guests shall abide by LevelUp Pickleball Club's dress code at all times. Consumption of illegal drugs, tobacco products, or similar addictive substances is strictly prohibited. Violence of any kind is not permitted and will result in removal from the facility.</p>
+            <h3>Release of Liability</h3>
+            <p>To the maximum extent permitted by law, you release, waive, and discharge LevelUp Pickleball Club, LLC, its owners, officers, employees, agents, and affiliates ("Released Parties") from any and all claims, demands, damages, or liability arising out of your participation in any activities at LevelUp Pickleball Club, including claims arising from negligence of the Released Parties.</p>
+            <h3>Audio &amp; Video Recording</h3>
+            <p>LevelUp Pickleball Club's facilities — including all courts, common areas, lobbies, and surrounding premises — are equipped with audio and video recording systems that operate continuously. By entering the facility, you expressly consent to being recorded at all times while on the premises. This consent is given in accordance with the <strong>Pennsylvania Wiretap Act (18 Pa. C.S. § 5703)</strong> and all applicable federal and state laws.</p>
+            <h3>Media Release</h3>
+            <p>You grant LevelUp Pickleball Club, LLC a perpetual, worldwide, royalty-free license to use, reproduce, edit, publish, and distribute any audio, video, photographs, or other media captured of you while on premises for any lawful purpose, including marketing, social media, highlight reels, and instructional content. <strong>If you do not wish to grant this license, notify us at membership@LevelUpPickleballClub.com before your visit.</strong></p>
+            <h3>Arbitration</h3>
+            <p>Any disputes arising out of or related to this agreement shall be resolved through binding individual arbitration. Both parties waive the right to a jury trial and to class actions or representative proceedings.</p>
+            <h3>Governing Law</h3>
+            <p>This agreement is governed by the laws of the Commonwealth of Pennsylvania.</p>
+          </div>
+          <div class="waiver-fade" id="waiverFade"></div>
+        </div>
+        <p class="waiver-hint">↑ Scroll to read full waiver</p>
+
+        <label class="check-item"><input type="checkbox" id="ack1"><div class="check-box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I have read and understand the full Participant Agreement and Waiver. <span class="req">*</span></span></label>
+        <label class="check-item"><input type="checkbox" id="ack2"><div class="check-box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I voluntarily assume all risks associated with participation. <span class="req">*</span></span></label>
+        <label class="check-item"><input type="checkbox" id="ack3"><div class="check-box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I consent to audio and video recording per the Pennsylvania Wiretap Act. <span class="req">*</span></span></label>
+        <label class="check-item"><input type="checkbox" id="ack4"><div class="check-box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I grant LevelUp Pickleball Club a media license to use my likeness for marketing. <span class="req">*</span></span></label>
+        <label class="check-item"><input type="checkbox" id="ack5"><div class="check-box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I agree to binding individual arbitration, waiving jury trial and class actions. <span class="req">*</span></span></label>
+      </div>
+    </div>
+    <div class="btn-row sticky-bottom">
+      <button class="btn btn-back" onclick="goStep(1)">← Back</button>
+      <button class="btn btn-green" onclick="goStep(3)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="step3">
+    <div class="card" id="minorConsentCard">
+      <div class="card-head">
+        <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Guardian Consent</h3>
+      </div>
+      <div class="card-body">
+        <div class="info-note">As parent or legal guardian, you consent on behalf of each minor below to <strong>all waiver terms</strong> — including risk assumption, liability release, and recording consent.</div>
+        <div id="minorConsentList" style="margin-bottom:0.85rem;"></div>
+        <label class="check-item"><input type="checkbox" id="minorConsent"><div class="check-box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I consent to all waiver terms on behalf of the minor(s) above and confirm I have legal authority to do so. <span class="req">*</span></span></label>
+      </div>
+    </div>
+    <div class="card" id="noMinorCard" style="display:none;">
+      <div class="card-head">
+        <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <h3>No Minors</h3>
+      </div>
+      <div class="card-body">
+        <p style="color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.6;">No minors to add — tap Continue to proceed to your signature.</p>
+      </div>
+    </div>
+    <div class="btn-row sticky-bottom">
+      <button class="btn btn-back" onclick="goStep(2)">← Back</button>
+      <button class="btn btn-green" onclick="goStep(4)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step" id="step4">
+    <div class="card">
+      <div class="card-head">
+        <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+        <h3>Your Signature</h3>
+      </div>
+      <div class="card-body">
+        <p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin-bottom:0.85rem;line-height:1.55;">Sign with your finger below. This is your electronic signature confirming agreement to all terms.</p>
+        <div class="sig-wrap">
+          <canvas id="sigCanvas"></canvas>
+          <div class="sig-line"></div>
+          <div class="sig-ghost" id="sigGhost">Sign here</div>
+        </div>
+        <div class="sig-bar">
+          <span class="sig-status" id="sigStatus">Not signed</span>
+          <button class="sig-clear-btn" onclick="clearSig()">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h3>Final Confirmation</h3>
+      </div>
+      <div class="card-body">
+        <label class="check-item"><input type="checkbox" id="finalConfirm"><div class="check-box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I confirm all information is accurate and I agree to all terms. <span class="req">*</span></span></label>
+      </div>
+    </div>
+
+    <div class="btn-row sticky-bottom">
+      <button class="btn btn-back" onclick="goStep(3)">← Back</button>
+      <button class="btn btn-green" onclick="submitForm()">Submit ✓</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="successScreen">
+    <div class="suc-icon">✓</div>
+    <h2>You're <span>All Set!</span></h2>
+    <p>Your visitor consent has been submitted. Welcome to LevelUp Pickleball Club!</p>
+    <div class="suc-box">
+      <strong>What's Next</strong>
+      Let the front desk know you've completed your waiver. They'll get you checked in and on the courts.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 LevelUp Pickleball Club, LLC<br>33 Mayview Rd, Canonsburg, PA 15317<br><a href="mailto:membership@leveluppickleballclub.com">membership@leveluppickleballclub.com</a></p>
+</footer>
+
+<script>
+let cur = 1, minorCount = 0, sigDrawn = false, canvas, ctx;
+
+function goStep(n) {
+  if (n > cur && !validate(cur)) return;
+  if (n === 3) buildStep3();
+  document.getElementById('step' + cur).classList.remove('active');
+  cur = n;
+  document.getElementById('step' + cur).classList.add('active');
+  updateUI();
+  // smooth scroll to top of step content, not all the way up
+  setTimeout(() => {
+    const wrapper = document.querySelector('.wrapper');
+    wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+  if (n === 4) setTimeout(initCanvas, 150);
+}
+
+function updateUI() {
+  document.getElementById('progressFill').style.width = ((cur - 1) / 4 * 100) + '%';
+  document.getElementById('stepsRow').setAttribute('data-progress', cur - 1);
+  for (let i = 1; i <= 4; i++) {
+    const p = document.getElementById('pip' + i);
+    p.className = 'step-pip' + (i < cur ? ' done' : i === cur ? ' active' : '');
+  }
+}
+
+function validate(n) {
+  if (n === 1) return v1();
+  if (n === 2) return v2();
+  if (n === 3) return v3();
+  return true;
+}
+
+function fld(iid, gid, email) {
+  const el = document.getElementById(iid), gr = document.getElementById(gid);
+  let ok = el.value.trim() !== '';
+  if (ok && email) ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value);
+  gr.classList.toggle('has-error', !ok);
+  if (!ok && el === document.activeElement === false) {
+    // scroll first error into view
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  return ok;
+}
+
+function v1() {
+  const checks = [
+    fld('firstName','fg-first'),
+    fld('lastName','fg-last'),
+    fld('dob','fg-dob'),
+    fld('email','fg-email', true),
+    fld('phone','fg-phone')
+  ];
+  if (!checks.every(Boolean)) {
+    // scroll to first error
+    const firstErr = document.querySelector('.form-group.has-error');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return false;
+  }
+  return true;
+}
+
+function v2() {
+  if (['ack1','ack2','ack3','ack4','ack5'].some(id => !document.getElementById(id).checked)) {
+    showToast('Please check all boxes to acknowledge the waiver');
+    return false;
+  }
+  return true;
+}
+
+function v3() {
+  if (document.getElementById('hasMinors').checked && !document.getElementById('minorConsent').checked) {
+    showToast('Please check the guardian consent box');
+    return false;
+  }
+  return true;
+}
+
+// lightweight toast instead of alert
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#ff4444;color:white;padding:12px 20px;border-radius:8px;font-family:Barlow Condensed,sans-serif;font-weight:600;font-size:0.9rem;letter-spacing:0.04em;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.4);max-width:90%;text-align:center;opacity:0;transition:opacity 0.3s;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2800);
+}
+
+function toggleMinors() {
+  const on = document.getElementById('hasMinors').checked;
+  document.getElementById('minorsArea').classList.toggle('open', on);
+  if (on && minorCount === 0) addMinor();
+}
+
+function addMinor() {
+  minorCount++;
+  const n = minorCount;
+  const d = document.createElement('div');
+  d.className = 'minor-entry'; d.id = 'minor-' + n;
+  d.innerHTML = `<div class="minor-head"><span>Minor #${n}</span><button class="rm-btn" onclick="removeMinor(${n})">✕ Remove</button></div>
+    <div class="form-row">
+      <div class="form-group"><label>First Name</label><input type="text" id="mF${n}" placeholder="First" autocapitalize="words"></div>
+      <div class="form-group"><label>Last Name</label><input type="text" id="mL${n}" placeholder="Last" autocapitalize="words"></div>
+    </div>
+    <div class="form-group"><label>Date of Birth</label><input type="date" id="mD${n}"></div>`;
+  document.getElementById('minorsList').appendChild(d);
+}
+
+function removeMinor(n) { const e = document.getElementById('minor-'+n); if(e) e.remove(); }
+
+function buildStep3() {
+  const has = document.getElementById('hasMinors').checked;
+  document.getElementById('minorConsentCard').style.display = has ? '' : 'none';
+  document.getElementById('noMinorCard').style.display = has ? 'none' : '';
+  if (has) {
+    const list = document.getElementById('minorConsentList');
+    list.innerHTML = '';
+    document.querySelectorAll('.minor-entry').forEach(e => {
+      const id = e.id.replace('minor-','');
+      const fn = (document.getElementById('mF'+id)||{}).value||'—';
+      const ln = (document.getElementById('mL'+id)||{}).value||'—';
+      const dob = (document.getElementById('mD'+id)||{}).value||'—';
+      list.innerHTML += `<div class="minor-ci"><strong>${fn} ${ln}</strong><span>DOB: ${dob}</span></div>`;
+    });
+  }
+}
+
+// hide waiver fade once scrolled to bottom
+document.addEventListener('DOMContentLoaded', () => {
+  const wb = document.getElementById('waiverBox');
+  const wf = document.getElementById('waiverFade');
+  if (wb && wf) {
+    wb.addEventListener('scroll', () => {
+      if (wb.scrollTop + wb.clientHeight >= wb.scrollHeight - 10) {
+        wf.classList.add('hidden');
+      } else {
+        wf.classList.remove('hidden');
+      }
+    });
+  }
+});
+
+function initCanvas() {
+  canvas = document.getElementById('sigCanvas');
+  if (!canvas) return;
+  ctx = canvas.getContext('2d');
+  resizeCanvas();
+  ctx.strokeStyle = '#3CC440';
+  ctx.lineWidth = 2.8;
+  ctx.lineCap = ctx.lineJoin = 'round';
+
+  let drawing = false;
+
+  const pos = e => {
+    const r = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - r.left, y: t.clientY - r.top };
+  };
+  const start = e => {
+    e.preventDefault();
+    drawing = true;
+    const {x,y} = pos(e);
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  };
+  const move = e => {
+    if (!drawing) return;
+    e.preventDefault();
+    const {x,y} = pos(e);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    if (!sigDrawn) {
+      sigDrawn = true;
+      document.getElementById('sigGhost').style.opacity = '0';
+      const status = document.getElementById('sigStatus');
+      status.textContent = '✓ Signed';
+      status.classList.add('signed');
+    }
+  };
+  const end = () => drawing = false;
+
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', end);
+  canvas.addEventListener('mouseleave', end);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end);
+  canvas.addEventListener('touchcancel', end);
+
+  // re-init on orientation change
+  window.addEventListener('resize', () => {
+    if (cur === 4 && canvas) {
+      // save existing signature
+      const data = sigDrawn ? canvas.toDataURL() : null;
+      resizeCanvas();
+      ctx.strokeStyle = '#3CC440';
+      ctx.lineWidth = 2.8;
+      ctx.lineCap = ctx.lineJoin = 'round';
+      if (data) {
+        const img = new Image();
+        img.onload = () => {
+          const r = canvas.getBoundingClientRect();
+          ctx.drawImage(img, 0, 0, r.width, r.height);
+        };
+        img.src = data;
+      }
+    }
+  });
+}
+
+function resizeCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  const r = canvas.getBoundingClientRect();
+  canvas.width = r.width * dpr;
+  canvas.height = r.height * dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = r.width + 'px';
+  canvas.style.height = r.height + 'px';
+}
+
+function clearSig() {
+  if (!canvas || !ctx) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  sigDrawn = false;
+  document.getElementById('sigGhost').style.opacity = '1';
+  const status = document.getElementById('sigStatus');
+  status.textContent = 'Not signed';
+  status.classList.remove('signed');
+}
+
+function submitForm() {
+  if (!sigDrawn) {
+    showToast('Please sign before submitting');
+    document.querySelector('.sig-wrap').scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  if (!document.getElementById('finalConfirm').checked) {
+    showToast('Please confirm to submit');
+    return;
+  }
+
+  const submitBtn = document.querySelector('#step4 .btn-green');
+  const originalBtnText = submitBtn.innerHTML;
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = 'Submitting…';
+  submitBtn.style.opacity = '0.7';
+  submitBtn.style.cursor = 'wait';
+
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName  = document.getElementById('lastName').value.trim();
+  const dob       = document.getElementById('dob').value;
+  const email     = document.getElementById('email').value.trim();
+  const phone     = document.getElementById('phone').value.trim();
+  const hasMinors = document.getElementById('hasMinors').checked;
+  const signature = canvas.toDataURL('image/png');
+
+  // Build flat form payload for Web3Forms
+  const formData = new FormData();
+  formData.append('access_key', '53ecf545-0424-407f-82e4-388e9306157d');
+  formData.append('subject', `New Visitor Waiver: ${firstName} ${lastName}`);
+  formData.append('from_name', 'LevelUp Visitor Waiver');
+  formData.append('replyto', email);
+  formData.append('botcheck', '');
+
+  formData.append('Submitted At', new Date().toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'long' }));
+  formData.append('First Name', firstName);
+  formData.append('Last Name', lastName);
+  formData.append('Date of Birth', dob);
+  formData.append('Email', email);
+  formData.append('Phone', phone);
+  formData.append('Has Minors', hasMinors ? 'Yes' : 'No');
+
+  if (hasMinors) {
+    const minors = [];
+    document.querySelectorAll('.minor-entry').forEach(e => {
+      const id = e.id.replace('minor-','');
+      minors.push({
+        firstName: (document.getElementById('mF'+id)||{}).value||'',
+        lastName:  (document.getElementById('mL'+id)||{}).value||'',
+        dob:       (document.getElementById('mD'+id)||{}).value||''
+      });
+    });
+    formData.append('Number of Minors', String(minors.length));
+    minors.forEach((m, i) => {
+      formData.append(`Minor ${i+1} - First Name`, m.firstName);
+      formData.append(`Minor ${i+1} - Last Name`, m.lastName);
+      formData.append(`Minor ${i+1} - Date of Birth`, m.dob);
+    });
+  }
+
+  formData.append('Signature (base64 PNG)', signature);
+
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    body: formData
+  })
+  .then(async (response) => {
+    const result = await response.json();
+    if (response.status === 200 && result.success) {
+      document.getElementById('step4').classList.remove('active');
+      document.getElementById('successScreen').classList.add('visible');
+      document.getElementById('progressFill').style.width = '100%';
+      document.getElementById('stepsRow').setAttribute('data-progress', 4);
+      document.querySelectorAll('.step-pip').forEach(p => p.classList.add('done'));
+      window.scrollTo({top:0, behavior:'smooth'});
+    } else {
+      console.error('Web3Forms error:', result);
+      showToast(result.message || 'Submission failed. Please try again.');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
+      submitBtn.style.opacity = '';
+      submitBtn.style.cursor = '';
+    }
+  })
+  .catch((err) => {
+    console.error('Network error:', err);
+    showToast('Network error. Please check your connection and try again.');
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalBtnText;
+    submitBtn.style.opacity = '';
+    submitBtn.style.cursor = '';
+  });
+}
+</script>
+</body>
+</html>
