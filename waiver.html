@@ -1221,6 +1221,33 @@ function submitForm() {
   formData.append('Phone', phone);
   formData.append('Has Minors', hasMinors ? 'Yes' : 'No');
 
+  // Capture all acknowledgment checkbox states with their full consent text
+  // for legal record. This proves exactly what was agreed to at submission.
+  const acknowledgments = [
+    { id: 'ack1',         text: 'I have read and understand the full Participant Agreement and Waiver.' },
+    { id: 'ack2',         text: 'I voluntarily assume all risks associated with participation.' },
+    { id: 'ack3',         text: 'I consent to audio and video recording per the Pennsylvania Wiretap Act.' },
+    { id: 'ack4',         text: 'I grant LevelUp Pickleball Club a media license to use my likeness for marketing.' },
+    { id: 'ack5',         text: 'I agree to binding individual arbitration, waiving jury trial and class actions.' },
+    { id: 'finalConfirm', text: 'I confirm all information is accurate and I agree to all terms.' }
+  ];
+
+  acknowledgments.forEach((ack, i) => {
+    const checked = (document.getElementById(ack.id) || {}).checked === true;
+    formData.append(
+      `Acknowledgment ${i+1}`,
+      `${checked ? '✓ AGREED' : '✗ NOT CHECKED'} — ${ack.text}`
+    );
+  });
+
+  if (hasMinors) {
+    const minorChecked = (document.getElementById('minorConsent') || {}).checked === true;
+    formData.append(
+      'Acknowledgment - Minor Consent',
+      `${minorChecked ? '✓ AGREED' : '✗ NOT CHECKED'} — I consent to all waiver terms on behalf of the minor(s) above and confirm I have legal authority to do so.`
+    );
+  }
+
   if (hasMinors) {
     const minors = [];
     document.querySelectorAll('.minor-entry').forEach(e => {
