@@ -959,6 +959,7 @@ html { background: var(--dark); }
       <strong>What's Next</strong>
       Let the front desk know you've completed your waiver. They'll get you checked in and on the courts.
     </div>
+    <p style="margin-top:1.5rem;font-size:0.8rem;color:rgba(255,255,255,0.4);letter-spacing:0.04em;">Resetting for next visitor in <span id="resetCountdown">5</span>…</p>
   </div>
 
 </div>
@@ -1364,6 +1365,18 @@ function submitForm() {
       document.getElementById('stepsRow').setAttribute('data-progress', 4);
       document.querySelectorAll('.step-pip').forEach(p => p.classList.add('done'));
       window.scrollTo({top:0, behavior:'smooth'});
+
+      // Auto-reset for kiosk / front desk use — 5 second countdown then hard reload
+      let resetSeconds = 5;
+      const countdownEl = document.getElementById('resetCountdown');
+      const countdownTimer = setInterval(() => {
+        resetSeconds--;
+        if (countdownEl) countdownEl.textContent = resetSeconds;
+        if (resetSeconds <= 0) {
+          clearInterval(countdownTimer);
+          window.location.reload();
+        }
+      }, 1000);
     } else {
       console.error('Web3Forms error:', result);
       showToast(result.message || 'Submission failed. Please try again.');
