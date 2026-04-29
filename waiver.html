@@ -1367,7 +1367,7 @@ function submitForm() {
       window.scrollTo({top:0, behavior:'smooth'});
 
       // Auto-reset for kiosk / front desk use — 5 second countdown then hard reload
-      let resetSeconds = 5;
+      let resetSeconds = 7;
       const countdownEl = document.getElementById('resetCountdown');
       const countdownTimer = setInterval(() => {
         resetSeconds--;
