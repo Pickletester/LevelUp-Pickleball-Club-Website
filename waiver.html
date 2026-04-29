@@ -69,6 +69,57 @@ nav {
   border-radius: 4px;
   white-space: nowrap;
 }
+.nav-right { display: flex; align-items: center; gap: 0.6rem; }
+.nav-cta {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--orange);
+  color: var(--dark);
+  padding: 0.5rem 0.85rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+.nav-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.6) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: skewX(-20deg);
+  animation: navCtaShimmer 3.2s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes navCtaShimmer {
+  0%   { left: -75%; }
+  60%  { left: 125%; }
+  100% { left: 125%; }
+}
+.nav-cta > * { position: relative; z-index: 1; }
+.nav-cta:hover { background: #ffa522; transform: translateY(-1px); }
+.nav-cta:active { transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .nav-cta::before { animation: none; display: none; }
+}
+@media (max-width: 480px) {
+  .nav-badge { display: none; }
+  .nav-cta { font-size: 0.65rem; padding: 0.45rem 0.7rem; letter-spacing: 0.08em; }
+}
 
 /* ───── PROGRESS ───── */
 .progress-wrap {
@@ -737,7 +788,10 @@ html { background: var(--dark); }
   <a class="nav-logo" href="https://leveluppickleballclub.com">
     <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png" alt="LevelUp Pickleball Club">
   </a>
-  <div class="nav-badge">Visitor Check-In</div>
+  <div class="nav-right">
+    <div class="nav-badge">Visitor Check-In</div>
+    <a class="nav-cta" href="https://www.leveluppickleballclub.com/membership">Become a Member</a>
+  </div>
 </nav>
 <div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
 
@@ -965,7 +1019,7 @@ html { background: var(--dark); }
 </div>
 
 <footer>
-  <p>© 2025 LevelUp Pickleball Club, LLC<br>33 Mayview Rd, Canonsburg, PA 15317<br><a href="mailto:membership@leveluppickleballclub.com">membership@leveluppickleballclub.com</a></p>
+  <p>© 2025 LevelUp Pickleball Club, LLC<br>33 Mayview Rd, Canonsburg, PA 15317<br><a href="mailto:j.raymundo@leveluppickleball.com">j.raymundo@leveluppickleball.com</a></p>
 </footer>
 
 <script>
@@ -1367,7 +1421,7 @@ function submitForm() {
       window.scrollTo({top:0, behavior:'smooth'});
 
       // Auto-reset for kiosk / front desk use — 5 second countdown then hard reload
-      let resetSeconds = 7;
+      let resetSeconds = 5;
       const countdownEl = document.getElementById('resetCountdown');
       const countdownTimer = setInterval(() => {
         resetSeconds--;
