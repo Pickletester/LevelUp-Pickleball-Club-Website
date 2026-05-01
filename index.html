@@ -63,6 +63,66 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="css/index.css">
+<style>
+  .promo-bar {
+    position: fixed;
+    top: 68px;
+    left: 0; right: 0;
+    z-index: 998;
+    background: linear-gradient(90deg, #1a5c1a, var(--green), #0ac3f5, var(--green), #1a5c1a);
+    background-size: 300% 100%;
+    animation: promoShift 4s ease infinite;
+    text-align: center;
+    padding: 0.55rem 1rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+  .promo-bar-text { display: inline-block; }
+  .promo-bar-sep { opacity: 0.6; }
+  .promo-bar-cta {
+    display: inline-block;
+    background: #F5900A;
+    color: #fff !important;
+    text-decoration: none;
+    padding: 0.35rem 0.9rem;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .promo-bar-cta:hover { background: #ffa522; transform: translateY(-1px); }
+  @media (max-width: 700px) {
+    .promo-bar {
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      padding: 0.4rem 0.6rem;
+      gap: 0.5rem;
+    }
+    .promo-bar-sep { display: none; }
+    .promo-bar-cta {
+      padding: 0.3rem 0.65rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+    }
+  }
+  @media (max-width: 380px) {
+    .promo-bar-text { display: none; }
+    .promo-bar { padding: 0.45rem 0.6rem; }
+    .promo-bar-cta { font-size: 0.78rem; padding: 0.4rem 1rem; letter-spacing: 0.08em; }
+  }
+</style>
 </head>
 <body>
 
@@ -87,10 +147,10 @@
   </div>
 </nav>
   <!-- PROMO BAR -->
-<div style="position:fixed;top:68px;left:0;right:0;z-index:998;background:linear-gradient(90deg,#1a5c1a,var(--green),#0ac3f5,var(--green),#1a5c1a);background-size:300% 100%;animation:promoShift 4s ease infinite;text-align:center;padding:0.55rem 2rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;letter-spacing:0.1em;text-transform:uppercase;color:#fff;overflow:hidden;">
-  &nbsp;JOIN TODAY, PLAY TONIGHT&nbsp;
-  <span style="opacity:0.6;margin:0 0.5rem;">·</span>
-  <a href="/membership" style="display:inline-block;background:#F5900A;color:#fff;text-decoration:none;padding:0.35rem 0.9rem;border-radius:4px;font-weight:700;letter-spacing:0.1em;transition:background 0.2s,transform 0.15s;" onmouseover="this.style.background='#ffa522';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#F5900A';this.style.transform='translateY(0)'">BECOME A MEMBER →</a>
+<div class="promo-bar">
+  <span class="promo-bar-text">Join Today, Play Tonight</span>
+  <span class="promo-bar-sep">·</span>
+  <a class="promo-bar-cta" href="/membership">Become a Member →</a>
 </div>
 
 
