@@ -176,13 +176,13 @@
   }
 
   /* ===== PAGE WRAPPER ===== */
-  .page { display: none; padding-top: 108px; min-height: 100vh; }
+  .page { display: none; padding-top: 68px; min-height: 100vh; }
   .page.active { display: block; }
 
   /* ===== HOME PAGE ===== */
   .hero {
     position: relative;
-    min-height: calc(100vh - 108px);
+    min-height: calc(100vh - 68px);
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -992,7 +992,7 @@
     .alert-bar { font-size: 0.8rem; padding: 0.5rem 1rem; }
 
     /* Page padding */
-    .page { padding-top: 108px; }
+    .page { padding-top: 68px; }
     .container { padding: 0 1rem; }
 
     /* Hero */
@@ -1107,7 +1107,7 @@
   .mobile-menu {
     display: none;
     position: fixed;
-    top: 124px; left: 0; right: 0;
+    top: 68px; left: 0; right: 0;
     bottom: 0;
     background: var(--navy-dark);
     border-top: 2px solid var(--green);
