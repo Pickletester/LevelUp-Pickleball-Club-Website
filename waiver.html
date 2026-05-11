@@ -1341,7 +1341,24 @@ function submitForm() {
   const email     = document.getElementById('email').value.trim();
   const phone     = document.getElementById('phone').value.trim();
   const hasMinors = document.getElementById('hasMinors').checked;
-  const signature = canvas.toDataURL('image/png');
+
+  // ── Signature: downscale to a fixed 600x180 JPEG regardless of device ──
+  // On iPad the native canvas is ~3x larger than a phone, producing a base64
+  // string that exceeds Google Sheets' 50,000-character per-cell limit. This
+  // makes the Sheets row fail to write even though Web3Forms accepts the
+  // submission. Downscaling keeps every signature ~15-25KB regardless of
+  // device, so it fits in Sheets AND emails cleanly.
+  function getCompactSignature() {
+    const tmp = document.createElement('canvas');
+    tmp.width = 600;
+    tmp.height = 180;
+    const tctx = tmp.getContext('2d');
+    tctx.fillStyle = '#ffffff';
+    tctx.fillRect(0, 0, tmp.width, tmp.height);
+    tctx.drawImage(canvas, 0, 0, tmp.width, tmp.height);
+    return tmp.toDataURL('image/jpeg', 0.75);
+  }
+  const signature = getCompactSignature();
 
   // Build flat form payload for Web3Forms
   const formData = new FormData();
@@ -1404,7 +1421,10 @@ function submitForm() {
     });
   }
 
-  formData.append('Signature (base64 PNG)', signature);
+  formData.append('Signature (base64 JPEG)', signature);
+
+  // Debug: log payload size to Safari Web Inspector so we can verify the fix
+  console.log('Signature size:', Math.round(signature.length / 1024), 'KB');
 
   fetch('https://api.web3forms.com/submit', {
     method: 'POST',
