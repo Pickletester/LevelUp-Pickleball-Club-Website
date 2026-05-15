@@ -361,6 +361,25 @@
     var diff = duration;
     var price = 6 + (diff - 30) / 5;
 
+    // Pretty 12-hour formatting for the booking email (e.g. "3:00 PM")
+    function fmt12(hhmm) {
+      var p = hhmm.split(':');
+      var h = parseInt(p[0], 10), m = parseInt(p[1], 10);
+      var ampm = h >= 12 ? 'PM' : 'AM';
+      var h12 = h % 12 || 12;
+      return h12 + ':' + (m < 10 ? '0' : '') + m + ' ' + ampm;
+    }
+    var startPretty = fmt12(start);
+    var endPretty = fmt12(end);
+
+    // Pretty date for the booking email (e.g. "May 15, 2026")
+    var datePretty = date;
+    try {
+      var dp = date.split('-');
+      var dObj = new Date(parseInt(dp[0],10), parseInt(dp[1],10)-1, parseInt(dp[2],10));
+      datePretty = dObj.toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' });
+    } catch (e) {}
+
     var originalLabel = btn.textContent;
     btn.disabled = true;
     btn.textContent = 'PROCESSING…';
@@ -371,9 +390,9 @@
       'Name:     ' + name + '\n' +
       'Email:    ' + email + '\n' +
       'Court:    ' + court + '\n' +
-      'Date:     ' + date + '\n' +
-      'Start:    ' + start + '\n' +
-      'End:      ' + end + '\n' +
+      'Date:     ' + datePretty + '\n' +
+      'Start:    ' + startPretty + '\n' +
+      'End:      ' + endPretty + '\n' +
       'Duration: ' + diff + ' minutes\n' +
       'Price:    $' + price + '\n' +
       '\nDelivery: send the MP4 to the customer\'s email the next business day.';
@@ -384,16 +403,16 @@
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           access_key: '205075b4-47f6-4687-b56c-69c43f4225f4',
-          subject: 'Court Replay — ' + court + ' · ' + date + ' · ' + start + '–' + end + ' ($' + price + ')',
+          subject: 'Court Replay — ' + court + ' · ' + datePretty + ' · ' + startPretty + '–' + endPretty + ' ($' + price + ')',
           from_name: 'LevelUp Court Replay',
           name: name,
           email: email,
           message: message,
           // Extra fields — show up in the Web3Forms dashboard
           court: court,
-          booking_date: date,
-          start_time: start,
-          end_time: end,
+          booking_date: datePretty,
+          start_time: startPretty,
+          end_time: endPretty,
           duration_minutes: diff,
           price_usd: price
         })
