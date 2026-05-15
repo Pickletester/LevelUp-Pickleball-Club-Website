@@ -142,15 +142,16 @@
       <div class="pricing-pills">
         <div class="pricing-pill fade-up">
           <div class="pp-duration">30 Minutes</div>
-          <div class="pp-price">$10</div>
-          <div class="pp-note">Quick session clip</div>
+          <div class="pp-price">$6</div>
+          <div class="pp-note">Minimum session</div>
         </div>
         <div class="pricing-pill fade-up">
           <div class="pp-duration">1 Hour</div>
-          <div class="pp-price">$15</div>
-          <div class="pp-note">Full session recording</div>
+          <div class="pp-price">$12</div>
+          <div class="pp-note">Maximum session</div>
         </div>
       </div>
+      <p style="position:relative;z-index:2;color:rgba(255,255,255,0.55);font-family:'Barlow Condensed',sans-serif;font-size:0.95rem;letter-spacing:0.08em;text-transform:uppercase;margin-top:1.5rem;">+ $1 for every 5 minutes between</p>
     </div>
   </div>
 
@@ -261,49 +262,25 @@
             </div>
             <div class="replay-field">
               <label>Start Time</label>
-              <div class="replay-select-wrap">
-                <select id="replayTime">
-                  <option>7:00 AM</option><option>7:30 AM</option>
-                  <option>8:00 AM</option><option>8:30 AM</option>
-                  <option>9:00 AM</option><option>9:30 AM</option>
-                  <option>10:00 AM</option><option>10:30 AM</option>
-                  <option>11:00 AM</option><option>11:30 AM</option>
-                  <option>12:00 PM</option><option>12:30 PM</option>
-                  <option>1:00 PM</option><option>1:30 PM</option>
-                  <option>2:00 PM</option><option>2:30 PM</option>
-                  <option>3:00 PM</option><option>3:30 PM</option>
-                  <option>4:00 PM</option><option>4:30 PM</option>
-                  <option>5:00 PM</option><option>5:30 PM</option>
-                  <option>6:00 PM</option><option>6:30 PM</option>
-                  <option>7:00 PM</option><option>7:30 PM</option>
-                  <option>8:00 PM</option><option>8:30 PM</option>
-                  <option>9:00 PM</option><option>9:30 PM</option>
-                  <option>10:00 PM</option>
-                </select>
-              </div>
+              <input type="time" id="replayStart" step="300">
             </div>
             <div class="replay-field">
+              <label>End Time</label>
+              <input type="time" id="replayEnd" step="300" disabled>
+            </div>
+            <div class="replay-field" style="grid-column:1/-1;">
               <label>Your Email</label>
               <input type="email" id="replayEmail" placeholder="video@delivered.here">
             </div>
           </div>
 
-          <div style="margin:1.5rem 0 0.75rem;">
-            <label style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:#888;">Select Duration</label>
-          </div>
-          <div class="duration-options">
-            <div class="duration-option" onclick="selectDuration(this, '30 Minutes', 10)">
-              <div class="dur-label">30 Minutes</div>
-              <div class="dur-price">$10</div>
-            </div>
-            <div class="duration-option selected" onclick="selectDuration(this, '1 Hour', 15)">
-              <div class="dur-label">1 Hour</div>
-              <div class="dur-price">$15</div>
-            </div>
+          <div class="price-summary" id="priceSummary">
+            <div class="ps-duration" id="psDuration">Pick start &amp; end time (30–60 min)</div>
+            <div class="ps-price" id="psPrice">$—</div>
           </div>
 
-          <button class="replay-submit" onclick="handleReplaySubmit(this)" id="replayBtn">
-            GET MY RECORDING — $15
+          <button class="replay-submit" onclick="handleRangeReplaySubmit(this)" id="replayBtn" disabled>
+            GET MY RECORDING
           </button>
         </div>
 
@@ -335,6 +312,125 @@
     </div>
   </section>
 
+  <script>
+  (function() {
+    var dateEl = document.getElementById('replayDate');
+    var startEl = document.getElementById('replayStart');
+    var endEl = document.getElementById('replayEnd');
+    var priceEl = document.getElementById('psPrice');
+    var durEl = document.getElementById('psDuration');
+    var summary = document.getElementById('priceSummary');
+    var btn = document.getElementById('replayBtn');
+    if (!dateEl) return;
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function fmtDate(d) { return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
+    function fmtTime(h, m) { return pad(h) + ':' + pad(m); }
+    function toMin(t) {
+      if (!t) return null;
+      var p = t.split(':');
+      return parseInt(p[0],10) * 60 + parseInt(p[1],10);
+    }
+    function minToTime(mins) {
+      mins = Math.max(0, Math.min(24*60-1, mins));
+      return fmtTime(Math.floor(mins/60), mins % 60);
+    }
+
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var minDate = new Date(today); minDate.setDate(minDate.getDate() - 24);
+    var nowMin = now.getHours() * 60 + now.getMinutes();
+    // round nowMin down to nearest 5 so the time picker has a valid max in 5-min steps
+    nowMin = Math.floor(nowMin / 5) * 5;
+
+    dateEl.min = fmtDate(minDate);
+    dateEl.max = fmtDate(today);
+    dateEl.value = fmtDate(today);
+
+    function updateConstraints() {
+      var isToday = dateEl.value === fmtDate(today);
+      // Start time: can be any time on a past date; if today, capped to (now - 30 min) so a 30-min session can still fit
+      startEl.min = '00:00';
+      startEl.max = isToday ? minToTime(Math.max(0, nowMin - 30)) : '23:30';
+
+      var startMin = toMin(startEl.value);
+      if (startMin == null) {
+        endEl.disabled = true;
+        endEl.value = '';
+        return;
+      }
+      endEl.disabled = false;
+      var earliest = startMin + 30;
+      var latest = startMin + 60;
+      if (isToday && latest > nowMin) latest = nowMin;
+      if (earliest > latest) {
+        // start was set too late for today — clear end
+        endEl.disabled = true;
+        endEl.value = '';
+        return;
+      }
+      endEl.min = minToTime(earliest);
+      endEl.max = minToTime(latest);
+      // Clamp existing end value into the new window
+      var endMin = toMin(endEl.value);
+      if (endMin != null && (endMin < earliest || endMin > latest)) endEl.value = '';
+    }
+
+    function updatePrice() {
+      var s = toMin(startEl.value);
+      var e = toMin(endEl.value);
+      if (s != null && e != null && e > s) {
+        var diff = e - s;
+        if (diff >= 30 && diff <= 60 && diff % 5 === 0) {
+          var price = 6 + (diff - 30) / 5;
+          durEl.textContent = diff + '-minute recording';
+          priceEl.textContent = '$' + price;
+          btn.textContent = 'GET MY RECORDING — $' + price;
+          btn.disabled = false;
+          summary.classList.add('valid');
+          return;
+        }
+      }
+      durEl.textContent = 'Pick start & end time (30–60 min)';
+      priceEl.textContent = '$—';
+      btn.textContent = 'GET MY RECORDING';
+      btn.disabled = true;
+      summary.classList.remove('valid');
+    }
+
+    dateEl.addEventListener('change', function() { updateConstraints(); updatePrice(); });
+    startEl.addEventListener('change', function() { updateConstraints(); updatePrice(); });
+    startEl.addEventListener('input', function() { updateConstraints(); updatePrice(); });
+    endEl.addEventListener('change', updatePrice);
+    endEl.addEventListener('input', updatePrice);
+
+    updateConstraints();
+    updatePrice();
+  })();
+
+  function handleRangeReplaySubmit(btn) {
+    var court = document.getElementById('replayCourt').value;
+    var date = document.getElementById('replayDate').value;
+    var start = document.getElementById('replayStart').value;
+    var end = document.getElementById('replayEnd').value;
+    var email = document.getElementById('replayEmail').value;
+
+    if (!court) { alert('Please select a court.'); return; }
+    if (!date) { alert('Please select a date.'); return; }
+    if (!start || !end) { alert('Please select a start and end time.'); return; }
+    if (!email || email.indexOf('@') === -1) { alert('Please enter a valid email.'); return; }
+
+    var sp = start.split(':'), ep = end.split(':');
+    var diff = (parseInt(ep[0],10)*60 + parseInt(ep[1],10)) - (parseInt(sp[0],10)*60 + parseInt(sp[1],10));
+    if (diff < 30 || diff > 60 || diff % 5 !== 0) {
+      alert('Recording length must be 30–60 minutes (in 5-minute steps).');
+      return;
+    }
+    var price = 6 + (diff - 30) / 5;
+    alert('Booking ' + court + ' on ' + date + ' from ' + start + ' to ' + end + ' (' + diff + ' min) — $' + price);
+  }
+  </script>
+
   <!-- HOW IT WORKS -->
   <section class="replay-how">
     <div class="container">
@@ -347,8 +443,8 @@
         </div>
         <div class="how-step fade-up">
           <div class="how-step-num">2</div>
-          <h4>Choose Duration</h4>
-          <p>Select 30 min, 1 hour, or 2 hours depending on the length of your session.</p>
+          <h4>Set Your Time Range</h4>
+          <p>Choose your start and end time — any length from 30 min up to 1 hour, in 5-minute steps.</p>
         </div>
         <div class="how-step fade-up">
           <div class="how-step-num">3</div>
