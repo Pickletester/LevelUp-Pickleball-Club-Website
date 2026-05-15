@@ -1367,6 +1367,63 @@
   .pricing-pill .pp-price { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--green); line-height: 1; }
   .pricing-pill .pp-note { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 0.4rem; }
 
+  /* ===== PRICE SUMMARY ===== */
+  .price-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #F7F8FA;
+    border: 1.5px solid #E0E3EC;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    transition: all 0.3s ease;
+  }
+  .price-summary.valid {
+    background: rgba(60,196,64,0.06);
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(60,196,64,0.1);
+  }
+  .ps-duration {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    color: #888;
+    transition: color 0.3s;
+  }
+  .price-summary.valid .ps-duration { color: var(--dark); }
+  .ps-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: #ccc;
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .price-summary.valid .ps-price { color: var(--green); }
+
+  /* ===== SUBMIT BUTTON DISABLED STATE ===== */
+  .replay-submit:disabled {
+    background: #D0D3DC;
+    color: #999;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  .replay-submit:disabled:hover {
+    background: #D0D3DC;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* ===== END TIME DISABLED STATE ===== */
+  .replay-field input:disabled {
+    background: #EFEFEF;
+    color: #bbb;
+    cursor: not-allowed;
+    border-color: #E0E3EC;
+  }
+
   @media (max-width: 700px) {
     .replay-fields { grid-template-columns: 1fr; }
     .how-steps { grid-template-columns: repeat(2, 1fr); }
