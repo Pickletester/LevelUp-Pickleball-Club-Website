@@ -85,7 +85,7 @@
   </div>
 
   <!-- WELCOME -->
-  <section class="nm-section light">
+  <section class="nm-section light" id="welcome">
     <div class="container">
       <div class="nm-head">
         <h2>WELCOME TO <span>LEVELUP</span></h2>
@@ -97,7 +97,7 @@
   </section>
 
   <!-- MEMBERSHIP LEVELS -->
-  <section class="nm-section">
+  <section class="nm-section" id="levels">
     <div class="container">
       <div class="nm-head">
         <h2>MEMBERSHIP LEVELS &amp; <span>BENEFITS</span></h2>
@@ -147,7 +147,7 @@
   </section>
 
   <!-- NEW MEMBER BENEFITS BY LEVEL -->
-  <section class="nm-section">
+  <section class="nm-section" id="benefits">
     <div class="container">
       <div class="nm-head">
         <h2>YOUR NEW MEMBER <span>BENEFITS</span></h2>
@@ -197,7 +197,7 @@
   </section>
 
   <!-- GETTING STARTED -->
-  <section class="nm-section light">
+  <section class="nm-section light" id="getting-started">
     <div class="container">
       <div class="nm-prose">
         <h3 class="nm-h3">Member Registration Session</h3>
@@ -217,7 +217,7 @@
   </section>
 
   <!-- NEW PLAYER PROGRAMS -->
-  <section class="nm-section">
+  <section class="nm-section" id="programs">
     <div class="container">
       <div class="nm-prose">
         <h3 class="nm-h3">New Player Programs</h3>
@@ -239,7 +239,7 @@
   </section>
 
   <!-- CLUB RATINGS -->
-  <section class="nm-section light">
+  <section class="nm-section light" id="ratings">
     <div class="container">
       <div class="nm-prose">
         <h3 class="nm-h3">Club Ratings &amp; Court Assignments</h3>
@@ -251,7 +251,7 @@
   </section>
 
   <!-- TYPES OF PLAY -->
-  <section class="nm-section">
+  <section class="nm-section" id="play">
     <div class="container">
       <div class="nm-prose">
         <h3 class="nm-h3">Pickleball Play at LPC</h3>
@@ -294,7 +294,7 @@
   </section>
 
   <!-- AMBASSADORS -->
-  <section class="nm-section light">
+  <section class="nm-section light" id="ambassadors">
     <div class="container">
       <div class="nm-prose">
         <h3 class="nm-h3">LevelUp Pickleball Club Ambassadors</h3>
@@ -304,7 +304,7 @@
   </section>
 
   <!-- COMMUNICATION -->
-  <section class="nm-section">
+  <section class="nm-section" id="communication">
     <div class="container">
       <div class="nm-prose">
         <h3 class="nm-h3">Communication Channels</h3>
@@ -329,7 +329,7 @@
   </section>
 
   <!-- ETIQUETTE -->
-  <section class="nm-section light">
+  <section class="nm-section light" id="etiquette">
     <div class="container">
       <div class="nm-prose">
         <h3 class="nm-h3">Club Etiquette &amp; Culture</h3>
@@ -369,7 +369,7 @@
   </section>
 
   <!-- CLINICS & LESSONS -->
-  <section class="nm-section">
+  <section class="nm-section" id="clinics">
     <div class="container">
       <div class="nm-prose">
         <h3 class="nm-h3">Clinics &amp; Lessons</h3>
@@ -380,7 +380,7 @@
   </section>
 
   <!-- NOT JUST PICKLEBALL -->
-  <section class="nm-section light">
+  <section class="nm-section light" id="more">
     <div class="container">
       <div class="nm-head">
         <h2>NOT JUST <span>PICKLEBALL</span></h2>
@@ -427,7 +427,7 @@
   </section>
 
   <!-- QUESTIONS / CTA -->
-  <section class="nm-section">
+  <section class="nm-section" id="contact">
     <div class="container">
       <div class="nm-prose nm-cta">
         <h3 class="nm-h3">Questions &amp; More Information</h3>
@@ -440,6 +440,33 @@
       </div>
     </div>
   </section>
+
+<!-- FLOATING CONTENTS MENU -->
+<button class="nm-toc-toggle" id="nmTocToggle" onclick="toggleNmToc()" aria-label="Jump to section">
+  <span class="nm-toc-icon">☰</span><span class="nm-toc-label">Contents</span>
+</button>
+<nav class="nm-toc" id="nmToc" aria-label="Page contents">
+  <div class="nm-toc-head">
+    <span>On This Page</span>
+    <button class="nm-toc-close" onclick="toggleNmToc()" aria-label="Close">✕</button>
+  </div>
+  <ul>
+    <li><a href="#welcome">Welcome</a></li>
+    <li><a href="#levels">Membership Levels</a></li>
+    <li><a href="#benefits">New Member Benefits</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#programs">New Player Programs</a></li>
+    <li><a href="#ratings">Club Ratings</a></li>
+    <li><a href="#play">Types of Play</a></li>
+    <li><a href="#ambassadors">Ambassadors</a></li>
+    <li><a href="#communication">Communication</a></li>
+    <li><a href="#etiquette">Etiquette &amp; Culture</a></li>
+    <li><a href="#clinics">Clinics &amp; Lessons</a></li>
+    <li><a href="#more">Not Just Pickleball</a></li>
+    <li><a href="#contact">Questions &amp; Contact</a></li>
+  </ul>
+</nav>
+<div class="nm-toc-backdrop" id="nmTocBackdrop" onclick="toggleNmToc()"></div>
 
 <footer>
   <div class="container">
@@ -507,6 +534,36 @@
 </div>
 
   <script src="js/main.js"></script>
+  <script>
+    function toggleNmToc() {
+      document.getElementById('nmToc').classList.toggle('open');
+      document.getElementById('nmTocBackdrop').classList.toggle('open');
+      document.getElementById('nmTocToggle').classList.toggle('hidden');
+    }
+    // Close the menu after picking a section + highlight active link on scroll
+    (function() {
+      var toc = document.getElementById('nmToc');
+      var links = toc.querySelectorAll('a');
+      links.forEach(function(a) {
+        a.addEventListener('click', function() {
+          if (window.innerWidth <= 900) toggleNmToc();
+        });
+      });
+      var sections = Array.prototype.map.call(links, function(a) {
+        return document.querySelector(a.getAttribute('href'));
+      });
+      function onScroll() {
+        var pos = window.scrollY + 160;
+        var current = -1;
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i] && sections[i].offsetTop <= pos) current = i;
+        }
+        links.forEach(function(a, i) { a.classList.toggle('active', i === current); });
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
 
 </body>
 </html>
