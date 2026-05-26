@@ -1534,6 +1534,100 @@
     .nm-section { padding: 3.5rem 0; }
   }
 
+  /* ===== HERO WITH PHOTO + GRADIENT ===== */
+  .page-hero.nm-hero {
+    background:
+      linear-gradient(135deg, rgba(19,29,79,0.94) 0%, rgba(30,43,110,0.80) 45%, rgba(42,163,46,0.55) 100%),
+      url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/People%20playing%20pickleball/DSC09201.webp') center 30%/cover no-repeat;
+    padding: 7rem 0 6.5rem;
+  }
+  .page-hero.nm-hero::before { opacity: 0.4; }
+  .page-hero.nm-hero h1 { text-shadow: 0 4px 30px rgba(0,0,0,0.45); }
+  .page-hero.nm-hero p { color: rgba(255,255,255,0.92); text-shadow: 0 2px 14px rgba(0,0,0,0.45); }
+  .page-hero.nm-hero .section-tag { box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
+
+  /* ===== STAT BAND ===== */
+  .nm-stats {
+    background: linear-gradient(100deg, var(--green) 0%, var(--green-dark) 55%, var(--navy) 130%);
+    padding: 2.5rem 0;
+  }
+  .nm-stats .container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  .nm-stat { text-align: center; color: var(--white); }
+  .nm-stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 4.5vw, 3.4rem);
+    line-height: 1;
+    color: var(--white);
+    text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .nm-stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.9);
+    margin-top: 0.35rem;
+  }
+  @media (max-width: 700px) {
+    .nm-stats .container { grid-template-columns: 1fr 1fr; gap: 1.75rem 1rem; }
+  }
+
+  /* ===== SECTION HEADING ICONS ===== */
+  .nm-ico {
+    display: inline-block;
+    margin-right: 0.4rem;
+    font-size: 0.9em;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  }
+
+  /* ===== PHOTO BANNERS ===== */
+  .nm-banner {
+    position: relative;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+  }
+  .nm-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(13,15,26,0.5), rgba(19,29,79,0.7));
+  }
+  .nm-banner-content { position: relative; z-index: 1; padding: 2.5rem 1.5rem; max-width: 720px; }
+  .nm-banner .nm-eyebrow {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 0.75rem;
+  }
+  .nm-banner h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    line-height: 1.02;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    text-shadow: 0 3px 24px rgba(0,0,0,0.5);
+    margin: 0;
+  }
+  .nm-banner h3 span { color: var(--green); }
+  .nm-banner p { color: rgba(255,255,255,0.9); font-size: 1.1rem; line-height: 1.6; max-width: 620px; margin: 0.85rem auto 0; }
+  @media (max-width: 900px) {
+    .nm-banner { min-height: 240px; }
+  }
+
   /* ===== FLOATING CONTENTS MENU ===== */
   .nm-toc-toggle {
     position: fixed;
