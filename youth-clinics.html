@@ -31,6 +31,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/youth-clinics.css">
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
 
@@ -427,6 +428,19 @@
     </div>
   </section>
 
+<!-- STRIPE CHECKOUT MODAL -->
+<div class="yc-checkout-modal" id="ycCheckoutModal" aria-hidden="true">
+  <div class="yc-checkout-inner">
+    <button class="yc-checkout-close" onclick="closeYcCheckout()" aria-label="Close">✕</button>
+    <div class="yc-checkout-header">
+      <div class="yc-checkout-title">Complete Registration</div>
+      <div class="yc-checkout-subtitle" id="ycCheckoutSubtitle">—</div>
+    </div>
+    <div id="ycCheckoutContainer"></div>
+    <div id="ycCheckoutError" class="yc-checkout-error" style="display:none;"></div>
+  </div>
+</div>
+
 <footer>
   <div class="container">
     <div class="footer-grid">
@@ -494,7 +508,13 @@
 
 <script src="js/main.js"></script>
 <script>
-  // === YOUTH CLINICS PROGRAM CONFIG ===
+  // === LEVELUP STRIPE CONFIG ===
+  const STRIPE_PUBLISHABLE_KEY = 'pk_live_51Phz4uByPDcoX1D7ypZ6h0w4fJ4mi2g9yx8orNfHKl7Q4ItIjsb5m2lGbVWmbFg0wk5J2WYp1WTgZTRRNwuzOs0B00AssY70P3';
+  const WORKER_URL = 'https://lpc-stripe-worker.s-jackson.workers.dev';
+  const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+  let ycEmbeddedCheckout = null;
+
+  // === YOUTH CLINICS PROGRAM CONFIG (display only — pricing source of truth lives in the Worker) ===
   const YC_PROGRAMS = {
     'tiny-tots': {
       label: 'Tiny Tots Clinics (Ages 6–9)',
@@ -503,13 +523,7 @@
         { id: 'mon', label: 'Monday', time: '10:45–11:30 AM' },
         { id: 'wed', label: 'Wednesday', time: '10:45–11:30 AM' },
         { id: 'sat', label: 'Saturday', time: '9:45–10:30 AM' }
-      ],
-      // REPLACE these with your real Stripe Payment Links once created:
-      stripe: {
-        1: 'https://buy.stripe.com/REPLACE_TINYTOTS_1DAY',
-        2: 'https://buy.stripe.com/REPLACE_TINYTOTS_2DAY',
-        3: 'https://buy.stripe.com/REPLACE_TINYTOTS_3DAY'
-      }
+      ]
     },
     'kids': {
       label: 'Kids Clinics (Ages 10–13)',
@@ -518,12 +532,7 @@
         { id: 'tue', label: 'Tuesday', time: '4:00–5:00 PM' },
         { id: 'thu', label: 'Thursday', time: '4:00–5:00 PM' },
         { id: 'sat', label: 'Saturday', time: '1:00–2:00 PM' }
-      ],
-      stripe: {
-        1: 'https://buy.stripe.com/REPLACE_KIDS_1DAY',
-        2: 'https://buy.stripe.com/REPLACE_KIDS_2DAY',
-        3: 'https://buy.stripe.com/REPLACE_KIDS_3DAY'
-      }
+      ]
     },
     'junior': {
       label: 'Junior Academy (Ages 14–18)',
@@ -532,12 +541,7 @@
         { id: 'tue', label: 'Tuesday', time: '3:00–4:00 PM' },
         { id: 'thu', label: 'Thursday', time: '3:00–4:00 PM' },
         { id: 'sat', label: 'Saturday', time: '12:00–1:00 PM' }
-      ],
-      stripe: {
-        1: 'https://buy.stripe.com/REPLACE_JUNIOR_1DAY',
-        2: 'https://buy.stripe.com/REPLACE_JUNIOR_2DAY',
-        3: 'https://buy.stripe.com/REPLACE_JUNIOR_3DAY'
-      }
+      ]
     }
   };
 
@@ -608,24 +612,85 @@
 
     const btn = document.getElementById('ycSubmitBtn');
     btn.disabled = true;
-    btn.textContent = 'Submitting…';
+    btn.textContent = 'Loading checkout…';
 
+    // 1) Save the registration data to Web3Forms / Google Sheet (fire-and-forget)
     try {
       const form = document.getElementById('ycForm');
       const formData = new FormData(form);
-      // Submit registration data to Web3Forms (Google Sheet via webhook on your end)
-      await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData
-      });
+      fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
     } catch (err) {
-      console.warn('Registration save failed, continuing to payment:', err);
+      console.warn('Registration save failed (will retry on success page):', err);
     }
 
-    // Redirect to the correct Stripe Payment Link
-    const stripeUrl = cfg.stripe[dayCount];
-    window.location.href = stripeUrl;
+    // 2) Open the checkout modal + mount Stripe Embedded Checkout
+    const subtitle = cfg.label + ' • ' + dayCount + ' day' + (dayCount > 1 ? 's' : '') + '/week • $' + amount;
+    document.getElementById('ycCheckoutSubtitle').textContent = subtitle;
+    openYcCheckout();
+
+    const payload = {
+      program: programInput.value,
+      days: dayCount,
+      parent_name: document.getElementById('parentName').value,
+      parent_email: document.getElementById('parentEmail').value,
+      child_first: document.getElementById('childFirst').value,
+      child_last: document.getElementById('childLast').value,
+      child_age: document.getElementById('childAge').value,
+      selected_days: selectedDays,
+      photo_release: (document.querySelector('input[name="photo_release"]:checked') || {}).value || '',
+      marketing: (document.querySelector('input[name="marketing"]:checked') || {}).value || ''
+    };
+
+    try {
+      // Tear down any previous mount
+      if (ycEmbeddedCheckout) { try { ycEmbeddedCheckout.destroy(); } catch(_){} ycEmbeddedCheckout = null; }
+      document.getElementById('ycCheckoutContainer').innerHTML = '<div class="yc-checkout-loading">Loading secure payment…</div>';
+      document.getElementById('ycCheckoutError').style.display = 'none';
+
+      ycEmbeddedCheckout = await stripe.initEmbeddedCheckout({
+        fetchClientSecret: async function() {
+          const r = await fetch(WORKER_URL + '/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await r.json();
+          if (!r.ok || !data.clientSecret) {
+            throw new Error(data.error || 'Could not start checkout.');
+          }
+          return data.clientSecret;
+        }
+      });
+      document.getElementById('ycCheckoutContainer').innerHTML = '';
+      ycEmbeddedCheckout.mount('#ycCheckoutContainer');
+    } catch (err) {
+      console.error('Stripe checkout failed:', err);
+      document.getElementById('ycCheckoutContainer').innerHTML = '';
+      const errBox = document.getElementById('ycCheckoutError');
+      errBox.textContent = 'Sorry — we couldn\'t start checkout. ' + (err.message || '') + ' Please call us at 412-206-5755 to register by phone.';
+      errBox.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Continue to Payment →';
+    }
+
     return false;
+  }
+
+  function openYcCheckout() {
+    const modal = document.getElementById('ycCheckoutModal');
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeYcCheckout() {
+    const modal = document.getElementById('ycCheckoutModal');
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (ycEmbeddedCheckout) { try { ycEmbeddedCheckout.destroy(); } catch(_){} ycEmbeddedCheckout = null; }
+    document.getElementById('ycCheckoutContainer').innerHTML = '';
   }
 </script>
 
