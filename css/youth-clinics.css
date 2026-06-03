@@ -1748,10 +1748,16 @@
   background-repeat: no-repeat;
   min-height: 72vh;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 .page-hero.yc-hero .page-hero-content {
   text-align: center;
   max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
   padding: 0 1.5rem;
 }
 .page-hero.yc-hero h1 {
