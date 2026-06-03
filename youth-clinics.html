@@ -402,10 +402,7 @@
           <p class="yc-fineprint">You'll be redirected to our secure Stripe checkout to complete payment. Your spot is reserved when payment clears.</p>
         </div>
 
-        <!-- Hidden fields for Web3Forms -->
-        <input type="hidden" name="access_key" value="768a1627-83f4-4476-931e-b49050a224f1">
-        <input type="hidden" name="subject" value="New Youth Clinic Registration">
-        <input type="hidden" name="from_name" value="LevelUp Youth Clinics">
+        <!-- Hidden metadata fields (filled in JS, sent to Worker for Stripe metadata) -->
         <input type="hidden" name="program_label" id="hiddenProgramLabel">
         <input type="hidden" name="selected_days" id="hiddenSelectedDays">
         <input type="hidden" name="days_per_week" id="hiddenDaysPerWeek">
@@ -614,32 +611,29 @@
     btn.disabled = true;
     btn.textContent = 'Loading checkout…';
 
-    // 1) Save the registration data to Web3Forms / Google Sheet (fire-and-forget)
-    try {
-      const form = document.getElementById('ycForm');
-      const formData = new FormData(form);
-      fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
-    } catch (err) {
-      console.warn('Registration save failed (will retry on success page):', err);
-    }
-
-    // 2) Open the checkout modal + mount Stripe Embedded Checkout
+    // Open the checkout modal + mount Stripe Embedded Checkout.
+    // (We do NOT submit to Web3Forms here — the Worker's webhook only saves to
+    // the Google Sheet AFTER Stripe confirms payment, so the sheet stays clean.)
     const subtitle = cfg.label + ' • ' + dayCount + ' day' + (dayCount > 1 ? 's' : '') + '/week • $' + amount;
     document.getElementById('ycCheckoutSubtitle').textContent = subtitle;
     openYcCheckout();
 
+    // Build full payload from every form field — Worker stashes these in
+    // Stripe metadata and forwards them to Web3Forms on payment success.
+    const form = document.getElementById('ycForm');
+    const formData = new FormData(form);
     const payload = {
       program: programInput.value,
       days: dayCount,
-      parent_name: document.getElementById('parentName').value,
-      parent_email: document.getElementById('parentEmail').value,
-      child_first: document.getElementById('childFirst').value,
-      child_last: document.getElementById('childLast').value,
-      child_age: document.getElementById('childAge').value,
-      selected_days: selectedDays,
-      photo_release: (document.querySelector('input[name="photo_release"]:checked') || {}).value || '',
-      marketing: (document.querySelector('input[name="marketing"]:checked') || {}).value || ''
+      selected_days: selectedDays
     };
+    formData.forEach(function(value, key) {
+      // Skip Web3Forms control fields + day_* checkboxes (selected_days covers those)
+      if (key === 'access_key' || key === 'subject' || key === 'from_name') return;
+      if (key.indexOf('day_') === 0) return;
+      if (key === 'program') return; // already set
+      payload[key] = value;
+    });
 
     try {
       // Tear down any previous mount
