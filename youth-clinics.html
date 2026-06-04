@@ -103,7 +103,7 @@
   <section class="yc-section light" id="overview">
     <div class="container">
       <div class="yc-head fade-up">
-        <h2><span class="yc-ico">🟡</span> SUMMER OF <span>PICKLEBALL</span></h2>
+        <h2><span class="yc-ico">🏓</span> SUMMER OF <span>PICKLEBALL</span></h2>
         <p class="yc-lead">Program Dates: <strong>June 15 – July 27</strong></p>
       </div>
       <div class="yc-prose fade-up">
@@ -330,8 +330,20 @@
               <div class="yc-summary-row">
                 <span>Days per Week:</span><strong id="sumDays">0</strong>
               </div>
+              <div class="yc-summary-row yc-summary-discount" id="sumDiscountRow" style="display:none;">
+                <span id="sumDiscountLabel">Promo:</span><strong id="sumDiscount">—</strong>
+              </div>
               <div class="yc-summary-row yc-summary-total">
                 <span>Total:</span><strong id="sumTotal">$0</strong>
+              </div>
+            </div>
+
+            <!-- PROMO CODE -->
+            <div class="yc-promo">
+              <label for="ycPromo">Have a Promo Code? <span class="opt">(optional)</span></label>
+              <div class="yc-promo-row">
+                <input type="text" id="ycPromo" name="promo_code" placeholder="Enter code…" autocomplete="off" oninput="checkPromo()">
+                <span class="yc-promo-status" id="ycPromoStatus"></span>
               </div>
             </div>
           </div>
@@ -571,15 +583,55 @@
     updateSummary();
   }
 
+  // Recognized promo codes (front-end is just display; Worker validates for real)
+  const YC_PROMOS = {
+    'donkey': { flatPrice: 1, label: 'Test promo (donkey)' }
+  };
+
+  function getActivePromo() {
+    const raw = (document.getElementById('ycPromo')?.value || '').trim().toLowerCase();
+    return YC_PROMOS[raw] ? { code: raw, ...YC_PROMOS[raw] } : null;
+  }
+
+  function checkPromo() {
+    const raw = (document.getElementById('ycPromo')?.value || '').trim();
+    const status = document.getElementById('ycPromoStatus');
+    if (!raw) { status.textContent = ''; status.className = 'yc-promo-status'; updateSummary(); return; }
+    const promo = YC_PROMOS[raw.toLowerCase()];
+    if (promo) {
+      status.textContent = '✓ Applied';
+      status.className = 'yc-promo-status valid';
+    } else {
+      status.textContent = 'Not a valid code';
+      status.className = 'yc-promo-status invalid';
+    }
+    updateSummary();
+  }
+
   function updateSummary() {
     const checked = document.querySelector('input[name="program"]:checked');
     if (!checked) return;
     const cfg = YC_PROGRAMS[checked.value];
     const boxes = document.querySelectorAll('#ycDays input[type="checkbox"]:checked');
     const count = Math.min(boxes.length, 3);
-    const price = count >= 1 ? cfg.prices[count] : 0;
+    const basePrice = count >= 1 ? cfg.prices[count] : 0;
+
+    const promo = getActivePromo();
+    const finalPrice = promo && basePrice > 0 ? promo.flatPrice : basePrice;
+
     document.getElementById('sumDays').textContent = count;
-    document.getElementById('sumTotal').textContent = '$' + price;
+    document.getElementById('sumTotal').textContent = '$' + finalPrice;
+
+    const discountRow = document.getElementById('sumDiscountRow');
+    const discountStrong = document.getElementById('sumDiscount');
+    const discountLabel = document.getElementById('sumDiscountLabel');
+    if (promo && basePrice > 0) {
+      discountRow.style.display = 'flex';
+      discountLabel.textContent = promo.label + ':';
+      discountStrong.textContent = '–$' + (basePrice - finalPrice);
+    } else {
+      discountRow.style.display = 'none';
+    }
 
     // Prevent more than 3 selections
     if (boxes.length > 3) {
@@ -625,13 +677,14 @@
     const payload = {
       program: programInput.value,
       days: dayCount,
-      selected_days: selectedDays
+      selected_days: selectedDays,
+      promo_code: (document.getElementById('ycPromo')?.value || '').trim()
     };
     formData.forEach(function(value, key) {
       // Skip Web3Forms control fields + day_* checkboxes (selected_days covers those)
       if (key === 'access_key' || key === 'subject' || key === 'from_name') return;
       if (key.indexOf('day_') === 0) return;
-      if (key === 'program') return; // already set
+      if (key === 'program' || key === 'promo_code') return; // already set
       payload[key] = value;
     });
 
