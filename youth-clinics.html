@@ -640,7 +640,10 @@
     document.getElementById('hiddenAmount').value = '$' + amount;
 
     const btn = document.getElementById('ycSubmitBtn');
+    // Lock the submit button so a double-tap can't create two checkout sessions.
+    // It stays locked until the parent closes the modal (closeYcCheckout re-enables it).
     btn.disabled = true;
+    btn.dataset.locked = '1';
     btn.textContent = 'Loading checkout…';
 
     // Open the checkout modal + mount Stripe Embedded Checkout.
@@ -696,8 +699,10 @@
       errBox.textContent = 'Sorry — we couldn\'t start checkout. ' + (err.message || '') + ' Please call us at 412-206-5755 to register by phone.';
       errBox.style.display = 'block';
     } finally {
-      btn.disabled = false;
-      btn.textContent = 'Continue to Payment →';
+      // Update label so the user knows the modal is the active step.
+      // The button stays disabled (locked) until the modal is closed via
+      // closeYcCheckout(), so a second click won't fire another /create-checkout.
+      btn.textContent = 'Checkout in progress…';
     }
 
     return false;
@@ -717,6 +722,13 @@
     document.body.style.overflow = '';
     if (ycEmbeddedCheckout) { try { ycEmbeddedCheckout.destroy(); } catch(_){} ycEmbeddedCheckout = null; }
     document.getElementById('ycCheckoutContainer').innerHTML = '';
+    // Re-enable submit so the parent can adjust the form and try again
+    const btn = document.getElementById('ycSubmitBtn');
+    if (btn) {
+      btn.disabled = false;
+      btn.dataset.locked = '0';
+      btn.textContent = 'Continue to Payment →';
+    }
   }
 </script>
 
