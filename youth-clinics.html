@@ -389,25 +389,6 @@
           </div>
         </div>
 
-        <!-- RELEASES -->
-        <div class="yc-form-section">
-          <h3 class="yc-form-h3"><span class="yc-ico">📸</span> Photo / Video Release</h3>
-          <p class="yc-help">LevelUp Pickleball Club occasionally photographs or films clinics for social media, our website, and promotional use. Please indicate your preference:</p>
-          <div class="yc-radio-row">
-            <label class="yc-pill"><input type="radio" name="photo_release" value="Yes" required> Yes, I give permission</label>
-            <label class="yc-pill"><input type="radio" name="photo_release" value="No"> No, do not photograph my child</label>
-          </div>
-        </div>
-
-        <div class="yc-form-section">
-          <h3 class="yc-form-h3"><span class="yc-ico">📬</span> Marketing Opt-In</h3>
-          <p class="yc-help">Want to hear about future camps, clinics, tournaments, leagues, and junior programs?</p>
-          <div class="yc-radio-row">
-            <label class="yc-pill"><input type="radio" name="marketing" value="Yes" required> Yes, keep me informed</label>
-            <label class="yc-pill"><input type="radio" name="marketing" value="No"> No, thanks</label>
-          </div>
-        </div>
-
         <!-- SUBMIT -->
         <div class="yc-submit-row">
           <button type="submit" class="btn btn-green btn-large" id="ycSubmitBtn">Continue to Payment →</button>
@@ -681,10 +662,9 @@
       promo_code: (document.getElementById('ycPromo')?.value || '').trim()
     };
     formData.forEach(function(value, key) {
-      // Skip Web3Forms control fields + day_* checkboxes (selected_days covers those)
-      if (key === 'access_key' || key === 'subject' || key === 'from_name') return;
+      // Skip day_* checkboxes (selected_days covers those) and fields we set above
       if (key.indexOf('day_') === 0) return;
-      if (key === 'program' || key === 'promo_code') return; // already set
+      if (key === 'program' || key === 'promo_code') return;
       payload[key] = value;
     });
 
