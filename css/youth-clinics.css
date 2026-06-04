@@ -1865,9 +1865,9 @@
 /* BANNERS */
 .yc-banner {
   position: relative;
-  min-height: 380px;
+  min-height: 460px;
   background-size: cover;
-  background-position: center;
+  background-position: center 20%;
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
