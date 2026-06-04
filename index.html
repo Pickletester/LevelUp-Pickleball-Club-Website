@@ -69,58 +69,99 @@
     top: 68px;
     left: 0; right: 0;
     z-index: 998;
-    background: linear-gradient(90deg, #1a5c1a, var(--green), #0ac3f5, var(--green), #1a5c1a);
-    background-size: 300% 100%;
-    animation: promoShift 4s ease infinite;
+    background:
+      linear-gradient(90deg,
+        #0c3a14 0%,
+        #1a5c1a 18%,
+        var(--green) 38%,
+        #3cc440 55%,
+        var(--green) 72%,
+        #1a5c1a 88%,
+        #0c3a14 100%);
+    background-size: 250% 100%;
+    animation: promoShift 8s ease-in-out infinite;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
     text-align: center;
-    padding: 0.55rem 1rem;
+    padding: 0.6rem 1rem;
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: 0.1em;
+    font-size: 1rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #fff;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.85rem;
+    gap: 1rem;
     flex-wrap: nowrap;
     white-space: nowrap;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(0,0,0,0.18);
   }
-  .promo-bar-text { display: inline-block; }
-  .promo-bar-sep { opacity: 0.6; }
-  .promo-bar-cta {
+  .promo-bar-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  }
+  .promo-bar-live {
     display: inline-block;
-    background: #F5900A;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.85);
+    animation: promoPulse 1.6s ease-out infinite;
+  }
+  .promo-bar-sep {
+    display: inline-block;
+    width: 1px;
+    height: 18px;
+    background: rgba(255,255,255,0.35);
+  }
+  .promo-bar-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: linear-gradient(180deg, #ffa320 0%, #f08800 100%);
     color: #fff !important;
     text-decoration: none;
-    padding: 0.35rem 0.9rem;
-    border-radius: 4px;
+    padding: 0.45rem 1.15rem;
+    border-radius: 999px;
     font-weight: 700;
-    letter-spacing: 0.1em;
-    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.13em;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.18), 0 4px 14px rgba(245, 144, 10, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s;
     white-space: nowrap;
   }
-  .promo-bar-cta:hover { background: #ffa522; transform: translateY(-1px); }
+  .promo-bar-cta:hover {
+    background: linear-gradient(180deg, #ffb84a 0%, #ff9a14 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 0 rgba(0,0,0,0.18), 0 8px 20px rgba(245, 144, 10, 0.5);
+  }
+  @keyframes promoPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.85); }
+    70%  { box-shadow: 0 0 0 9px rgba(255,255,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+  }
   @media (max-width: 700px) {
     .promo-bar {
-      font-size: 0.72rem;
-      letter-spacing: 0.06em;
-      padding: 0.4rem 0.6rem;
-      gap: 0.5rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      padding: 0.45rem 0.6rem;
+      gap: 0.65rem;
     }
     .promo-bar-sep { display: none; }
     .promo-bar-cta {
-      padding: 0.3rem 0.65rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.05em;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.07em;
     }
   }
   @media (max-width: 380px) {
     .promo-bar-text { display: none; }
-    .promo-bar { padding: 0.45rem 0.6rem; }
-    .promo-bar-cta { font-size: 0.78rem; padding: 0.4rem 1rem; letter-spacing: 0.08em; }
+    .promo-bar { padding: 0.5rem 0.6rem; }
+    .promo-bar-cta { font-size: 0.82rem; padding: 0.45rem 1.1rem; letter-spacing: 0.1em; }
   }
 </style>
 </head>
@@ -148,8 +189,8 @@
 </nav>
   <!-- PROMO BAR -->
 <div class="promo-bar">
-  <span class="promo-bar-text">Join Today, Play Tonight</span>
-  <span class="promo-bar-sep">·</span>
+  <span class="promo-bar-text"><span class="promo-bar-live" aria-hidden="true"></span>Join Today, Play Tonight</span>
+  <span class="promo-bar-sep" aria-hidden="true"></span>
   <a class="promo-bar-cta" href="/membership">Become a Member →</a>
 </div>
 
