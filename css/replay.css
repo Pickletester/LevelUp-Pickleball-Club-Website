@@ -1107,24 +1107,158 @@
   }
   .mobile-menu a:active { background: rgba(60,196,64,0.15); color: var(--green); }
 
-  /* ===== COURT REPLAY PAGE ===== */
+  /* ===== COURT REPLAY PAGE — cinematic hero ===== */
   .replay-hero {
-    background: linear-gradient(160deg, var(--navy-dark) 0%, #0a1030 60%, #0D0F1A 100%);
-    padding: 5rem 0 3rem;
+    background:
+      linear-gradient(160deg, rgba(13,15,26,0.78) 0%, rgba(13,15,26,0.55) 45%, rgba(13,15,26,0.92) 100%),
+      url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Replay/Hero.webp');
+    background-size: cover, cover;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    padding: 6rem 0 5rem;
     text-align: center;
     position: relative;
     overflow: hidden;
+    min-height: 78vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+  /* Vignette + faint scanline texture for the "tape" feel */
   .replay-hero::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(circle at 50% 0%, rgba(60,196,64,0.15) 0%, transparent 60%),
-      linear-gradient(rgba(60,196,64,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(60,196,64,0.04) 1px, transparent 1px);
-    background-size: 100% 100%, 50px 50px, 50px 50px;
+    background:
+      radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.55) 100%),
+      linear-gradient(rgba(60,196,64,0.05) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 3px;
+    pointer-events: none;
+    z-index: 1;
   }
-  .replay-hero-content { position: relative; z-index: 1; }
+  /* Animated horizontal scanlines layer */
+  .replay-hero-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.025) 0px,
+      rgba(255,255,255,0.025) 1px,
+      transparent 2px,
+      transparent 5px
+    );
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 1;
+    animation: replayScan 8s linear infinite;
+  }
+  @keyframes replayScan {
+    from { background-position-y: 0; }
+    to   { background-position-y: 100px; }
+  }
+  .replay-hero-content { position: relative; z-index: 2; max-width: 880px; padding: 0 1.5rem; }
+
+  /* REC badge — top of hero */
+  .replay-rec-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: rgba(229, 50, 50, 0.15);
+    border: 1px solid rgba(229, 50, 50, 0.5);
+    color: #ff7878;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(8px);
+  }
+  .replay-rec-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: #ff3333;
+    box-shadow: 0 0 8px rgba(255, 51, 51, 0.9);
+    animation: recPulse 1.2s ease-out infinite;
+  }
+  @keyframes recPulse {
+    0%   { opacity: 1; transform: scale(1); }
+    50%  { opacity: 0.4; transform: scale(1.15); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .replay-hero-tag {
+    color: rgba(255,255,255,0.85) !important;
+    font-size: clamp(1rem, 1.6vw, 1.15rem) !important;
+    max-width: 600px !important;
+    margin: 1.5rem auto 0 !important;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+  }
+  .replay-hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2.2rem;
+  }
+  .replay-hero-btn {
+    display: inline-block;
+    padding: 0.95rem 1.8rem;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.14em;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 1.05rem;
+    transition: all 0.18s ease;
+  }
+  .replay-hero-btn.primary {
+    background: var(--green);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(60,196,64,0.4);
+  }
+  .replay-hero-btn.primary:hover {
+    background: #4cd853;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(60,196,64,0.6);
+  }
+  .replay-hero-btn.ghost {
+    background: transparent;
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.5);
+  }
+  .replay-hero-btn.ghost:hover {
+    background: #fff;
+    color: var(--navy);
+    border-color: #fff;
+  }
+
+  /* Timecode strip at the bottom of the hero */
+  .replay-hero-timecode {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(6px);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 0.7rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(255,255,255,0.8);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    z-index: 3;
+  }
+  .replay-hero-timecode span:first-child { color: #ff5555; font-weight: 700; }
+  .replay-hero-timecode .tc-mid { color: var(--green-light, #6dd896); opacity: 0.9; }
+  @media (max-width: 640px) {
+    .replay-hero { min-height: 65vh; padding: 4rem 0 4rem; }
+    .replay-hero-timecode { font-size: 0.7rem; padding: 0.55rem 0.8rem; }
+    .replay-hero-timecode .tc-mid { display: none; }
+  }
   .replay-hero h1 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(3.5rem, 8vw, 6.5rem);
@@ -1272,80 +1406,6 @@
     transition: all 0.2s;
   }
   .replay-submit:hover { background: var(--green-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(60,196,64,0.35); }
-  .replay-submit:disabled {
-    background: #D5D7DE;
-    color: #8A8F9E;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-  .replay-submit:disabled:hover {
-    background: #D5D7DE;
-    transform: none;
-    box-shadow: none;
-  }
-  .price-summary {
-    background: #F7F8FA;
-    border: 1.5px solid #E0E3EC;
-    border-radius: 10px;
-    padding: 1rem 1.25rem;
-    margin: 1.5rem 0 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    transition: all 0.25s ease;
-  }
-  .price-summary.valid {
-    border-color: var(--green);
-    background: rgba(60,196,64,0.06);
-  }
-  .ps-duration {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: #666;
-    letter-spacing: 0.02em;
-  }
-  .price-summary.valid .ps-duration { color: var(--dark); }
-  .ps-price {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.2rem;
-    line-height: 1;
-    color: var(--green);
-    flex-shrink: 0;
-  }
-  .delivery-notice {
-    background: rgba(245, 144, 10, 0.12);
-    border: 2px solid var(--orange);
-    border-radius: 10px;
-    padding: 0.85rem 1.1rem;
-    margin: 0 0 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.7rem;
-    text-align: center;
-  }
-  .dn-icon {
-    font-size: 1.4rem;
-    line-height: 1;
-    flex-shrink: 0;
-  }
-  .dn-text {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
-    font-size: 1rem;
-    letter-spacing: 0.03em;
-    color: var(--dark);
-    line-height: 1.3;
-  }
-  .dn-text strong {
-    color: var(--orange);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
   .replay-trust {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1449,53 +1509,6 @@
     .trust-item:last-child { border-bottom: none; }
   }
 
-  /* ===== MOBILE: BOOKING-FIRST OPTIMIZATION ===== */
-  @media (max-width: 700px) {
-    /* Shrink hero so the booking card is in the first viewport */
-    .replay-hero { padding: 0.6rem 0 0.25rem; }
-    .replay-hero p { display: none; }
-    .kc-kitchen {
-      font-size: 0.65rem;
-      letter-spacing: 0.4em;
-      text-indent: 0.4em;
-      width: auto;
-    }
-    .kc-cam {
-      font-size: 2.2rem;
-      width: auto;
-      line-height: 0.95;
-    }
-    .kc-sub { display: none; }
-
-    /* Drop the desktop pricing strip on mobile — form has live pricing */
-    .replay-pricing-strip { display: none; }
-
-    /* Pull the booking section up — card is the focus */
-    .replay-form-section { padding: 0.5rem 0 2.5rem; }
-    /* Hide the redundant section heading on mobile — the form card has its own header */
-    .replay-form-section > .container > div:first-of-type {
-      display: none !important;
-    }
-
-    /* Compact the form card */
-    .replay-card { border-radius: 14px; }
-    /* Hide the 3-step indicator on mobile — single-page form makes it redundant */
-    .replay-card > div[style*="background:var(--navy)"]:first-child {
-      display: none !important;
-    }
-    .replay-card-body { padding: 1.1rem 1rem 1.25rem; }
-    .replay-fields { gap: 0.75rem; margin-bottom: 0.75rem; }
-    .replay-field label { font-size: 0.72rem; }
-    .replay-field select, .replay-field input { padding: 0.7rem 0.9rem; font-size: 0.9rem; }
-    .price-summary { padding: 0.7rem 0.95rem; margin: 0.85rem 0 0.75rem; }
-    .ps-price { font-size: 1.7rem; }
-    .ps-duration { font-size: 0.82rem; }
-    .replay-submit { padding: 0.9rem; font-size: 0.95rem; }
-    .trust-item { padding: 0.75rem 1rem; }
-    .trust-label { font-size: 0.78rem; }
-    .trust-sub { font-size: 0.7rem; }
-  }
-
   /* Animate on scroll */
   .fade-up {
     opacity: 1;
@@ -1510,3 +1523,83 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+/* ==========================================
+   STRIPE EMBEDDED CHECKOUT MODAL (replay)
+   ========================================== */
+.replay-checkout-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  background: rgba(13,15,26,0.85);
+  backdrop-filter: blur(8px);
+  overflow-y: auto;
+  padding: 2.5rem 1rem;
+}
+.replay-checkout-modal.open { display: flex; }
+.replay-checkout-inner {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  max-width: 680px;
+  width: 100%;
+  margin: auto;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+  overflow: hidden;
+}
+.replay-checkout-close {
+  position: absolute;
+  top: 0.8rem; right: 0.8rem;
+  width: 36px; height: 36px;
+  border: none;
+  background: rgba(0,0,0,0.08);
+  border-radius: 50%;
+  font-size: 1.1rem;
+  color: #444;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s;
+}
+.replay-checkout-close:hover { background: rgba(0,0,0,0.18); }
+.replay-checkout-header {
+  background: linear-gradient(135deg, var(--navy, #0d0f1a) 0%, #181b2e 100%);
+  color: #fff;
+  padding: 1.5rem 2rem;
+}
+.replay-checkout-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.04em;
+}
+.replay-checkout-subtitle {
+  font-family: 'Barlow Condensed', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.85rem;
+  color: var(--green-light, #6dd896);
+  margin-top: 0.25rem;
+}
+#replayCheckoutContainer { padding: 1rem; min-height: 320px; }
+.replay-checkout-loading {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #666;
+  font-family: 'Barlow', sans-serif;
+}
+.replay-checkout-error {
+  margin: 1rem 1.5rem 1.5rem;
+  padding: 1rem 1.2rem;
+  background: #fff3f3;
+  border: 1px solid #f0c8c8;
+  border-radius: 8px;
+  color: #a82a2a;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+@media (max-width: 600px) {
+  .replay-checkout-modal { padding: 0; }
+  .replay-checkout-inner { border-radius: 0; max-width: 100%; min-height: 100vh; }
+}
