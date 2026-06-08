@@ -60,7 +60,7 @@
     <div class="kitchencam-logo">
       <div class="kc-kitchen">YOUR</div>
       <div class="kc-cam">REPLAY</div>
-      <div class="kc-sub">ARRIVING NEXT BUSINESS DAY</div>
+      <div class="kc-sub">ARRIVING IN ABOUT 10 MINUTES</div>
     </div>
     <p class="replay-hero-tag" id="successIntro">Hang tight — we're confirming your booking…</p>
   </div>
@@ -81,7 +81,7 @@
         <h4 style="font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:0.04em; color: var(--navy, #0d0f1a); margin: 2rem 0 0.6rem;">What's Next</h4>
         <ul style="margin:0; padding-left: 1.2rem; color:#444; line-height: 1.7;">
           <li>Stripe just emailed you a payment receipt</li>
-          <li>We'll process your video and email the MP4 file to you the next business day</li>
+          <li>We'll process your video and email the MP4 file to you in about 10 minutes</li>
           <li>Questions? Call <a href="tel:4122065755" style="color: var(--green, #2d8a4f);">412-206-5755</a> or email <a href="mailto:info@leveluppickleball.com" style="color: var(--green, #2d8a4f);">info@leveluppickleball.com</a></li>
         </ul>
 
@@ -152,7 +152,7 @@
 
     // FREE PROMO booking — no Stripe session to look up
     if (isFree) {
-      intro.innerHTML = "Your free 30-minute recording is locked in. We'll email it to you the next business day.";
+      intro.innerHTML = "Your free 30-minute recording is locked in. We'll email it to you in about 10 minutes.";
       body.innerHTML =
         '<div style="display:grid; grid-template-columns: 1fr auto; gap: 0.8rem 1.5rem; font-family: Barlow, sans-serif; font-size: 1rem; color: #2a2d3a; padding: 0.5rem 0;">' +
           '<div style="color:#777;">Promo Code</div><div style="font-weight:600; text-align:right;">' + escapeHtml(promo) + '</div>' +
@@ -177,7 +177,7 @@
       const amountDollars = (data.amount_total / 100).toFixed(2);
 
       intro.innerHTML = paid
-        ? "Thanks " + escapeHtml(data.customer_email || '') + " — your recording is being prepared. We'll email it to you the next business day."
+        ? "Thanks " + escapeHtml(data.customer_email || '') + " — your recording is being prepared. We'll email it to you in about 10 minutes."
         : "Your payment is still processing — we'll email you once it clears.";
 
       body.innerHTML =
