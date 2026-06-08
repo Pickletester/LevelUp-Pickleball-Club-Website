@@ -143,10 +143,24 @@
   (async function() {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get('session_id');
+    const isFree = params.get('free') === '1';
+    const promo = params.get('promo') || '';
     const tag = document.getElementById('successTag');
     const intro = document.getElementById('successIntro');
     const body = document.getElementById('summaryBody');
     const errBox = document.getElementById('summaryError');
+
+    // FREE PROMO booking — no Stripe session to look up
+    if (isFree) {
+      intro.innerHTML = "Your free 30-minute recording is locked in. We'll email it to you the next business day.";
+      body.innerHTML =
+        '<div style="display:grid; grid-template-columns: 1fr auto; gap: 0.8rem 1.5rem; font-family: Barlow, sans-serif; font-size: 1rem; color: #2a2d3a; padding: 0.5rem 0;">' +
+          '<div style="color:#777;">Promo Code</div><div style="font-weight:600; text-align:right;">' + escapeHtml(promo) + '</div>' +
+          '<div style="color:#777; padding-top: 0.6rem; border-top: 1px solid #eef0f4;">Total</div>' +
+          '<div style="font-family:\'Bebas Neue\',sans-serif; font-size: 1.8rem; color: var(--green, #2d8a4f); text-align:right; padding-top: 0.6rem; border-top: 1px solid #eef0f4;">FREE</div>' +
+        '</div>';
+      return;
+    }
 
     if (!sessionId) {
       intro.textContent = "We couldn't find your session details. If you just paid, please check your email for a Stripe receipt.";
