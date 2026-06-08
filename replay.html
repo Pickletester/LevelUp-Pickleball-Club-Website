@@ -64,6 +64,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="css/replay.css">
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
 
@@ -111,18 +112,31 @@
 
 
   <div class="replay-hero">
+    <!-- Scanline overlay for that VHS / TV feel -->
+    <div class="replay-hero-scanlines" aria-hidden="true"></div>
     <div class="replay-hero-content">
+      <div class="replay-rec-badge"><span class="replay-rec-dot"></span>REC · ALL 16 COURTS</div>
       <div class="kitchencam-logo">
         <div class="kc-kitchen">COURT</div>
         <div class="kc-cam">CAM</div>
         <div class="kc-sub">COURT CAM · LEVELUP</div>
       </div>
-      <p style="color:rgba(255,255,255,0.45);font-size:1rem;margin-top:1.75rem;">Relive your best rallies. Review your technique. Share your highlights.<br>Your video will be sent the next business day.</p>
+      <p class="replay-hero-tag">Relive your best rallies. Review your technique. Share your highlights.<br>Your video is delivered the next business day.</p>
+      <div class="replay-hero-cta">
+        <a class="replay-hero-btn primary" href="#book">Book Your Recording ↓</a>
+        <a class="replay-hero-btn ghost" href="#how">How It Works</a>
+      </div>
+    </div>
+    <!-- Timecode strip at the bottom -->
+    <div class="replay-hero-timecode" aria-hidden="true">
+      <span>● REC</span>
+      <span class="tc-mid">LPC · ALL COURTS · 24/7</span>
+      <span>00:00:30 → 01:00:00</span>
     </div>
   </div>
 
   <!-- BOOKING FORM -->
-  <section class="replay-form-section">
+  <section class="replay-form-section" id="book">
     <div class="container">
       <div style="text-align:center;margin-bottom:2.5rem;">
         <div class="section-tag" style="background:var(--navy);color:white;">Book Your Recording</div>
@@ -320,11 +334,19 @@
     updatePrice();
   })();
 
-  // ====== CHECKOUT (automated backend) ======
-  // Sends the booking to the backend, which creates a Stripe Checkout session
-  // WITH metadata (court/date/start/duration) so the recording auto-generates
-  // after payment. Also fires a Web3Forms notification as a booking record.
-  var BACKEND_URL = 'https://levelup-camera-backend.onrender.com';
+  // ====== STRIPE EMBEDDED CHECKOUT (Cloudflare Worker) ======
+  const STRIPE_PUBLISHABLE_KEY = 'pk_live_51Phz4uByPDcoX1D7ypZ6h0w4fJ4mi2g9yx8orNfHKl7Q4ItIjsb5m2lGbVWmbFg0wk5J2WYp1WTgZTRRNwuzOs0B00AssY70P3';
+  const WORKER_URL = 'https://lpc-stripe-worker.s-jackson.workers.dev';
+  const replayStripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+  let replayEmbeddedCheckout = null;
+
+  function fmt12(hhmm) {
+    var p = hhmm.split(':');
+    var h = parseInt(p[0], 10), m = parseInt(p[1], 10);
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    var h12 = h % 12 || 12;
+    return h12 + ':' + (m < 10 ? '0' : '') + m + ' ' + ampm;
+  }
 
   async function handleRangeReplaySubmit(btn) {
     var court = document.getElementById('replayCourt').value;
@@ -338,88 +360,87 @@
     if (!date) { alert('Please select a date.'); return; }
     if (!start) { alert('Please select a start time.'); return; }
     if (isNaN(duration) || duration < 30 || duration > 60 || duration % 5 !== 0) {
-      alert('Please select a duration.');
-      return;
+      alert('Please select a duration.'); return;
     }
     if (!name) { alert('Please enter your name.'); return; }
     if (!email || email.indexOf('@') === -1) { alert('Please enter a valid email.'); return; }
 
+    var sp = start.split(':');
+    var startMin = parseInt(sp[0],10) * 60 + parseInt(sp[1],10);
+    var endMin = startMin + duration;
+    var end = (endMin >= 24*60)
+      ? '23:59'
+      : (endMin/60|0 < 10 ? '0' : '') + (endMin/60|0) + ':' + ((endMin%60) < 10 ? '0' : '') + (endMin%60);
     var price = 6 + (duration - 30) / 5;
-
-    // Pretty formatting for the booking-record email
-    function fmt12(hhmm) {
-      var p = hhmm.split(':');
-      var h = parseInt(p[0], 10), m = parseInt(p[1], 10);
-      var ampm = h >= 12 ? 'PM' : 'AM';
-      var h12 = h % 12 || 12;
-      return h12 + ':' + (m < 10 ? '0' : '') + m + ' ' + ampm;
-    }
     var startPretty = fmt12(start);
-    var datePretty = date;
-    try {
-      var dp = date.split('-');
-      var dObj = new Date(parseInt(dp[0],10), parseInt(dp[1],10)-1, parseInt(dp[2],10));
-      datePretty = dObj.toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' });
-    } catch (e) {}
+    var endPretty = fmt12(end);
 
     var originalLabel = btn.textContent;
     btn.disabled = true;
-    btn.textContent = 'PROCESSING…';
+    btn.dataset.locked = '1';
+    btn.textContent = 'LOADING CHECKOUT…';
 
-    // Fire a Web3Forms booking record (non-blocking — a failure here won't stop checkout)
-    try {
-      fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          access_key: '205075b4-47f6-4687-b56c-69c43f4225f4',
-          subject: 'Court Replay — ' + court + ' · ' + datePretty + ' · ' + startPretty + ' (' + duration + ' min, $' + price + ')',
-          from_name: 'LevelUp Court Replay',
-          name: name,
-          email: email,
-          message: 'NEW COURT REPLAY BOOKING\n------------------------\n'
-            + 'Name:     ' + name + '\n'
-            + 'Email:    ' + email + '\n'
-            + 'Court:    ' + court + '\n'
-            + 'Date:     ' + datePretty + '\n'
-            + 'Start:    ' + startPretty + '\n'
-            + 'Duration: ' + duration + ' minutes\n'
-            + 'Price:    $' + price
-        })
-      });
-    } catch (e) { /* ignore — record only */ }
+    openReplayCheckout();
+    var subtitle = court + ' • ' + date + ' • ' + startPretty + '–' + endPretty + ' • $' + price;
+    document.getElementById('replayCheckoutSubtitle').textContent = subtitle;
 
-    // Create the Stripe Checkout session on the backend (carries metadata)
     try {
-      var res = await fetch(BACKEND_URL + '/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          court: court,
-          date: date,
-          start: start,
-          duration: duration,
-          name: name,
-          email: email,
-          price: price
-        })
+      if (replayEmbeddedCheckout) { try { replayEmbeddedCheckout.destroy(); } catch(_){} replayEmbeddedCheckout = null; }
+      document.getElementById('replayCheckoutContainer').innerHTML = '<div class="replay-checkout-loading">Loading secure payment…</div>';
+      document.getElementById('replayCheckoutError').style.display = 'none';
+
+      replayEmbeddedCheckout = await replayStripe.initEmbeddedCheckout({
+        fetchClientSecret: async function() {
+          var r = await fetch(WORKER_URL + '/create-replay-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              court: court, date: date, start: start, end: end,
+              duration: duration, name: name, email: email
+            })
+          });
+          var data = await r.json();
+          if (!r.ok || !data.clientSecret) throw new Error(data.error || 'Could not start checkout.');
+          return data.clientSecret;
+        }
       });
-      var data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;   // go to Stripe Checkout
-      } else {
-        throw new Error(data.error || 'Could not start checkout.');
-      }
+      document.getElementById('replayCheckoutContainer').innerHTML = '';
+      replayEmbeddedCheckout.mount('#replayCheckoutContainer');
+      btn.textContent = 'CHECKOUT IN PROGRESS…';
     } catch (err) {
-      alert('Sorry — we couldn\'t start checkout. Please try again or call the club.\n\n(' + err.message + ')');
+      console.error('Replay checkout failed:', err);
+      document.getElementById('replayCheckoutContainer').innerHTML = '';
+      var errBox = document.getElementById('replayCheckoutError');
+      errBox.textContent = 'Sorry — we couldn\'t start checkout. ' + (err.message || '') + ' Please call us at 412-206-5755.';
+      errBox.style.display = 'block';
+    }
+  }
+
+  function openReplayCheckout() {
+    var modal = document.getElementById('replayCheckoutModal');
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeReplayCheckout() {
+    var modal = document.getElementById('replayCheckoutModal');
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (replayEmbeddedCheckout) { try { replayEmbeddedCheckout.destroy(); } catch(_){} replayEmbeddedCheckout = null; }
+    document.getElementById('replayCheckoutContainer').innerHTML = '';
+    var btn = document.getElementById('replayBtn');
+    if (btn) {
       btn.disabled = false;
-      btn.textContent = originalLabel;
+      btn.dataset.locked = '0';
+      btn.textContent = 'GET MY RECORDING';
     }
   }
   </script>
 
   <!-- HOW IT WORKS -->
-  <section class="replay-how">
+  <section class="replay-how" id="how">
     <div class="container">
       <h2 class="replay-how-title">HOW IT <span>WORKS</span></h2>
       <div class="how-steps">
@@ -457,6 +478,19 @@
   </div>
 
 </div><!-- /page-replay -->
+
+<!-- STRIPE EMBEDDED CHECKOUT MODAL -->
+<div class="replay-checkout-modal" id="replayCheckoutModal" aria-hidden="true">
+  <div class="replay-checkout-inner">
+    <button class="replay-checkout-close" onclick="closeReplayCheckout()" aria-label="Close">✕</button>
+    <div class="replay-checkout-header">
+      <div class="replay-checkout-title">Complete Your Booking</div>
+      <div class="replay-checkout-subtitle" id="replayCheckoutSubtitle">—</div>
+    </div>
+    <div id="replayCheckoutContainer"></div>
+    <div id="replayCheckoutError" class="replay-checkout-error" style="display:none;"></div>
+  </div>
+</div>
 
 <footer>
   <div class="container">
