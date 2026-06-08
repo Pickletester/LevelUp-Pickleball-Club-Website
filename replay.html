@@ -320,19 +320,11 @@
     updatePrice();
   })();
 
-  // ====== STRIPE PAYMENT LINKS ======
-  // Create one Payment Link per price tier in your Stripe Dashboard,
-  // then paste each URL below. Until filled, the redirect is skipped
-  // and the booking email still goes out via Web3Forms.
-  var STRIPE_LINKS = {
-    6:  'https://buy.stripe.com/9B65kCbpa9R77HZc2Tffy07',
-    7:  'https://buy.stripe.com/00weVc3WI6EV9Q76Izffy01',
-    8:  'https://buy.stripe.com/bJe7sK78U7IZ1jBaYPffy02',
-    9:  'https://buy.stripe.com/6oUaEWdxi8N3aUbd6Xffy03',
-    10: 'https://buy.stripe.com/28E9ASal62oFd2jaYPffy04',
-    11: 'https://buy.stripe.com/9B69AS1OAaVb4vN8QHffy05',
-    12: 'https://buy.stripe.com/4gMdR8eBm0gx5zRaYPffy06'
-  };
+  // ====== CHECKOUT (automated backend) ======
+  // Sends the booking to the backend, which creates a Stripe Checkout session
+  // WITH metadata (court/date/start/duration) so the recording auto-generates
+  // after payment. Also fires a Web3Forms notification as a booking record.
+  var BACKEND_URL = 'https://levelup-camera-backend.onrender.com';
 
   async function handleRangeReplaySubmit(btn) {
     var court = document.getElementById('replayCourt').value;
@@ -352,16 +344,9 @@
     if (!name) { alert('Please enter your name.'); return; }
     if (!email || email.indexOf('@') === -1) { alert('Please enter a valid email.'); return; }
 
-    var sp = start.split(':');
-    var startMin = parseInt(sp[0],10) * 60 + parseInt(sp[1],10);
-    var endMin = startMin + duration;
-    var end = (endMin >= 24*60)
-      ? '23:59'
-      : ((endMin/60|0) < 10 ? '0' : '') + (endMin/60|0) + ':' + ((endMin%60) < 10 ? '0' : '') + (endMin%60);
-    var diff = duration;
-    var price = 6 + (diff - 30) / 5;
+    var price = 6 + (duration - 30) / 5;
 
-    // Pretty 12-hour formatting for the booking email (e.g. "3:00 PM")
+    // Pretty formatting for the booking-record email
     function fmt12(hhmm) {
       var p = hhmm.split(':');
       var h = parseInt(p[0], 10), m = parseInt(p[1], 10);
@@ -370,9 +355,6 @@
       return h12 + ':' + (m < 10 ? '0' : '') + m + ' ' + ampm;
     }
     var startPretty = fmt12(start);
-    var endPretty = fmt12(end);
-
-    // Pretty date for the booking email (e.g. "May 15, 2026")
     var datePretty = date;
     try {
       var dp = date.split('-');
@@ -384,61 +366,52 @@
     btn.disabled = true;
     btn.textContent = 'PROCESSING…';
 
-    var message =
-      'NEW COURT REPLAY BOOKING\n' +
-      '------------------------\n' +
-      'Name:     ' + name + '\n' +
-      'Email:    ' + email + '\n' +
-      'Court:    ' + court + '\n' +
-      'Date:     ' + datePretty + '\n' +
-      'Start:    ' + startPretty + '\n' +
-      'End:      ' + endPretty + '\n' +
-      'Duration: ' + diff + ' minutes\n' +
-      'Price:    $' + price + '\n' +
-      '\nDelivery: send the MP4 to the customer\'s email the next business day.';
-
+    // Fire a Web3Forms booking record (non-blocking — a failure here won't stop checkout)
     try {
-      var res = await fetch('https://api.web3forms.com/submit', {
+      fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           access_key: '205075b4-47f6-4687-b56c-69c43f4225f4',
-          subject: 'Court Replay — ' + court + ' · ' + datePretty + ' · ' + startPretty + '–' + endPretty + ' ($' + price + ')',
+          subject: 'Court Replay — ' + court + ' · ' + datePretty + ' · ' + startPretty + ' (' + duration + ' min, $' + price + ')',
           from_name: 'LevelUp Court Replay',
           name: name,
           email: email,
-          message: message,
-          // Extra fields — show up in the Web3Forms dashboard
+          message: 'NEW COURT REPLAY BOOKING\n------------------------\n'
+            + 'Name:     ' + name + '\n'
+            + 'Email:    ' + email + '\n'
+            + 'Court:    ' + court + '\n'
+            + 'Date:     ' + datePretty + '\n'
+            + 'Start:    ' + startPretty + '\n'
+            + 'Duration: ' + duration + ' minutes\n'
+            + 'Price:    $' + price
+        })
+      });
+    } catch (e) { /* ignore — record only */ }
+
+    // Create the Stripe Checkout session on the backend (carries metadata)
+    try {
+      var res = await fetch(BACKEND_URL + '/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           court: court,
-          booking_date: datePretty,
-          start_time: startPretty,
-          end_time: endPretty,
-          duration_minutes: diff,
-          price_usd: price
+          date: date,
+          start: start,
+          duration: duration,
+          name: name,
+          email: email,
+          price: price
         })
       });
       var data = await res.json();
-      if (!data.success) throw new Error(data.message || 'Web3Forms rejected the submission.');
-
-      var stripeUrl = STRIPE_LINKS[price];
-      if (!stripeUrl || stripeUrl.indexOf('PASTE_') !== -1) {
-        alert('Booking received! We\'ll email you to complete payment and confirm your recording.');
-        btn.textContent = 'BOOKING SENT ✓';
-        return;
+      if (data.url) {
+        window.location.href = data.url;   // go to Stripe Checkout
+      } else {
+        throw new Error(data.error || 'Could not start checkout.');
       }
-      // Build a client_reference_id that captures booking details for the Stripe → Zapier → Sheets flow.
-      // Stripe restricts this field to alphanumerics, dashes, and underscores (max 200 chars).
-      var courtSlug = court.replace(/\s+/g, '');          // "Court 6" → "Court6"
-      var startSlug = start.replace(':', '');             // "15:00"   → "1500"
-      var clientRef = courtSlug + '_' + date + '_' + startSlug + '_' + duration + 'min';
-
-      // Prefill the customer's email on the Stripe checkout and attach the booking reference
-      var sep = stripeUrl.indexOf('?') === -1 ? '?' : '&';
-      window.location.href = stripeUrl + sep +
-        'prefilled_email=' + encodeURIComponent(email) +
-        '&client_reference_id=' + encodeURIComponent(clientRef);
     } catch (err) {
-      alert('Sorry — we couldn\'t submit your booking. Please try again or call the club.\n\n(' + err.message + ')');
+      alert('Sorry — we couldn\'t start checkout. Please try again or call the club.\n\n(' + err.message + ')');
       btn.disabled = false;
       btn.textContent = originalLabel;
     }
