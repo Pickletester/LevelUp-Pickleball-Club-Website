@@ -214,6 +214,15 @@
             <div class="ps-price" id="psPrice">$—</div>
           </div>
 
+          <!-- PROMO CODE -->
+          <div class="replay-promo">
+            <label for="replayPromo">Have a Promo Code? <span class="opt">(optional)</span></label>
+            <div class="replay-promo-row">
+              <input type="text" id="replayPromo" placeholder="Enter code…" autocomplete="off" oninput="checkReplayPromo()">
+              <span class="replay-promo-status" id="replayPromoStatus"></span>
+            </div>
+          </div>
+
           <div class="delivery-notice">
             <span class="dn-icon">⏰</span>
             <span class="dn-text">Your video will be emailed to you the <strong>next business day</strong></span>
@@ -310,10 +319,13 @@
       var s = toMin(startEl.value);
       var dur = parseInt(durationEl.value, 10);
       if (s != null && !isNaN(dur) && dur >= 30 && dur <= 60 && dur % 5 === 0) {
-        var price = 6 + (dur - 30) / 5;
-        durEl.textContent = dur + '-minute recording';
-        priceEl.textContent = '$' + price;
-        btn.textContent = 'GET MY RECORDING — $' + price;
+        var basePrice = 6 + (dur - 30) / 5;
+        var promo = window.getReplayActivePromo ? window.getReplayActivePromo(dur) : null;
+        var isFree = !!(promo && promo.type === 'free');
+        var price = isFree ? 0 : basePrice;
+        durEl.textContent = dur + '-minute recording' + (isFree ? ' — FREE' : '');
+        priceEl.textContent = isFree ? 'FREE' : '$' + price;
+        btn.textContent = isFree ? 'GET MY FREE RECORDING' : ('GET MY RECORDING — $' + price);
         btn.disabled = false;
         summary.classList.add('valid');
         return;
@@ -325,10 +337,17 @@
       summary.classList.remove('valid');
     }
 
+    // Expose for the promo handler defined below to call back into updatePrice()
+    window.replayRefreshPrice = updatePrice;
+
     dateEl.addEventListener('change', function() { updateConstraints(); updatePrice(); });
     startEl.addEventListener('change', function() { updateConstraints(); updatePrice(); });
     startEl.addEventListener('input', function() { updateConstraints(); updatePrice(); });
-    durationEl.addEventListener('change', updatePrice);
+    durationEl.addEventListener('change', function() {
+      updatePrice();
+      // re-validate the promo against the new duration
+      if (typeof checkReplayPromo === 'function') checkReplayPromo();
+    });
 
     updateConstraints();
     updatePrice();
@@ -339,6 +358,46 @@
   const WORKER_URL = 'https://lpc-stripe-worker.s-jackson.workers.dev';
   const replayStripe = Stripe(STRIPE_PUBLISHABLE_KEY);
   let replayEmbeddedCheckout = null;
+
+  // Recognized promo codes (front-end display; Worker also validates).
+  // Keep this in sync with REPLAY_PROMOS in the Worker (lpc-stripe-worker/src/index.js).
+  const REPLAY_PROMOS = {
+    '4324': { type: 'free', freeForDurations: [30], label: 'Free 30-min replay' }
+  };
+
+  // Used by updatePrice() above to know if a free promo should show $0 / "FREE"
+  window.getReplayActivePromo = function(duration) {
+    const raw = (document.getElementById('replayPromo')?.value || '').trim();
+    if (!raw) return null;
+    const cfg = REPLAY_PROMOS[raw];
+    if (!cfg) return null;
+    if (cfg.type === 'free' && !cfg.freeForDurations.includes(duration)) return null;
+    return cfg;
+  };
+
+  function checkReplayPromo() {
+    const raw = (document.getElementById('replayPromo').value || '').trim();
+    const status = document.getElementById('replayPromoStatus');
+    if (!raw) {
+      status.textContent = '';
+      status.className = 'replay-promo-status';
+      if (window.replayRefreshPrice) window.replayRefreshPrice();
+      return;
+    }
+    const cfg = REPLAY_PROMOS[raw];
+    const dur = parseInt(document.getElementById('replayDuration').value, 10);
+    if (!cfg) {
+      status.textContent = 'Not a valid code';
+      status.className = 'replay-promo-status invalid';
+    } else if (cfg.type === 'free' && !cfg.freeForDurations.includes(dur)) {
+      status.textContent = 'Valid for ' + cfg.freeForDurations.join(', ') + '-min only';
+      status.className = 'replay-promo-status invalid';
+    } else {
+      status.textContent = '✓ Free Applied';
+      status.className = 'replay-promo-status valid';
+    }
+    if (window.replayRefreshPrice) window.replayRefreshPrice();
+  }
 
   function fmt12(hhmm) {
     var p = hhmm.split(':');
@@ -371,14 +430,42 @@
     var end = (endMin >= 24*60)
       ? '23:59'
       : (endMin/60|0 < 10 ? '0' : '') + (endMin/60|0) + ':' + ((endMin%60) < 10 ? '0' : '') + (endMin%60);
-    var price = 6 + (duration - 30) / 5;
+    var basePrice = 6 + (duration - 30) / 5;
+    var promoCode = (document.getElementById('replayPromo').value || '').trim();
+    var promoCfg = window.getReplayActivePromo ? window.getReplayActivePromo(duration) : null;
+    var isFree = !!(promoCfg && promoCfg.type === 'free');
+    var price = isFree ? 0 : basePrice;
     var startPretty = fmt12(start);
     var endPretty = fmt12(end);
 
     var originalLabel = btn.textContent;
     btn.disabled = true;
     btn.dataset.locked = '1';
-    btn.textContent = 'LOADING CHECKOUT…';
+    btn.textContent = isFree ? 'CONFIRMING…' : 'LOADING CHECKOUT…';
+
+    // FREE PROMO PATH — skip Stripe, post booking direct to Worker → Web3Forms
+    if (isFree) {
+      try {
+        var freeRes = await fetch(WORKER_URL + '/create-replay-checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            court: court, date: date, start: start, end: end,
+            duration: duration, name: name, email: email,
+            promo_code: promoCode
+          })
+        });
+        var freeData = await freeRes.json();
+        if (!freeRes.ok || !freeData.free) throw new Error(freeData.error || 'Could not confirm free booking.');
+        window.location.href = '/replay-success?free=1&promo=' + encodeURIComponent(promoCode);
+      } catch (err) {
+        alert('Sorry — we couldn\'t confirm your free booking. ' + (err.message || '') + ' Please call us at 412-206-5755.');
+        btn.disabled = false;
+        btn.dataset.locked = '0';
+        btn.textContent = originalLabel;
+      }
+      return;
+    }
 
     openReplayCheckout();
     var subtitle = court + ' • ' + date + ' • ' + startPretty + '–' + endPretty + ' • $' + price;
