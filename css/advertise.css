@@ -1574,6 +1574,54 @@
 .adv-prose p { margin: 0 0 1.2rem; }
 .adv-section.light .adv-prose p { color: #2a2d3a; }
 
+/* CLUB AD VIDEO (click to play with audio) */
+.adv-clubvideo {
+  position: relative;
+  max-width: 860px;
+  margin: 3rem auto 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(13,15,26,0.18);
+  cursor: pointer;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+.adv-clubvideo-el {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.adv-clubvideo-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 84px;
+  height: 84px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(60,196,64,0.95);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background 0.2s, opacity 0.25s;
+}
+.adv-clubvideo:hover .adv-clubvideo-play { transform: scale(1.08); background: var(--green); }
+.adv-clubvideo-play svg { width: 38px; height: 38px; fill: #fff; margin-left: 4px; }
+/* Subtle dark veil over the poster until playing */
+.adv-clubvideo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(13,15,26,0.32);
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.adv-clubvideo.playing .adv-clubvideo-play { opacity: 0; pointer-events: none; }
+.adv-clubvideo.playing::after { opacity: 0; }
+
 /* SIGNATURE */
 .adv-signature { text-align: center; margin-top: 2.5rem; }
 .adv-sig-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.04em; color: var(--navy); }
