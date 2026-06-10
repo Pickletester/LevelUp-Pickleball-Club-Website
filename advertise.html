@@ -121,13 +121,13 @@
       <div class="adv-sig-cred">US Open 5.0 Champion · USAPA National Champion</div>
     </div>
 
-    <!-- CLUB AD VIDEO (click to play with audio) -->
-    <div class="adv-clubvideo fade-up" id="clubVideoWrap" onclick="playClubVideo()">
-      <video class="adv-clubvideo-el" id="clubVideo" loop playsinline preload="metadata"
+    <!-- CLUB AD VIDEO (click to play with audio; native controls for scrubbing) -->
+    <div class="adv-clubvideo fade-up" id="clubVideoWrap">
+      <video class="adv-clubvideo-el" id="clubVideo" controlslist="nodownload" loop playsinline preload="metadata"
              poster="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Advertise/all%20screens%20with%20people%20playing.webp">
         <source src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Videos/ad%20video.mp4" type="video/mp4">
       </video>
-      <button class="adv-clubvideo-play" id="clubVideoPlay" aria-label="Play video with sound">
+      <button class="adv-clubvideo-play" id="clubVideoPlay" aria-label="Play video with sound" onclick="playClubVideo()">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
       </button>
     </div>
@@ -413,20 +413,24 @@
 
 <script src="js/main.js"></script>
 <script>
-  // Club Ad video — click to play WITH sound, click again to pause
+  // Club Ad video — green button starts playback WITH sound.
+  // After that, the native controls (scrub bar, volume, fullscreen) take over.
   function playClubVideo() {
     var v = document.getElementById('clubVideo');
-    var wrap = document.getElementById('clubVideoWrap');
-    if (v.paused) {
-      v.muted = false;
-      v.volume = 1.0;
-      v.play();
-      wrap.classList.add('playing');
-    } else {
-      v.pause();
-      wrap.classList.remove('playing');
-    }
+    v.muted = false;
+    v.volume = 1.0;
+    v.play();
   }
+  // Once playing: reveal native controls (scrub bar, volume, fullscreen) + hide the green button
+  (function() {
+    var v = document.getElementById('clubVideo');
+    var wrap = document.getElementById('clubVideoWrap');
+    if (!v || !wrap) return;
+    v.addEventListener('play', function() {
+      v.controls = true;
+      wrap.classList.add('playing');
+    });
+  })();
 
   async function handleAdvSubmit(e) {
     e.preventDefault();
