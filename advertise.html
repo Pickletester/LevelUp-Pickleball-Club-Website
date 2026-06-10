@@ -131,6 +131,17 @@
       <div class="adv-sig-title">Owner, LevelUp Pickleball Club · Publisher, Pickleball Magazine</div>
       <div class="adv-sig-cred">US Open 5.0 Champion · USAPA National Champion</div>
     </div>
+
+    <!-- CLUB AD VIDEO (click to play with audio) -->
+    <div class="adv-clubvideo fade-up" id="clubVideoWrap" onclick="playClubVideo()">
+      <video class="adv-clubvideo-el" id="clubVideo" loop playsinline preload="metadata"
+             poster="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Advertise/all%20screens%20with%20people%20playing.webp">
+        <source src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Videos/Club%20Ad.mp4" type="video/mp4">
+      </video>
+      <button class="adv-clubvideo-play" id="clubVideoPlay" aria-label="Play video with sound">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
   </div>
 </section>
 
@@ -205,7 +216,7 @@
     <div class="adv-opps">
       <!-- LED SCREENS -->
       <div class="adv-opp fade-up">
-        <div class="adv-opp-img" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Advertise/LED%20signs.webp');"></div>
+        <div class="adv-opp-img" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Advertise/Jersry%20mikes%20led%20sign%20cool.webp');"></div>
         <div class="adv-opp-body">
           <h3>Interior LED Court Screens</h3>
           <div class="adv-opp-spec">4' × 8' Digital Screen · All 16 Courts</div>
@@ -229,7 +240,7 @@
 
       <!-- NET SIGNS -->
       <div class="adv-opp fade-up">
-        <div class="adv-opp-img" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Advertise/pickleball%20play%20with%20LED%20sign%20.webp');"></div>
+        <div class="adv-opp-img" style="background-image:url('https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Advertise/Net%20sign%20ad.webp');"></div>
         <div class="adv-opp-body">
           <h3>Net Signs</h3>
           <div class="adv-opp-spec">18" × 18" · Both Sides of the Net</div>
@@ -335,7 +346,6 @@
         </div>
 
         <button type="submit" class="btn btn-green btn-large" id="advSubmitBtn">Request the Media Kit →</button>
-        <p class="adv-fineprint">Prefer to talk? Call <a href="tel:4122065755">412-206-5755</a> or email <a href="mailto:wayne@leveluppickleballclub.com">wayne@leveluppickleballclub.com</a></p>
 
         <input type="hidden" name="access_key" value="REPLACE_WITH_ADVERTISE_WEB3FORMS_KEY">
         <input type="hidden" name="subject" value="New Advertising / Sponsorship Inquiry">
@@ -414,6 +424,21 @@
 
 <script src="js/main.js"></script>
 <script>
+  // Club Ad video — click to play WITH sound, click again to pause
+  function playClubVideo() {
+    var v = document.getElementById('clubVideo');
+    var wrap = document.getElementById('clubVideoWrap');
+    if (v.paused) {
+      v.muted = false;
+      v.volume = 1.0;
+      v.play();
+      wrap.classList.add('playing');
+    } else {
+      v.pause();
+      wrap.classList.remove('playing');
+    }
+  }
+
   async function handleAdvSubmit(e) {
     e.preventDefault();
     var btn = document.getElementById('advSubmitBtn');
