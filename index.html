@@ -64,64 +64,132 @@
   
   <link rel="stylesheet" href="css/index.css">
 <style>
+  /* ===== UPCOMING EVENTS TICKER (pinned, NHL-style) ===== */
   .promo-bar {
     position: fixed;
     top: 68px;
     left: 0; right: 0;
     z-index: 998;
-    background:
-      linear-gradient(90deg,
-        #0c3a14 0%,
-        #1a5c1a 18%,
-        var(--green) 38%,
-        #3cc440 55%,
-        var(--green) 72%,
-        #1a5c1a 88%,
-        #0c3a14 100%);
-    background-size: 250% 100%;
-    animation: promoShift 8s ease-in-out infinite;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-    text-align: center;
-    padding: 0.6rem 1rem;
+    height: 72px;
+    background: linear-gradient(180deg, #131a36 0%, #0b0f1f 100%);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.30);
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.30);
+  }
+  .ticker-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    padding: 0 1rem;
+    background: var(--green);
+    color: var(--dark);
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
+  }
+  .ticker-live {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--dark);
+    animation: tickerPulse 1.6s ease-out infinite;
+  }
+  @keyframes tickerPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(13,15,26,0.55); }
+    70%  { box-shadow: 0 0 0 7px rgba(13,15,26,0); }
+    100% { box-shadow: 0 0 0 0 rgba(13,15,26,0); }
+  }
+  .ticker-scroll {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .ticker-scroll::-webkit-scrollbar { display: none; }
+  .ticker-card {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex-shrink: 0;
+    padding: 0 1.15rem;
+    white-space: nowrap;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+  a.ticker-card:hover { background: rgba(60,196,64,0.12); }
+  .tc-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .tc-mon {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--green-light);
+  }
+  .tc-day {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
     color: #fff;
-    overflow: hidden;
+  }
+  .tc-info { display: flex; flex-direction: column; line-height: 1.2; min-width: 0; }
+  .tc-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    color: #fff;
+  }
+  .tc-meta {
+    font-size: 0.72rem;
+    letter-spacing: 0.01em;
+    color: rgba(255,255,255,0.5);
+  }
+  .ticker-empty {
+    display: flex;
+    align-items: center;
+    padding: 0 1.2rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5);
+  }
+  .ticker-arrow {
+    flex-shrink: 0;
+    width: 42px;
+    background: rgba(255,255,255,0.06);
+    border: none;
+    border-left: 1px solid rgba(255,255,255,0.08);
+    color: #fff;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    flex-wrap: nowrap;
-    white-space: nowrap;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    border-bottom: 1px solid rgba(0,0,0,0.18);
+    transition: background 0.2s ease, color 0.2s ease;
   }
-  .promo-bar-text {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.25);
-  }
-  .promo-bar-live {
-    display: inline-block;
-    width: 9px; height: 9px;
-    border-radius: 50%;
-    background: #ffffff;
-    box-shadow: 0 0 0 0 rgba(255,255,255,0.85);
-    animation: promoPulse 1.6s ease-out infinite;
-  }
-  .promo-bar-sep {
-    display: inline-block;
-    width: 1px;
-    height: 18px;
-    background: rgba(255,255,255,0.35);
-  }
+  .ticker-arrow:hover { background: rgba(60,196,64,0.22); color: var(--green-light); }
   .promo-bar-cta {
     display: inline-flex;
     align-items: center;
+    align-self: center;
+    flex-shrink: 0;
+    margin: 0 0.85rem;
     gap: 0.4rem;
     background: linear-gradient(180deg, #ffa320 0%, #f08800 100%);
     color: #fff !important;
@@ -145,23 +213,19 @@
     100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
   }
   @media (max-width: 700px) {
-    .promo-bar {
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      padding: 0.45rem 0.6rem;
-      gap: 0.65rem;
-    }
-    .promo-bar-sep { display: none; }
+    .ticker-tag { display: none; }
+    .tc-day { font-size: 1.35rem; }
+    .tc-name { font-size: 0.88rem; }
+    .tc-meta { font-size: 0.68rem; }
     .promo-bar-cta {
-      padding: 0.35rem 0.9rem;
-      font-size: 0.75rem;
-      letter-spacing: 0.07em;
+      margin: 0 0.5rem;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
     }
   }
-  @media (max-width: 380px) {
-    .promo-bar-text { display: none; }
-    .promo-bar { padding: 0.5rem 0.6rem; }
-    .promo-bar-cta { font-size: 0.82rem; padding: 0.45rem 1.1rem; letter-spacing: 0.1em; }
+  @media (max-width: 420px) {
+    .promo-bar-cta { font-size: 0.7rem; padding: 0.38rem 0.7rem; }
   }
 </style>
 </head>
@@ -189,9 +253,12 @@
   </div>
 </nav>
   <!-- PROMO BAR -->
-<div class="promo-bar">
-  <span class="promo-bar-text"><span class="promo-bar-live" aria-hidden="true"></span>Join Today, Play Tonight</span>
-  <span class="promo-bar-sep" aria-hidden="true"></span>
+<div class="promo-bar" id="eventsTicker">
+  <div class="ticker-tag"><span class="ticker-live" aria-hidden="true"></span>Upcoming</div>
+  <div class="ticker-scroll" id="tickerScroll">
+    <div class="ticker-empty">Loading events…</div>
+  </div>
+  <button class="ticker-arrow" id="tickerArrow" type="button" aria-label="Scroll events">&#8250;</button>
   <a class="promo-bar-cta" href="/membership">Become a Member →</a>
 </div>
 
@@ -373,20 +440,6 @@
             * Levels: Beginner 2.0–2.9 · Intermediate 3.0–3.9 · Advanced 4.0+
           </p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- UPCOMING EVENTS -->
-  <section class="upcoming-events" id="events">
-    <div class="container">
-      <div class="upcoming-header fade-up">
-        <div class="section-tag" style="background:var(--navy);color:#fff;">Mark Your Calendar</div>
-        <h2 class="upcoming-title">UPCOMING EVENTS</h2>
-        <p class="upcoming-sub">Tournaments, leagues, clinics, and special play nights at LevelUp. Check back often — new events added all the time.</p>
-      </div>
-      <div class="upcoming-list" id="upcomingList">
-        <div class="upcoming-empty">Loading events…</div>
       </div>
     </div>
   </section>
@@ -1006,7 +1059,7 @@
     }
 
     function render(events) {
-      const wrap = document.getElementById('upcomingList');
+      const wrap = document.getElementById('tickerScroll');
       if (!wrap) return;
       const today = todayEastern();
       const upcoming = events
@@ -1014,29 +1067,47 @@
         .filter(function(e){ return e._d && e._d >= today; })
         .sort(function(a,b){ return a._d - b._d; });
       if (!upcoming.length) {
-        wrap.innerHTML = '<div class="upcoming-empty">No upcoming events right now — check back soon!</div>';
+        wrap.innerHTML = '<div class="ticker-empty">No upcoming events — check back soon!</div>';
+        updateArrow();
         return;
       }
       wrap.innerHTML = upcoming.map(function(e){
         const mon = MONTHS[e._d.getMonth()];
         const day = e._d.getDate();
         const meta = [e.time, e.details].filter(Boolean).map(esc).join(' &middot; ');
-        const btn = e.link ? '<a class="btn btn-green" href="' + encodeURI(e.link) + '" target="_blank" rel="noopener">Details</a>' : '';
-        return '<div class="event-row">' +
-            '<div class="event-date"><span class="m">' + mon + '</span><span class="d">' + day + '</span></div>' +
-            '<div class="event-info"><div class="event-name">' + esc(e.name) + '</div>' +
-            (meta ? '<div class="event-meta">' + meta + '</div>' : '') + '</div>' +
-            (btn ? '<div class="event-action">' + btn + '</div>' : '') +
-          '</div>';
+        const inner =
+          '<div class="tc-date"><span class="tc-mon">' + mon + '</span><span class="tc-day">' + day + '</span></div>' +
+          '<div class="tc-info"><span class="tc-name">' + esc(e.name) + '</span>' +
+          (meta ? '<span class="tc-meta">' + meta + '</span>' : '') + '</div>';
+        return e.link
+          ? '<a class="ticker-card" href="' + encodeURI(e.link) + '" target="_blank" rel="noopener">' + inner + '</a>'
+          : '<div class="ticker-card">' + inner + '</div>';
       }).join('');
+      updateArrow();
     }
+
+    function updateArrow() {
+      const sc = document.getElementById('tickerScroll');
+      const ar = document.getElementById('tickerArrow');
+      if (sc && ar) ar.style.display = (sc.scrollWidth > sc.clientWidth + 4) ? 'flex' : 'none';
+    }
+    (function(){
+      const sc = document.getElementById('tickerScroll');
+      const ar = document.getElementById('tickerArrow');
+      if (ar && sc) ar.addEventListener('click', function(){
+        const atEnd = sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 4;
+        if (atEnd) sc.scrollTo({ left: 0, behavior: 'smooth' });
+        else sc.scrollBy({ left: Math.max(220, sc.clientWidth * 0.6), behavior: 'smooth' });
+      });
+      window.addEventListener('resize', updateArrow);
+    })();
 
     fetch(SHEET_CSV_URL || FALLBACK_URL)
       .then(function(r){ if (!r.ok) throw new Error('fetch failed'); return r.text(); })
       .then(function(t){ render(toObjects(parseCSV(t))); })
       .catch(function(){
-        const wrap = document.getElementById('upcomingList');
-        if (wrap) wrap.innerHTML = '<div class="upcoming-empty">Events are being updated — check back soon!</div>';
+        const wrap = document.getElementById('tickerScroll');
+        if (wrap) wrap.innerHTML = '<div class="ticker-empty">Events are being updated — check back soon!</div>';
       });
   })();
 

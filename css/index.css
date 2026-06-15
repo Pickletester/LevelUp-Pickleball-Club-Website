@@ -22,7 +22,7 @@
     background: var(--dark);
     color: var(--white);
     overflow-x: hidden;
-    padding-top: 108px;
+    padding-top: 140px;
   }
 
   /* ===== UTILITY ===== */
@@ -150,7 +150,7 @@
   /* ===== HOME PAGE ===== */
   .hero {
     position: relative;
-    min-height: calc(100vh - 108px);
+    min-height: calc(100vh - 140px);
     display: flex;
     align-items: center;
     overflow: hidden;
