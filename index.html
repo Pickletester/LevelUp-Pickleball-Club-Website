@@ -377,6 +377,20 @@
     </div>
   </section>
 
+  <!-- UPCOMING EVENTS -->
+  <section class="upcoming-events" id="events">
+    <div class="container">
+      <div class="upcoming-header fade-up">
+        <div class="section-tag" style="background:var(--navy);color:#fff;">Mark Your Calendar</div>
+        <h2 class="upcoming-title">UPCOMING EVENTS</h2>
+        <p class="upcoming-sub">Tournaments, leagues, clinics, and special play nights at LevelUp. Check back often — new events added all the time.</p>
+      </div>
+      <div class="upcoming-list" id="upcomingList">
+        <div class="upcoming-empty">Loading events…</div>
+      </div>
+    </div>
+  </section>
+
   <!-- TESTIMONIALS -->
   <section class="testimonials">
     <div class="container">
@@ -907,6 +921,125 @@
 
 
   
+
+  // ===== UPCOMING EVENTS (from Google Sheet) =====
+  (function() {
+    // ┌─────────────────────────────────────────────────────────────────────┐
+    // │ TO CONNECT YOUR GOOGLE SHEET:                                         │
+    // │ In Google Sheets: File ▸ Share ▸ Publish to web ▸ choose CSV ▸ Publish│
+    // │ Copy the link it gives you and paste it between the quotes below.     │
+    // │ Until then, the site reads the local events.csv file as a fallback.   │
+    // └─────────────────────────────────────────────────────────────────────┘
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNSp80KWdyuFcDjjrgXsvBVXsP1BlivcEdF4i2T51BIfV4VL_kmYl-YOfybRUpffdf6E9lYNn32aXh/pub?gid=0&single=true&output=csv';
+    const FALLBACK_URL = 'events.csv';
+    const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+
+    function parseCSV(text) {
+      const rows = []; let row = [], field = '', i = 0, inQ = false;
+      while (i < text.length) {
+        const c = text[i];
+        if (inQ) {
+          if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else { inQ = false; } }
+          else { field += c; }
+        } else {
+          if (c === '"') { inQ = true; }
+          else if (c === ',') { row.push(field); field = ''; }
+          else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+          else if (c !== '\r') { field += c; }
+        }
+        i++;
+      }
+      if (field.length || row.length) { row.push(field); rows.push(row); }
+      return rows;
+    }
+
+    function toObjects(rows) {
+      if (!rows.length) return [];
+      const headers = rows[0].map(function(h){ return h.trim().toLowerCase(); });
+      const find = function() {
+        for (let k = 0; k < arguments.length; k++) {
+          const j = headers.indexOf(arguments[k]);
+          if (j !== -1) return j;
+        }
+        return -1;
+      };
+      const di = find('date'),
+            ni = find('event name','event','name','title'),
+            ti = find('time'),
+            ddi = find('details','description','desc'),
+            li = find('link','url','register','rsvp');
+      const get = function(r, idx){ return idx !== -1 && r[idx] != null ? r[idx].trim() : ''; };
+      return rows.slice(1).map(function(r){
+        return { date: get(r,di), name: get(r,ni), time: get(r,ti), details: get(r,ddi), link: get(r,li) };
+      }).filter(function(e){ return e.name && e.date; });
+    }
+
+    function parseDate(s) {
+      s = (s || '').trim();
+      if (!s) return null;
+      // ISO format: 2026-06-21
+      const iso = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+      if (iso) return new Date(+iso[1], +iso[2]-1, +iso[3]);
+      // Any text that already includes a 4-digit year (e.g. "June 21, 2026", "6/21/2026")
+      if (/\d{4}/.test(s)) {
+        const d = new Date(s);
+        return isNaN(d.getTime()) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      }
+      // No year given (e.g. "June 26"): always treat it as the CURRENT year.
+      // If that date has already passed, it simply drops off the list (the upcoming filter removes it).
+      const today = todayEastern();
+      const d = new Date(s + ' ' + today.getFullYear());
+      if (isNaN(d.getTime())) return null;
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    }
+
+    function todayEastern() {
+      const now = new Date();
+      const e = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      return new Date(e.getFullYear(), e.getMonth(), e.getDate());
+    }
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, function(c){
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+      });
+    }
+
+    function render(events) {
+      const wrap = document.getElementById('upcomingList');
+      if (!wrap) return;
+      const today = todayEastern();
+      const upcoming = events
+        .map(function(e){ e._d = parseDate(e.date); return e; })
+        .filter(function(e){ return e._d && e._d >= today; })
+        .sort(function(a,b){ return a._d - b._d; });
+      if (!upcoming.length) {
+        wrap.innerHTML = '<div class="upcoming-empty">No upcoming events right now — check back soon!</div>';
+        return;
+      }
+      wrap.innerHTML = upcoming.map(function(e){
+        const mon = MONTHS[e._d.getMonth()];
+        const day = e._d.getDate();
+        const meta = [e.time, e.details].filter(Boolean).map(esc).join(' &middot; ');
+        const btn = e.link ? '<a class="btn btn-green" href="' + encodeURI(e.link) + '" target="_blank" rel="noopener">Details</a>' : '';
+        return '<div class="event-row">' +
+            '<div class="event-date"><span class="m">' + mon + '</span><span class="d">' + day + '</span></div>' +
+            '<div class="event-info"><div class="event-name">' + esc(e.name) + '</div>' +
+            (meta ? '<div class="event-meta">' + meta + '</div>' : '') + '</div>' +
+            (btn ? '<div class="event-action">' + btn + '</div>' : '') +
+          '</div>';
+      }).join('');
+    }
+
+    fetch(SHEET_CSV_URL || FALLBACK_URL)
+      .then(function(r){ if (!r.ok) throw new Error('fetch failed'); return r.text(); })
+      .then(function(t){ render(toObjects(parseCSV(t))); })
+      .catch(function(){
+        const wrap = document.getElementById('upcomingList');
+        if (wrap) wrap.innerHTML = '<div class="upcoming-empty">Events are being updated — check back soon!</div>';
+      });
+  })();
+
 
   var LEGAL_CONTENT = {
     privacy: {
