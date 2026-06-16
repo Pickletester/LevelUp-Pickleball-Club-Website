@@ -142,16 +142,11 @@
     font-size: 1.5rem;
     color: var(--navy);
   }
-  .tc-events { display: flex; flex-direction: column; justify-content: center; gap: 0.3rem; min-width: 0; }
+  .tc-events { display: flex; flex-direction: row; align-items: center; min-width: 0; }
   .tc-event { display: flex; flex-direction: column; line-height: 1.15; text-decoration: none; min-width: 0; }
-  .tc-event + .tc-event { padding-top: 0.3rem; border-top: 1px solid rgba(0,0,0,0.10); }
+  /* same-day events sit side-by-side in their own columns with a divider */
+  .tc-event + .tc-event { margin-left: 0.9rem; padding-left: 0.9rem; border-left: 1px solid rgba(0,0,0,0.12); }
   a.tc-event:hover .tc-name { color: var(--green-dark); }
-  /* compact multi-event (same-day) groups so they fit the bar height */
-  .ticker-card.multi .tc-events { gap: 0.12rem; }
-  .ticker-card.multi .tc-event { line-height: 1.1; }
-  .ticker-card.multi .tc-event + .tc-event { padding-top: 0.15rem; }
-  .ticker-card.multi .tc-name { font-size: 0.85rem; }
-  .ticker-card.multi .tc-meta { font-size: 0.66rem; }
   .tc-name {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
