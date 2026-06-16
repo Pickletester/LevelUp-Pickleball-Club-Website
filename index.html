@@ -60,7 +60,7 @@
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="css/index.css?v=2">
 <style>
@@ -84,9 +84,9 @@
     background: var(--green);
     color: var(--dark);
     font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
   }
   .ticker-live {
@@ -146,6 +146,12 @@
   .tc-event { display: flex; flex-direction: column; line-height: 1.15; text-decoration: none; min-width: 0; }
   .tc-event + .tc-event { padding-top: 0.3rem; border-top: 1px solid rgba(0,0,0,0.10); }
   a.tc-event:hover .tc-name { color: var(--green-dark); }
+  /* compact multi-event (same-day) groups so they fit the bar height */
+  .ticker-card.multi .tc-events { gap: 0.12rem; }
+  .ticker-card.multi .tc-event { line-height: 1.1; }
+  .ticker-card.multi .tc-event + .tc-event { padding-top: 0.15rem; }
+  .ticker-card.multi .tc-name { font-size: 0.85rem; }
+  .ticker-card.multi .tc-meta { font-size: 0.66rem; }
   .tc-name {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
@@ -1058,6 +1064,19 @@
       });
     }
 
+    // Profanity filter — masks bad words from sheet text (e.g. "shit" -> "s***")
+    var BAD_WORDS = ['fuck','fucks','fucking','fucked','fucker','fuckers','motherfucker','motherfucking','shit','shits','shitty','shitting','bullshit','bitch','bitches','bitching','asshole','assholes','ass','asses','bastard','bastards','dick','dicks','dickhead','piss','pissed','pissing','cunt','cunts','cock','cocks','pussy','pussies','slut','sluts','whore','whores','fag','faggot','faggots','nigger','niggers','nigga','niggas','douche','douchebag','prick','pricks','wanker','bollocks','twat','jackass','goddamn'];
+    function censor(s) {
+      if (!s) return s;
+      return String(s).replace(/[A-Za-z']+/g, function(w){
+        var lw = w.toLowerCase().replace(/'/g, '');
+        if (BAD_WORDS.indexOf(lw) !== -1) {
+          return w.charAt(0) + new Array(w.length).join('*');
+        }
+        return w;
+      });
+    }
+
     function render(events) {
       const wrap = document.getElementById('tickerScroll');
       if (!wrap) return;
@@ -1083,8 +1102,8 @@
         const mon = MONTHS[g.d.getMonth()];
         const day = g.d.getDate();
         const evs = g.events.map(function(e){
-          const meta = [e.time, e.details].filter(Boolean).map(esc).join(' &middot; ');
-          const inner = '<span class="tc-name">' + esc(e.name) + '</span>' +
+          const meta = [e.time, e.details].filter(Boolean).map(function(s){ return esc(censor(s)); }).join(' &middot; ');
+          const inner = '<span class="tc-name">' + esc(censor(e.name)) + '</span>' +
             (meta ? '<span class="tc-meta">' + meta + '</span>' : '');
           return e.link
             ? '<a class="tc-event" href="' + encodeURI(e.link) + '" target="_blank" rel="noopener">' + inner + '</a>'
