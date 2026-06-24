@@ -16,12 +16,12 @@
 
   html { scroll-behavior: smooth; }
 
-  body {
+  body { /* offset = nav only (alert bar removed) */
     font-family: 'Barlow', sans-serif;
     background: var(--dark);
     color: var(--white);
     overflow-x: hidden;
-    padding-top: 108px;
+    padding-top: 68px;
   }
 
   /* ===== UTILITY ===== */
