@@ -249,14 +249,24 @@
       <h2>SEE IT <span>LIVE</span></h2>
       <p class="adv-lead">A real-time look at the ads playing on our court screens right now.</p>
     </div>
-    <div class="fade-up" style="position:relative;max-width:1000px;margin:0 auto;aspect-ratio:2/1;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.20);background:#000;">
-      <iframe src="https://mypartysign.com/" title="LevelUp Live Ad Player" loading="lazy" allow="autoplay; fullscreen" style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>
-    </div>
-    <div class="fade-up" style="text-align:center;margin-top:1.5rem;">
-      <a class="btn btn-green" href="https://mypartysign.com/" target="_blank" rel="noopener">Open Full Screen ↗</a>
+    <div class="fade-up" id="liveAdWrap" style="position:relative;max-width:845px;margin:0 auto;aspect-ratio:845/314;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.20);background:#000;">
+      <iframe id="liveAdFrame" src="https://mypartysign.com/" title="LevelUp Live Ad Player" loading="lazy" allow="autoplay; fullscreen" style="position:absolute;top:0;left:0;width:1600px;height:600px;border:0;transform-origin:top left;"></iframe>
     </div>
   </div>
 </section>
+<script>
+  // Scale the fixed 845x314 ad player to fit the responsive frame width
+  (function(){
+    function scaleLiveAd(){
+      var w = document.getElementById('liveAdWrap'), f = document.getElementById('liveAdFrame');
+      if (!w || !f) return;
+      f.style.transform = 'scale(' + (w.clientWidth / 845) + ')';
+    }
+    window.addEventListener('resize', scaleLiveAd);
+    window.addEventListener('load', scaleLiveAd);
+    scaleLiveAd();
+  })();
+</script>
 
 <!-- CURRENT SPONSORS -->
 <section class="adv-section light" id="sponsors">
