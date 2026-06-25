@@ -65,8 +65,65 @@
   
   <link rel="stylesheet" href="css/replay.css">
   <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    /* ---- CourtCam intro overlay ---- */
+    #ccIntro {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+      transition: opacity 0.7s ease;
+    }
+    #ccIntro.cc-out { opacity: 0; }
+    .cc-intro-logo {
+      display: flex;
+      align-items: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      letter-spacing: 3px;
+      line-height: 1;
+    }
+    .cc-intro-court {
+      color: #fff;
+      -webkit-text-stroke: 2px #fff;
+      opacity: 0;
+      animation: ccCourtIn 0.5s ease forwards 0.3s;
+    }
+    .cc-intro-cam {
+      color: #44b449;
+      -webkit-text-stroke: 2px #44b449;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 0;
+      opacity: 0;
+      animation: ccCamIn 0.4s cubic-bezier(0.4,0,0.2,1) forwards 1.1s;
+    }
+    @keyframes ccCourtIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes ccCamIn {
+      from { width: 0; opacity: 0; }
+      to   { width: 2.1em; opacity: 1; }
+    }
+    /* Hero starts invisible; intro JS reveals it */
+    .replay-hero { opacity: 0; transition: opacity 0.7s ease 0.1s; }
+    .replay-hero.cc-visible { opacity: 1; }
+  </style>
 </head>
 <body>
+
+<!-- COURTCAM INTRO OVERLAY -->
+<div id="ccIntro">
+  <div class="cc-intro-logo">
+    <span class="cc-intro-court">COURT</span><span class="cc-intro-cam">CAM</span>
+  </div>
+</div>
 
 <nav id="mainNav">
   <a class="nav-logo" href="/">
@@ -117,7 +174,10 @@
     <!-- Scanline overlay for that VHS / TV feel -->
     <div class="replay-hero-scanlines" aria-hidden="true"></div>
     <div class="replay-hero-content">
-      <div class="replay-rec-badge"><span class="replay-rec-dot"></span>REC · ALL 16 COURTS</div>
+      <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;justify-content:center;">
+        <div class="replay-rec-badge"><span class="replay-rec-dot"></span>REC · ALL 16 COURTS</div>
+        <div class="replay-rec-badge" style="background:rgba(68,180,73,0.15);border-color:rgba(68,180,73,0.5);color:rgba(255,255,255,0.85);">🔊 AUDIO INCLUDED</div>
+      </div>
       <div class="kitchencam-logo">
         <div class="kc-kitchen">COURT</div>
         <div class="kc-cam">CAM</div>
@@ -633,6 +693,21 @@
 </div>
 
   <script src="js/main.js"></script>
+  <script>
+    (function() {
+      var intro = document.getElementById('ccIntro');
+      var hero = document.querySelector('.replay-hero');
+      if (!intro) return;
+      // At 2s: fade the overlay out and reveal the hero simultaneously
+      setTimeout(function() {
+        intro.classList.add('cc-out');
+        if (hero) hero.classList.add('cc-visible');
+        intro.addEventListener('transitionend', function() {
+          intro.style.display = 'none';
+        }, { once: true });
+      }, 2000);
+    })();
+  </script>
 
 </body>
 </html>
