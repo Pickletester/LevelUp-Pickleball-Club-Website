@@ -191,13 +191,8 @@
               <div class="replay-select-wrap">
                 <select id="replayDuration">
                   <option value="">Select duration</option>
-                  <option value="30">30 min — $6</option>
-                  <option value="35">35 min — $7</option>
-                  <option value="40">40 min — $8</option>
-                  <option value="45">45 min — $9</option>
-                  <option value="50">50 min — $10</option>
-                  <option value="55">55 min — $11</option>
-                  <option value="60">60 min — $12</option>
+                  <option value="15">15 min — $5</option>
+                  <option value="30">30 min — $10</option>
                 </select>
               </div>
             </div>
@@ -299,9 +294,9 @@
 
     function updateConstraints() {
       var isToday = dateEl.value === fmtDate(today);
-      // Start time: any time on a past date; if today, capped to (now - 30 min) so the shortest 30-min session can still fit
+      // Start time: any time on a past date; if today, capped to (now - 15 min) so the shortest 15-min session can still fit
       startEl.min = '00:00';
-      startEl.max = isToday ? minToTime(Math.max(0, nowMin - 30)) : '23:30';
+      startEl.max = isToday ? minToTime(Math.max(0, nowMin - 15)) : '23:30';
 
       // Disable duration options whose end time would be in the future (today only)
       var startMin = toMin(startEl.value);
@@ -320,8 +315,9 @@
     function updatePrice() {
       var s = toMin(startEl.value);
       var dur = parseInt(durationEl.value, 10);
-      if (s != null && !isNaN(dur) && dur >= 30 && dur <= 60 && dur % 5 === 0) {
-        var basePrice = 6 + (dur - 30) / 5;
+      if (s != null && (dur === 15 || dur === 30)) {
+        var PRICE_BY_DURATION = { 15: 5, 30: 10 };
+        var basePrice = PRICE_BY_DURATION[dur];
         var promo = window.getReplayActivePromo ? window.getReplayActivePromo(dur) : null;
         var price = (promo && typeof promo.flatPrice === 'number') ? promo.flatPrice : basePrice;
         durEl.textContent = dur + '-minute recording' + (promo ? ' — promo applied' : '');
@@ -418,7 +414,7 @@
     if (!court) { alert('Please select a court.'); return; }
     if (!date) { alert('Please select a date.'); return; }
     if (!start) { alert('Please select a start time.'); return; }
-    if (isNaN(duration) || duration < 30 || duration > 60 || duration % 5 !== 0) {
+    if (duration !== 15 && duration !== 30) {
       alert('Please select a duration.'); return;
     }
     if (!name) { alert('Please enter your name.'); return; }
@@ -430,7 +426,8 @@
     var end = (endMin >= 24*60)
       ? '23:59'
       : (endMin/60|0 < 10 ? '0' : '') + (endMin/60|0) + ':' + ((endMin%60) < 10 ? '0' : '') + (endMin%60);
-    var basePrice = 6 + (duration - 30) / 5;
+    var PRICE_BY_DURATION = { 15: 5, 30: 10 };
+    var basePrice = PRICE_BY_DURATION[duration];
     var promoCode = (document.getElementById('replayPromo').value || '').trim();
     var promoCfg = window.getReplayActivePromo ? window.getReplayActivePromo(duration) : null;
     var price = (promoCfg && typeof promoCfg.flatPrice === 'number') ? promoCfg.flatPrice : basePrice;
@@ -515,7 +512,7 @@
         <div class="how-step fade-up">
           <div class="how-step-num">2</div>
           <h4>Set Your Time Range</h4>
-          <p>Choose your start and end time — any length from 30 min up to 1 hour, in 5-minute steps.</p>
+          <p>Pick 15 minutes for $5 or 30 minutes for $10.</p>
         </div>
         <div class="how-step fade-up">
           <div class="how-step-num">3</div>
