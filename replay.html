@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-31TFRX7MMP"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-31TFRX7MMP"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -17,7 +16,6 @@
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://leveluppickleballclub.com/replay">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Court Replay | LevelUp Pickleball Club — Canonsburg, PA">
   <meta property="og:description" content="Watch and download recordings of your pickleball matches at LevelUp Pickleball Club. Court cameras available on all 16 courts.">
@@ -25,13 +23,11 @@
   <meta property="og:image" content="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png">
   <meta property="og:site_name" content="LevelUp Pickleball Club">
 
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Court Replay | LevelUp Pickleball Club — Canonsburg, PA">
   <meta name="twitter:description" content="Watch and download recordings of your pickleball matches at LevelUp Pickleball Club. Court cameras available on all 16 courts.">
   <meta name="twitter:image" content="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png">
 
-  <!-- Local Business Schema -->
   <script type="application/ld+json">
   {
   "@context": "https://schema.org",
@@ -79,23 +75,44 @@
       transition: opacity 0.7s ease;
     }
     #ccIntro.cc-out { opacity: 0; }
-    .cc-intro-logo {
+    
+    /* Shared styles for both intro overlay and stationary hero logo */
+    .cc-logo-markup {
       display: flex;
       align-items: center;
+      justify-content: center;
       font-family: 'Bebas Neue', sans-serif;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    
+    .cc-intro-logo {
       font-size: clamp(3.5rem, 10vw, 7rem);
       letter-spacing: 3px;
-      line-height: 1;
     }
-    .cc-intro-court {
+    
+    .cc-static-logo {
+      font-size: clamp(4rem, 12vw, 8rem);
+      letter-spacing: 4px;
+      margin: 1.5rem 0;
+    }
+    
+    .cc-word-court {
       color: #fff;
       -webkit-text-stroke: 2px #fff;
+    }
+    
+    .cc-word-cam {
+      color: #44b449;
+      -webkit-text-stroke: 2px #44b449;
+    }
+
+    /* Animation specifically for the intro overlay element */
+    .cc-intro-court {
       opacity: 0;
       animation: ccCourtIn 0.5s ease forwards 0.3s;
     }
     .cc-intro-cam {
-      color: #44b449;
-      -webkit-text-stroke: 2px #44b449;
       display: inline-block;
       overflow: hidden;
       white-space: nowrap;
@@ -111,6 +128,7 @@
       from { width: 0; opacity: 0; }
       to   { width: 2.1em; opacity: 1; }
     }
+    
     /* Hero starts invisible; intro JS reveals it */
     .replay-hero { opacity: 0; transition: opacity 0.7s ease 0.1s; }
     .replay-hero.cc-visible { opacity: 1; }
@@ -118,10 +136,9 @@
 </head>
 <body>
 
-<!-- COURTCAM INTRO OVERLAY -->
 <div id="ccIntro">
-  <div class="cc-intro-logo">
-    <span class="cc-intro-court">COURT</span><span class="cc-intro-cam">CAM</span>
+  <div class="cc-logo-markup cc-intro-logo">
+    <span class="cc-word-court cc-intro-court">COURT</span><span class="cc-word-cam cc-intro-cam">CAM</span>
   </div>
 </div>
 
@@ -147,7 +164,6 @@
   </div>
 </nav>
 
-<!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="/">Home</a>
   <a href="/membership">Membership</a>
@@ -162,7 +178,6 @@
   <a href="https://app.courtreserve.com" target="_blank">Member Portal ↗</a>
 </div>
 
-<!-- ALERT BAR -->
 <div class="alert-bar">
   <a href="https://app.courtreserve.com" target="_blank">
     Click Here to Access the Member Portal — Book courts, register for events &amp; manage your account. Download the app: <strong>"LevelUp Pickleball Club"</strong>
@@ -171,25 +186,23 @@
 
 
   <div class="replay-hero">
-    <!-- Scanline overlay for that VHS / TV feel -->
     <div class="replay-hero-scanlines" aria-hidden="true"></div>
     <div class="replay-hero-content">
       <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;justify-content:center;">
         <div class="replay-rec-badge"><span class="replay-rec-dot"></span>REC · ALL 16 COURTS</div>
         <div class="replay-rec-badge" style="background:rgba(68,180,73,0.15);border-color:rgba(68,180,73,0.5);color:rgba(255,255,255,0.85);">🔊 AUDIO INCLUDED</div>
       </div>
-      <div class="kitchencam-logo">
-        <div class="kc-kitchen">COURT</div>
-        <div class="kc-cam">CAM</div>
-        <div class="kc-sub">COURT CAM · LEVELUP</div>
+      
+      <div class="cc-logo-markup cc-static-logo">
+        <span class="cc-word-court">COURT</span><span class="cc-word-cam">CAM</span>
       </div>
+      
       <p class="replay-hero-tag">Relive your best rallies. Review your technique. Share your highlights.<br>Your video is delivered to your inbox in about <strong>10 minutes</strong>.</p>
       <div class="replay-hero-cta">
         <a class="replay-hero-btn primary" href="#book">Book Your Recording ↓</a>
         <a class="replay-hero-btn ghost" href="#how">How It Works</a>
       </div>
     </div>
-    <!-- Timecode strip at the bottom -->
     <div class="replay-hero-timecode" aria-hidden="true">
       <span>● REC</span>
       <span class="tc-mid">LPC · ALL COURTS · 24/7</span>
@@ -197,7 +210,6 @@
     </div>
   </div>
 
-  <!-- BOOKING FORM -->
   <section class="replay-form-section" id="book">
     <div class="container">
       <div style="text-align:center;margin-bottom:2.5rem;">
@@ -206,7 +218,6 @@
       </div>
 
       <div class="replay-card fade-up">
-        <!-- Step indicator -->
         <div style="display:flex;background:var(--navy);border-radius:18px 18px 0 0;overflow:hidden;">
           <div style="flex:1;padding:1.2rem;text-align:center;border-right:1px solid rgba(255,255,255,0.1);">
             <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--green);">1</div>
@@ -271,7 +282,6 @@
             <div class="ps-price" id="psPrice">$—</div>
           </div>
 
-          <!-- PROMO CODE -->
           <div class="replay-promo">
             <label for="replayPromo">Have a Promo Code? <span class="opt">(optional)</span></label>
             <div class="replay-promo-row">
@@ -290,7 +300,6 @@
           </button>
         </div>
 
-        <!-- Trust bar -->
         <div class="replay-trust">
           <div class="trust-item">
             <div class="trust-icon">⏰</div>
@@ -572,7 +581,6 @@
   }
   </script>
 
-  <!-- HOW IT WORKS -->
   <section class="replay-how" id="how">
     <div class="container">
       <h2 class="replay-how-title">HOW IT <span>WORKS</span></h2>
@@ -601,19 +609,15 @@
     </div>
   </section>
 
-  <!-- NOTICE -->
   <div style="background:var(--dark);padding:3rem 0;border-top:1px solid rgba(255,255,255,0.06);">
     <div class="container" style="text-align:center;max-width:700px;">
       <p style="font-size:0.85rem;color:rgba(255,255,255,0.3);line-height:1.8;">
-        🔊 <strong style="color:rgba(255,255,255,0.5)">Pennsylvania Wiretap Law Notice:</strong> By purchasing a court recording you acknowledge that audio may be captured incidentally by the camera system. All players on the court have been notified via posted signage that courts are recorded. By completing your purchase you consent to recording of your session.
+         🔊 <strong style="color:rgba(255,255,255,0.5)">Pennsylvania Wiretap Law Notice:</strong> By purchasing a court recording you acknowledge that audio may be captured incidentally by the camera system. All players on the court have been notified via posted signage that courts are recorded. By completing your purchase you consent to recording of your session.
       </p>
     </div>
   </div>
 
-</div><!-- /page-replay -->
-
-<!-- STRIPE EMBEDDED CHECKOUT MODAL -->
-<div class="replay-checkout-modal" id="replayCheckoutModal" aria-hidden="true">
+</div><div class="replay-checkout-modal" id="replayCheckoutModal" aria-hidden="true">
   <div class="replay-checkout-inner">
     <button class="replay-checkout-close" onclick="closeReplayCheckout()" aria-label="Close">✕</button>
     <div class="replay-checkout-header">
@@ -681,7 +685,6 @@
   </div>
 </footer>
 
-<!-- LEGAL MODAL -->
 <div id="legalModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(13,15,26,0.92);backdrop-filter:blur(6px);overflow-y:auto;">
   <div style="max-width:780px;margin:3rem auto;background:var(--off-white);border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
     <div style="background:var(--navy);padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;">
