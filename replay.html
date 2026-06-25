@@ -316,13 +316,11 @@
       var s = toMin(startEl.value);
       var dur = parseInt(durationEl.value, 10);
       if (s != null && (dur === 15 || dur === 30)) {
-        var PRICE_BY_DURATION = { 15: 5, 30: 10 };
-        var basePrice = PRICE_BY_DURATION[dur];
         var promo = window.getReplayActivePromo ? window.getReplayActivePromo(dur) : null;
-        var price = (promo && typeof promo.flatPrice === 'number') ? promo.flatPrice : basePrice;
+        var priceText = window.replayPriceFor(dur, promo).text;
         durEl.textContent = dur + '-minute recording' + (promo ? ' — promo applied' : '');
-        priceEl.textContent = '$' + price;
-        btn.textContent = 'GET MY RECORDING — $' + price;
+        priceEl.textContent = '$' + priceText;
+        btn.textContent = 'GET MY RECORDING — $' + priceText;
         btn.disabled = false;
         summary.classList.add('valid');
         return;
@@ -359,11 +357,25 @@
   // Recognized promo codes (front-end display only; the Worker validates for real).
   // Keep this in sync with REPLAY_PROMOS in the Worker (lpc-stripe-worker/src/index.js).
   const REPLAY_PROMOS = {
-    '4324': { flatPrice: 1, validDurations: [30], label: '$1 promo (4324)' }
+    '4324': { flatPrice: 1, validDurations: [30], label: '$1 promo (4324)' },
+    'courtcam': { percentOff: 50, label: '50% off (COURTCAM)' }
+  };
+
+  const REPLAY_PRICES = { 15: 5, 30: 10 };
+
+  // Promo-aware price for a duration. Returns { value, text }.
+  // percentOff discounts show cents (e.g. $2.50); whole-dollar amounts don't.
+  window.replayPriceFor = function(duration, promo) {
+    var base = REPLAY_PRICES[duration];
+    var val = base;
+    if (promo && typeof promo.flatPrice === 'number') val = promo.flatPrice;
+    else if (promo && typeof promo.percentOff === 'number') val = base * (1 - promo.percentOff / 100);
+    var text = (promo && typeof promo.percentOff === 'number') ? val.toFixed(2) : String(val);
+    return { value: val, text: text };
   };
 
   window.getReplayActivePromo = function(duration) {
-    const raw = (document.getElementById('replayPromo')?.value || '').trim();
+    const raw = (document.getElementById('replayPromo')?.value || '').trim().toLowerCase();
     if (!raw) return null;
     const cfg = REPLAY_PROMOS[raw];
     if (!cfg) return null;
@@ -372,7 +384,7 @@
   };
 
   function checkReplayPromo() {
-    const raw = (document.getElementById('replayPromo').value || '').trim();
+    const raw = (document.getElementById('replayPromo').value || '').trim().toLowerCase();
     const status = document.getElementById('replayPromoStatus');
     if (!raw) {
       status.textContent = '';
@@ -389,7 +401,9 @@
       status.textContent = 'Valid for ' + cfg.validDurations.join(', ') + '-min only';
       status.className = 'replay-promo-status invalid';
     } else {
-      status.textContent = '✓ Applied — $' + cfg.flatPrice;
+      status.textContent = (dur === 15 || dur === 30)
+        ? '✓ Applied — $' + window.replayPriceFor(dur, cfg).text
+        : '✓ ' + (cfg.label || 'Promo applied');
       status.className = 'replay-promo-status valid';
     }
     if (window.replayRefreshPrice) window.replayRefreshPrice();
@@ -426,11 +440,10 @@
     var end = (endMin >= 24*60)
       ? '23:59'
       : (endMin/60|0 < 10 ? '0' : '') + (endMin/60|0) + ':' + ((endMin%60) < 10 ? '0' : '') + (endMin%60);
-    var PRICE_BY_DURATION = { 15: 5, 30: 10 };
-    var basePrice = PRICE_BY_DURATION[duration];
-    var promoCode = (document.getElementById('replayPromo').value || '').trim();
+    var promoCode = (document.getElementById('replayPromo').value || '').trim().toLowerCase();
     var promoCfg = window.getReplayActivePromo ? window.getReplayActivePromo(duration) : null;
-    var price = (promoCfg && typeof promoCfg.flatPrice === 'number') ? promoCfg.flatPrice : basePrice;
+    var priceInfo = window.replayPriceFor(duration, promoCfg);
+    var price = priceInfo.text;
     var startPretty = fmt12(start);
     var endPretty = fmt12(end);
 
