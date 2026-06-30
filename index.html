@@ -220,6 +220,81 @@
     .tc-meta { font-size: 0.68rem; }
     .promo-bar-cta { display: none; }
   }
+
+  /* ===== HOME FACILITY CAROUSEL ===== */
+  .home-carousel {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    aspect-ratio: 16 / 7;
+    background: #0D0F1A;
+  }
+  .home-carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .home-carousel-slide {
+    min-width: 100%;
+    height: 100%;
+  }
+  .home-carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .home-carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(13,15,26,0.45);
+    color: #fff;
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s, transform 0.2s;
+  }
+  .home-carousel-arrow:hover { background: var(--green); transform: translateY(-50%) scale(1.08); }
+  .home-carousel-arrow.prev { left: 16px; padding-right: 3px; }
+  .home-carousel-arrow.next { right: 16px; padding-left: 3px; }
+  .home-carousel-dots {
+    position: absolute;
+    bottom: 16px;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+    z-index: 3;
+  }
+  .home-carousel-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .home-carousel-dot.active { background: var(--green); transform: scale(1.25); }
+  @media (max-width: 700px) {
+    .home-carousel { aspect-ratio: 16 / 10; }
+    .home-carousel-arrow { width: 38px; height: 38px; font-size: 1.4rem; }
+    .home-carousel-arrow.prev { left: 8px; }
+    .home-carousel-arrow.next { right: 8px; }
+  }
 </style>
 </head>
 <body>
@@ -388,7 +463,12 @@
         </div>
       </div>
       <div class="facility-cta fade-up">
-        <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Courts%20wideshots/DSC09257.webp" alt="LevelUp Courts" loading="lazy" style="width:100%;border-radius:12px;margin-bottom:3rem;object-fit:cover;max-height:500px;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
+        <div class="home-carousel" id="homeCarousel" aria-label="LevelUp facility photo carousel">
+          <div class="home-carousel-track" id="homeCarouselTrack"></div>
+          <button class="home-carousel-arrow prev" id="homeCarouselPrev" type="button" aria-label="Previous photo">&#8249;</button>
+          <button class="home-carousel-arrow next" id="homeCarouselNext" type="button" aria-label="Next photo">&#8250;</button>
+          <div class="home-carousel-dots" id="homeCarouselDots"></div>
+        </div>
         <a class="btn btn-navy" href="/membership">See Membership Options →</a>
       </div>
     </div>
@@ -967,6 +1047,66 @@
 
 
   
+
+  // ===== HOME FACILITY CAROUSEL =====
+  (function() {
+    var BASE = 'https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Images/Carousel%20Home%20Page/';
+    var IMAGES = [
+      'DSC06545-2-2%20(1).webp',
+      'DSC07421.webp',
+      'DSC07473.webp',
+      'DSC07580.webp',
+      'DSC07829.webp',
+      'DSC08000.webp',
+      'DSC09257.webp',
+      'DSC09341.webp',
+      'DSC09391%20(2).webp',
+      'DSC09470%20(1).webp'
+    ];
+    var track = document.getElementById('homeCarouselTrack');
+    var dotsWrap = document.getElementById('homeCarouselDots');
+    var prevBtn = document.getElementById('homeCarouselPrev');
+    var nextBtn = document.getElementById('homeCarouselNext');
+    if (!track) return;
+
+    // Build slides + dots
+    IMAGES.forEach(function(name, i) {
+      var slide = document.createElement('div');
+      slide.className = 'home-carousel-slide';
+      var img = document.createElement('img');
+      img.src = BASE + name;
+      img.alt = 'LevelUp Pickleball Club facility photo ' + (i + 1);
+      img.loading = i === 0 ? 'eager' : 'lazy';
+      slide.appendChild(img);
+      track.appendChild(slide);
+
+      var dot = document.createElement('button');
+      dot.className = 'home-carousel-dot';
+      dot.type = 'button';
+      dot.setAttribute('aria-label', 'Go to photo ' + (i + 1));
+      dot.addEventListener('click', function() { goTo(i); resetTimer(); });
+      dotsWrap.appendChild(dot);
+    });
+
+    var dots = Array.prototype.slice.call(dotsWrap.children);
+    var current = Math.floor(Math.random() * IMAGES.length); // random start
+    var timer = null;
+
+    function render() {
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
+    }
+    function goTo(i) { current = (i + IMAGES.length) % IMAGES.length; render(); }
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+    function resetTimer() { clearInterval(timer); timer = setInterval(next, 5000); }
+
+    prevBtn.addEventListener('click', function() { prev(); resetTimer(); });
+    nextBtn.addEventListener('click', function() { next(); resetTimer(); });
+
+    render();
+    resetTimer();
+  })();
 
   // ===== UPCOMING EVENTS (from Google Sheet) =====
   (function() {
