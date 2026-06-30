@@ -240,11 +240,23 @@
   .home-carousel-slide {
     min-width: 100%;
     height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .home-carousel-slide .hc-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(26px) brightness(0.55);
+    transform: scale(1.18);
   }
   .home-carousel-slide img {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
   }
   .home-carousel-arrow {
@@ -1073,6 +1085,10 @@
     IMAGES.forEach(function(name, i) {
       var slide = document.createElement('div');
       slide.className = 'home-carousel-slide';
+      var bg = document.createElement('div');
+      bg.className = 'hc-bg';
+      bg.style.backgroundImage = 'url("' + BASE + name + '")';
+      slide.appendChild(bg);
       var img = document.createElement('img');
       img.src = BASE + name;
       img.alt = 'LevelUp Pickleball Club facility photo ' + (i + 1);
