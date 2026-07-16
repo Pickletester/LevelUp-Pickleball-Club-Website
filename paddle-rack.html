@@ -60,6 +60,7 @@
     }
     .pr-title span { color: var(--green); }
     .pr-video-wrap {
+      position: relative;
       width: 100%;
       max-width: 860px;
       border-radius: 14px;
@@ -68,6 +69,33 @@
       background: #000;
     }
     .pr-video-wrap video { display: block; width: 100%; background: #000; }
+    .pr-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(13,15,26,0.35);
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.25s ease, background 0.25s ease;
+      padding: 0;
+    }
+    .pr-play:hover { background: rgba(13,15,26,0.2); }
+    .pr-play.hidden { opacity: 0; pointer-events: none; }
+    .pr-play-circle {
+      width: clamp(68px, 12vw, 96px);
+      height: clamp(68px, 12vw, 96px);
+      border-radius: 50%;
+      background: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .pr-play:hover .pr-play-circle { transform: scale(1.08); background: var(--green-light); }
+    .pr-play-circle svg { width: 42%; height: 42%; margin-left: 8%; fill: var(--dark); }
     .pr-actions {
       display: flex;
       gap: 1rem;
@@ -118,6 +146,11 @@
       playsinline
       preload="metadata"
     ></video>
+    <button class="pr-play" id="prPlay" type="button" aria-label="Play video">
+      <span class="pr-play-circle">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      </span>
+    </button>
   </div>
 
   <div class="pr-actions">
@@ -142,6 +175,18 @@
       btn.addEventListener('click', function () {
         note.textContent = 'Download started — check your Downloads folder.';
       });
+    })();
+
+    // Big center play button — plays the video and hides itself; reappears
+    // when the video is paused so it's easy to restart.
+    (function () {
+      var video = document.getElementById('prVideo');
+      var play = document.getElementById('prPlay');
+      if (!video || !play) return;
+      play.addEventListener('click', function () { video.play(); });
+      video.addEventListener('play', function () { play.classList.add('hidden'); });
+      video.addEventListener('pause', function () { play.classList.remove('hidden'); });
+      video.addEventListener('ended', function () { play.classList.remove('hidden'); });
     })();
   </script>
 
