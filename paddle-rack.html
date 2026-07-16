@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How the Paddle Rack Works | LevelUp Pickleball Club</title>
+  <meta name="description" content="Watch how to use the paddle rack for Open Play at LevelUp Pickleball Club.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Open Graph (for nice link previews when shared) -->
+  <meta property="og:type" content="video.other">
+  <meta property="og:title" content="How the Paddle Rack Works — LevelUp Pickleball Club">
+  <meta property="og:description" content="A quick video on using the paddle rack for Open Play at LevelUp Pickleball Club.">
+  <meta property="og:url" content="https://leveluppickleballclub.com/paddle-rack">
+  <meta property="og:image" content="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png">
+  <meta property="og:site_name" content="LevelUp Pickleball Club">
+
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #3CC440;
+      --green-dark: #2aa32e;
+      --green-light: #7EE882;
+      --navy-dark: #131d4f;
+      --dark: #0D0F1A;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--dark);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1.25rem 3rem;
+    }
+    .pr-logo { margin-bottom: 2rem; }
+    .pr-logo img { height: 54px; width: auto; display: block; }
+    .pr-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      color: var(--green);
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .pr-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      line-height: 1;
+      text-align: center;
+      margin-bottom: 1.75rem;
+    }
+    .pr-title span { color: var(--green); }
+    .pr-video-wrap {
+      width: 100%;
+      max-width: 860px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.5);
+      background: #000;
+    }
+    .pr-video-wrap video { display: block; width: 100%; background: #000; }
+    .pr-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.75rem;
+    }
+    .pr-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.9rem 2rem;
+      border-radius: 6px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .pr-btn.green { background: var(--green); color: var(--dark); }
+    .pr-btn.green:hover { background: var(--green-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(60,196,64,0.35); }
+    .pr-btn.ghost { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.4); }
+    .pr-btn.ghost:hover { background: #fff; color: var(--dark); border-color: #fff; }
+    .pr-dl-note { font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-top: 1rem; text-align: center; }
+    .pr-foot { margin-top: 2.5rem; text-align: center; }
+    .pr-foot a { color: var(--green); text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.05em; }
+    .pr-foot a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <a class="pr-logo" href="/">
+    <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png" alt="LevelUp Pickleball Club">
+  </a>
+
+  <div class="pr-eyebrow">LevelUp Pickleball Club</div>
+  <h1 class="pr-title">How the <span>Paddle Rack</span> Works</h1>
+
+  <div class="pr-video-wrap">
+    <video
+      id="prVideo"
+      src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Videos/Court%20Rack%20Video%20lowres%20.mp4#t=0.1"
+      controls
+      playsinline
+      preload="metadata"
+    ></video>
+  </div>
+
+  <div class="pr-actions">
+    <a class="pr-btn green" id="prDownload"
+       href="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Videos/Court%20Rack%20Video%20lowres%20.mp4"
+       download="LevelUp-Paddle-Rack.mp4">⬇ Download Video</a>
+    <a class="pr-btn ghost" href="/new-members">More for New Members →</a>
+  </div>
+  <div class="pr-dl-note" id="prDlNote"></div>
+
+  <div class="pr-foot">
+    <a href="/">← Back to LevelUpPickleballClub.com</a>
+  </div>
+
+  <script>
+    // Progressive download: try a true one-click "Save" (works when the R2
+    // bucket allows CORS). If that's blocked, fall back to opening the file
+    // so the user can save it from the browser/player.
+    (function () {
+      var btn = document.getElementById('prDownload');
+      var note = document.getElementById('prDlNote');
+      btn.addEventListener('click', async function (e) {
+        e.preventDefault();
+        var url = btn.getAttribute('href');
+        var original = btn.innerHTML;
+        btn.innerHTML = 'Preparing…';
+        try {
+          var res = await fetch(url);
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          var blob = await res.blob();
+          var objUrl = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = objUrl;
+          a.download = 'LevelUp-Paddle-Rack.mp4';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(function () { URL.revokeObjectURL(objUrl); }, 5000);
+          note.textContent = 'Download started — check your Downloads folder.';
+        } catch (err) {
+          // CORS-blocked or offline: open the file so it can be saved manually.
+          window.open(url, '_blank', 'noopener');
+          note.textContent = 'Opened the video in a new tab — tap and hold (or right-click) to Save.';
+        } finally {
+          btn.innerHTML = original;
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
