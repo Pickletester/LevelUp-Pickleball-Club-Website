@@ -122,7 +122,7 @@
 
   <div class="pr-actions">
     <a class="pr-btn green" id="prDownload"
-       href="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Videos/Court%20Rack%20Video%20lowres%20.mp4"
+       href="/download-rack"
        download="LevelUp-Paddle-Rack.mp4">⬇ Download Video</a>
     <a class="pr-btn ghost" href="/new-members">More for New Members →</a>
   </div>
@@ -133,37 +133,14 @@
   </div>
 
   <script>
-    // Progressive download: try a true one-click "Save" (works when the R2
-    // bucket allows CORS). If that's blocked, fall back to opening the file
-    // so the user can save it from the browser/player.
+    // The download link is same-origin (/download-rack streams the file with
+    // a Content-Disposition: attachment header), so the browser saves it
+    // directly. Show a small confirmation note on click.
     (function () {
       var btn = document.getElementById('prDownload');
       var note = document.getElementById('prDlNote');
-      btn.addEventListener('click', async function (e) {
-        e.preventDefault();
-        var url = btn.getAttribute('href');
-        var original = btn.innerHTML;
-        btn.innerHTML = 'Preparing…';
-        try {
-          var res = await fetch(url);
-          if (!res.ok) throw new Error('HTTP ' + res.status);
-          var blob = await res.blob();
-          var objUrl = URL.createObjectURL(blob);
-          var a = document.createElement('a');
-          a.href = objUrl;
-          a.download = 'LevelUp-Paddle-Rack.mp4';
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          setTimeout(function () { URL.revokeObjectURL(objUrl); }, 5000);
-          note.textContent = 'Download started — check your Downloads folder.';
-        } catch (err) {
-          // CORS-blocked or offline: open the file so it can be saved manually.
-          window.open(url, '_blank', 'noopener');
-          note.textContent = 'Opened the video in a new tab — tap and hold (or right-click) to Save.';
-        } finally {
-          btn.innerHTML = original;
-        }
+      btn.addEventListener('click', function () {
+        note.textContent = 'Download started — check your Downloads folder.';
       });
     })();
   </script>
