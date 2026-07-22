@@ -1,0 +1,208 @@
+/* LevelUp — Court booking modal. Scoped under #cbRoot so it can't touch page styles. */
+
+#cbRoot { display: none; }
+#cbRoot.cb-open { display: block; }
+
+#cbRoot .cb-backdrop {
+  position: fixed; inset: 0; background: rgba(8, 12, 28, 0.78);
+  backdrop-filter: blur(3px); z-index: 9998;
+}
+
+#cbRoot .cb-modal {
+  position: fixed; z-index: 9999;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: min(560px, calc(100vw - 2rem));
+  max-height: min(88vh, 900px); overflow-y: auto;
+  background: #12162b; color: #fff; border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+  font-family: 'Barlow Condensed', 'Helvetica Neue', Arial, sans-serif;
+}
+
+#cbRoot .cb-x {
+  position: absolute; top: 0.6rem; right: 0.85rem; z-index: 2;
+  background: none; border: none; color: rgba(255, 255, 255, 0.45);
+  font-size: 2rem; line-height: 1; cursor: pointer; padding: 0.25rem;
+}
+#cbRoot .cb-x:hover { color: #fff; }
+
+#cbRoot .cb-head {
+  padding: 1.5rem 1.75rem 1.1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(60, 196, 64, 0.14), transparent 65%);
+  border-radius: 14px 14px 0 0;
+}
+#cbRoot .cb-eyebrow {
+  font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: #3CC440; font-weight: 700;
+}
+#cbRoot .cb-head h2 {
+  font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
+  font-size: 2.1rem; margin: 0.2rem 0 0; letter-spacing: 0.02em; color: #fff;
+}
+#cbRoot .cb-assigned {
+  margin-top: 0.5rem; font-size: 0.9rem; color: rgba(255, 255, 255, 0.65);
+}
+#cbRoot .cb-assigned strong { color: #3CC440; }
+
+#cbRoot .cb-body { padding: 1.35rem 1.75rem 1.75rem; }
+
+#cbRoot .cb-row { display: flex; gap: 0.85rem; }
+#cbRoot .cb-row > * { flex: 1; min-width: 0; }
+
+#cbRoot .cb-field { display: block; margin-bottom: 1.05rem; }
+#cbRoot .cb-field > span {
+  display: block; font-size: 0.72rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 0.4rem; font-weight: 600;
+}
+#cbRoot .cb-field > span em { text-transform: none; letter-spacing: 0; opacity: 0.7; }
+
+#cbRoot input[type="text"], #cbRoot input[type="email"], #cbRoot input[type="tel"],
+#cbRoot input[type="date"], #cbRoot select, #cbRoot textarea {
+  width: 100%; box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 7px; padding: 0.6rem 0.75rem;
+  color: #fff; font-size: 1rem; font-family: inherit;
+}
+#cbRoot input:focus, #cbRoot select:focus, #cbRoot textarea:focus {
+  outline: none; border-color: #3CC440; background: rgba(60, 196, 64, 0.08);
+}
+#cbRoot textarea { resize: vertical; }
+#cbRoot select option { background: #12162b; color: #fff; }
+
+#cbRoot .cb-pills { display: flex; gap: 0.5rem; }
+#cbRoot .cb-pill {
+  flex: 1; padding: 0.6rem 0; border-radius: 7px; cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  color: rgba(255, 255, 255, 0.75); font-size: 1.05rem; font-weight: 700;
+  font-family: inherit; transition: all 0.15s;
+}
+#cbRoot .cb-pill:hover { border-color: rgba(60, 196, 64, 0.6); }
+#cbRoot .cb-pill-on { background: #3CC440; border-color: #3CC440; color: #0d1020; }
+
+#cbRoot .cb-times {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 0.4rem; max-height: 190px; overflow-y: auto;
+  padding: 0.6rem; border-radius: 8px;
+  background: rgba(0, 0, 0, 0.22); border: 1px solid rgba(255, 255, 255, 0.08);
+}
+#cbRoot .cb-slot {
+  padding: 0.5rem 0.2rem; border-radius: 6px; cursor: pointer;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff; font-size: 0.86rem; font-family: inherit; transition: all 0.12s;
+}
+#cbRoot .cb-slot:hover:not(:disabled) { background: rgba(60, 196, 64, 0.25); border-color: #3CC440; }
+#cbRoot .cb-slot-off {
+  opacity: 0.28; cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.03); text-decoration: line-through;
+}
+#cbRoot .cb-slot-on { background: #3CC440; border-color: #3CC440; color: #0d1020; font-weight: 700; }
+
+#cbRoot .cb-hint {
+  font-size: 0.85rem; color: rgba(255, 255, 255, 0.45);
+  padding: 0.6rem 0.2rem; grid-column: 1 / -1;
+}
+#cbRoot .cb-hint-sm { padding: 0.35rem 0 0; font-size: 0.8rem; }
+
+#cbRoot .cb-check {
+  display: flex; gap: 0.7rem; align-items: flex-start; cursor: pointer;
+  background: rgba(245, 144, 10, 0.09);
+  border: 1px solid rgba(245, 144, 10, 0.35);
+  border-radius: 8px; padding: 0.85rem 1rem; margin-bottom: 1.05rem;
+  font-size: 0.92rem; line-height: 1.45;
+}
+#cbRoot .cb-check input { margin-top: 0.2rem; width: 17px; height: 17px; accent-color: #F5900A; flex: none; }
+#cbRoot .cb-check em { color: rgba(255, 255, 255, 0.55); font-size: 0.85rem; }
+
+#cbRoot .cb-closed {
+  background: rgba(245, 144, 10, 0.14); border: 1px solid #F5900A;
+  color: #F5900A; border-radius: 8px; padding: 0.75rem 1rem;
+  margin-bottom: 1.05rem; font-size: 0.93rem;
+}
+
+#cbRoot .cb-summary {
+  background: rgba(0, 0, 0, 0.28); border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 9px; padding: 1rem 1.15rem; margin: 0.4rem 0 1.1rem;
+}
+#cbRoot .cb-rate {
+  font-size: 0.72rem; letter-spacing: 0.13em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4); margin-bottom: 0.6rem;
+}
+#cbRoot .cb-line {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 1rem; padding: 0.3rem 0; font-size: 0.95rem; color: rgba(255, 255, 255, 0.8);
+}
+#cbRoot .cb-amt { font-weight: 700; color: #fff; }
+#cbRoot .cb-amt-due { color: #F5900A; font-size: 0.85rem; }
+#cbRoot .cb-total {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  margin-top: 0.45rem; padding-top: 0.65rem;
+  font-size: 1.15rem; color: #fff; font-weight: 700;
+}
+#cbRoot .cb-total span:last-child { color: #3CC440; font-size: 1.35rem; }
+#cbRoot .cb-due {
+  margin-top: 0.7rem; padding: 0.6rem 0.8rem; border-radius: 6px;
+  background: rgba(245, 144, 10, 0.12); border-left: 3px solid #F5900A;
+  color: #F5900A; font-size: 0.87rem; line-height: 1.4;
+}
+
+#cbRoot .cb-btn {
+  width: 100%; background: #3CC440; color: #0d1020; border: none;
+  border-radius: 7px; padding: 0.95rem; cursor: pointer;
+  font-family: inherit; font-weight: 700; font-size: 1.05rem;
+  letter-spacing: 0.09em; text-transform: uppercase; transition: background 0.15s;
+}
+#cbRoot .cb-btn:hover:not(:disabled) { background: #4ee055; }
+#cbRoot .cb-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+#cbRoot .cb-err {
+  background: rgba(217, 48, 37, 0.14); border: 1px solid #d93025;
+  color: #ff8a80; border-radius: 7px; padding: 0.7rem 0.9rem;
+  margin-bottom: 0.9rem; font-size: 0.92rem;
+}
+
+#cbRoot .cb-fine {
+  text-align: center; font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.35); margin-top: 0.9rem;
+}
+
+#cbRoot .cb-done { text-align: center; padding-top: 2rem; }
+#cbRoot .cb-tick { font-size: 3rem; margin-bottom: 0.5rem; }
+#cbRoot .cb-done h2 {
+  font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
+  font-size: 2.3rem; color: #3CC440; margin: 0 0 1rem;
+}
+#cbRoot .cb-donebox {
+  background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9px; padding: 1rem 1.15rem; text-align: left; margin-bottom: 1rem;
+}
+#cbRoot .cb-donebox .cb-line { border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
+#cbRoot .cb-donebox .cb-line:last-child { border-bottom: none; }
+
+/* Stripe's embedded form renders on white — give it a light surface to sit on. */
+#cbRoot #cbStripe {
+  background: #fff; border-radius: 9px; padding: 0.85rem; min-height: 320px;
+}
+
+@media (max-width: 520px) {
+  #cbRoot .cb-modal { width: 100vw; max-height: 100vh; height: 100vh; border-radius: 0; top: 0; left: 0; transform: none; }
+  #cbRoot .cb-row { flex-direction: column; gap: 0; }
+  #cbRoot .cb-head, #cbRoot .cb-body { padding-left: 1.15rem; padding-right: 1.15rem; }
+}
+
+/* Waiver notice on the success screen — guests can't play without one, so it needs to be
+   impossible to miss, not a footnote. */
+#cbRoot .cb-waiver {
+  background: rgba(60, 196, 64, 0.1);
+  border: 1px solid rgba(60, 196, 64, 0.45);
+  border-radius: 8px; padding: 0.9rem 1rem; margin: 1rem 0 0.25rem;
+  font-size: 0.92rem; line-height: 1.5; color: rgba(255, 255, 255, 0.85);
+}
+#cbRoot .cb-waiver a {
+  display: inline-block; margin-top: 0.35rem;
+  color: #3CC440; font-weight: 700; text-decoration: none;
+}
+#cbRoot .cb-waiver a:hover { text-decoration: underline; }
