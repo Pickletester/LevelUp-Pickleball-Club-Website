@@ -206,3 +206,20 @@
   color: #3CC440; font-weight: 700; text-decoration: none;
 }
 #cbRoot .cb-waiver a:hover { text-decoration: underline; }
+
+/* Subtle attention pulse on the "Book a Court" trigger buttons. Targets the exact links the
+   modal hijacks, so no other green button on the page is affected. Honors reduced-motion. */
+@keyframes cbPulse {
+  0%, 100% { transform: scale(1);     box-shadow: 0 0 0 0 rgba(60, 196, 64, 0.45); }
+  50%      { transform: scale(1.035); box-shadow: 0 0 0 10px rgba(60, 196, 64, 0); }
+}
+a[href*="publicbookings/12674"] {
+  animation: cbPulse 2.6s ease-in-out infinite;
+  will-change: transform;
+}
+a[href*="publicbookings/12674"]:hover {
+  animation-play-state: paused;   /* stop nudging once they've clearly noticed it */
+}
+@media (prefers-reduced-motion: reduce) {
+  a[href*="publicbookings/12674"] { animation: none; }
+}
