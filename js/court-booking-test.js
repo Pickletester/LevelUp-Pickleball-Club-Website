@@ -477,6 +477,7 @@
       '        <div class="cb-fv-applied" id="cbFirstVisitApplied" style="display:none;">✅ Free first-visit court applied</div>',
       '        <div id="cbVerifyWrap" style="display:none;margin-top:10px;">',
       '          <input type="text" id="cbVerifyCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6-digit code" style="width:100%;box-sizing:border-box;padding:.6rem .75rem;font-size:1.1rem;letter-spacing:.3em;text-align:center;border:1px solid rgba(124,207,74,.6);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;">',
+      '          <div style="font-size:.78rem;color:#cfeebd;margin-top:6px;">Don\'t see it? Check your spam folder.</div>',
       '        </div>',
       '      </div>',
       '      <div class="cb-summary">',
