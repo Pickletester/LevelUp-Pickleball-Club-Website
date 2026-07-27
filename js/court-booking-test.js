@@ -269,6 +269,16 @@
   }
 
   // ---------- checkout ----------
+  // Fire-and-forget request for a free-court email verification code.
+  function sendVerifyCode(email) {
+    try {
+      fetch(WORKER + '/send-code', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email }),
+      });
+    } catch (e) { /* non-fatal; they can hit Resend */ }
+  }
+
   async function submit() {
     var btn = el('cbSubmit');
     var errBox = el('cbError');
@@ -288,6 +298,7 @@
       notes: el('cbNotes').value.trim(),
       promoCode: (el('cbPromo').value || '').trim(),
       bookerType: state.bookerType,
+      verifyCode: (el('cbVerifyCode') && el('cbVerifyCode').value || '').replace(/\D/g, ''),
     };
     if (!payload.firstName || !payload.lastName || !payload.email || !payload.phone) {
       return showError('Please fill in your name, email and phone.');
@@ -317,6 +328,12 @@
       if (!res.ok || !data.clientSecret) {
         btn.disabled = false; btn.textContent = 'Continue to payment';
         if (data.conflict) { loadAvailability(); }
+        // Free court needs email verification — surface the code field and focus it.
+        if (data.verifyRequired) {
+          el('cbVerifyWrap').style.display = 'block';
+          var vc = el('cbVerifyCode'); if (vc) { vc.focus(); }
+          return showError(data.error || 'Enter the 6-digit code we emailed you to claim your free court.');
+        }
         // If a free-promo booking was rejected as ineligible, strip the code so the total
         // recalculates to regular price and they can just book again — no manual clearing.
         if (data.error && /Regular rates apply/i.test(data.error)) {
@@ -458,6 +475,10 @@
       '        <div class="cb-fv-fine">Valid 11:30 AM–6 PM · one per person · book longer and only the extra time is charged.</div>',
       '        <button type="button" class="cb-fv-btn" id="cbFirstVisitApply">Check if I qualify</button>',
       '        <div class="cb-fv-applied" id="cbFirstVisitApplied" style="display:none;">✅ Free first-visit court applied</div>',
+      '        <div id="cbVerifyWrap" style="display:none;margin-top:10px;">',
+      '          <input type="text" id="cbVerifyCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6-digit code" style="width:100%;box-sizing:border-box;padding:.6rem .75rem;font-size:1.1rem;letter-spacing:.3em;text-align:center;border:1px solid rgba(124,207,74,.6);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;">',
+      '          <div style="font-size:.78rem;color:#cfeebd;margin-top:6px;">Enter the code we emailed you. <a href="#" id="cbResendCode" style="color:#a6ee7f;">Resend</a></div>',
+      '        </div>',
       '      </div>',
       '      <div class="cb-summary">',
       '        <div class="cb-rate" id="cbRateLine"></div>',
@@ -555,6 +576,8 @@
         el('cbFirstVisitApply').disabled = false;
         el('cbFirstVisitApply').textContent = 'Check if I qualify';
         el('cbFirstVisitApplied').style.display = 'none';
+        el('cbVerifyWrap').style.display = 'none';
+        el('cbVerifyCode').value = '';
         renderSummary();
       };
     });
@@ -591,11 +614,15 @@
           // Nudge them to a valid time if their current pick is outside the 11:30–6 window.
           if (state.time && (minutesOf(state.time) < 690 || minutesOf(state.time) >= 1080)) state.time = '';
           renderTimes(); renderSummary();
-          fvMsg('✅ You qualify! Your free first-visit court is applied below.', true);
+          // Free court requires email verification — email a code and reveal the entry field.
+          sendVerifyCode(email);
+          fvMsg('✅ You qualify! We emailed a 6-digit code to ' + email + ' — enter it below to lock in your free court.', true);
+          el('cbVerifyWrap').style.display = 'block';
           btn.style.display = 'none';
         } else {
           // Not eligible — make sure the code isn't lingering, show the real price and the reason.
           el('cbPromo').value = ''; state.promo = '';
+          el('cbVerifyWrap').style.display = 'none';
           renderTimes(); renderSummary();
           fvMsg(data.reason || 'This offer is for new guests — regular rates apply.', false);
           btn.disabled = false; btn.textContent = label;
@@ -604,6 +631,15 @@
         fvMsg('Could not check right now — you can still book at regular rates.', false);
         btn.disabled = false; btn.textContent = label;
       }
+    };
+    el('cbResendCode').onclick = function (e) {
+      e.preventDefault();
+      var em = el('cbEmail').value.trim();
+      if (!em) return;
+      var self = this;
+      sendVerifyCode(em);
+      self.textContent = 'Sent!';
+      setTimeout(function () { self.textContent = 'Resend'; }, 3000);
     };
     el('cbSubmit').onclick = submit;
 
