@@ -32,10 +32,13 @@
   // every total, so a code faked here changes nothing that gets charged.
   var PROMOS = {
     'eggwhite': { flatRental: 1, durations: ['1 Hour'], maxCourts: 1, label: '$1 test promo' },
+    // Free first-visit court for a new guest. Zeroes the court AND the guest's own pass.
+    // Display only — the Worker enforces the once-per-person email/phone check.
+    'firstserve': { freeNewGuest: true, freeHours: 1, maxCourts: 1, guestOnly: true, startMin: 690, startMax: 1080, label: 'First visit — first hour free' },
   };
 
   var state = { date: '', time: '', duration: '1 Hour', courts: 1, guests: 0, payAtClub: false, busy: [], courtTotal: 0, promo: '', bookerType: '' };
-  var stripe = null, embedded = null, root = null;
+  var stripe = null, embedded = null, root = null, pausedMedia = [];
 
   // ---------- helpers ----------
   function isWeekendRate(dateStr) {
@@ -104,22 +107,39 @@
     return d.getTime() < Date.now();
   }
 
+  // The promo currently valid for the chosen options (duration/courts/booker). null if none.
+  function activePromo() {
+    var promo = PROMOS[(state.promo || '').toLowerCase().trim()];
+    if (!promo) return null;
+    if (promo.durations && promo.durations.indexOf(state.duration) === -1) return null;
+    if (promo.maxCourts && state.courts > promo.maxCourts) return null;
+    if (promo.guestOnly && state.bookerType !== 'guest') return null;
+    return promo;
+  }
+  function minutesOf(timeStr) { var hm = to24(timeStr); return hm[0] * 60 + hm[1]; }
+
   // ---------- rendering ----------
   function renderTimes() {
     var grid = el('cbTimes');
     if (!state.date) { grid.innerHTML = '<div class="cb-hint">Pick a date first.</div>'; return; }
     grid.innerHTML = '';
     var any = false;
+    var pr = activePromo();
     timeSlots().forEach(function (t) {
       var free = freeCourtsAt(t), past = isPast(t);
-      var ok = !past && free >= state.courts;
+      var mins = minutesOf(t);
+      // A time-windowed promo (e.g. first-visit free court) can only start inside its window.
+      var outsidePromo = pr && (pr.startMin != null && mins < pr.startMin || pr.startMax != null && mins >= pr.startMax);
+      var ok = !past && free >= state.courts && !outsidePromo;
       if (ok) any = true;
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'cb-slot' + (ok ? '' : ' cb-slot-off') + (state.time === t ? ' cb-slot-on' : '');
       b.textContent = t;
       b.disabled = !ok;
-      b.title = past ? 'Already passed' : (free < state.courts ? free + ' of ' + state.courts + ' courts free' : '');
+      b.title = past ? 'Already passed'
+        : outsidePromo ? 'Free first-visit court: 11:30 AM–6 PM only'
+        : (free < state.courts ? free + ' of ' + state.courts + ' courts free' : '');
       b.onclick = function () { state.time = t; renderTimes(); renderSummary(); };
       grid.appendChild(b);
     });
@@ -135,16 +155,29 @@
     var promo = PROMOS[(state.promo || '').toLowerCase().trim()];
     var promoOk = promo
       && (!promo.durations || promo.durations.indexOf(state.duration) !== -1)
-      && (!promo.maxCourts || state.courts <= promo.maxCourts);
-    if (promoOk) rental = promo.flatRental;
+      && (!promo.maxCourts || state.courts <= promo.maxCourts)
+      && (!promo.guestOnly || state.bookerType === 'guest');
+    var freeGuest = promoOk && promo.freeNewGuest;
+    if (promoOk && typeof promo.flatRental === 'number') rental = promo.flatRental;
+    if (freeGuest) rental = hourly * Math.max(0, hours - (promo.freeHours || hours)) * state.courts;
+    // Reflect the first-visit callout: swap the Apply button for a confirmation once applied.
+    var fvApply = el('cbFirstVisitApply'), fvDone = el('cbFirstVisitApplied');
+    if (fvApply && fvDone) {
+      fvApply.style.display = freeGuest ? 'none' : 'block';
+      fvDone.style.display = freeGuest ? 'block' : 'none';
+    }
     // The booker's own pass is never deferrable — you can't defer your own admission — so
-    // only the passes for people they bring can be settled at the desk.
+    // only the passes for people they bring can be settled at the desk. The first-visit promo
+    // also waives the new guest's own pass.
     var ownPass = state.bookerType === 'guest' ? 1 : 0;
     var billable = state.guests + ownPass;
-    var ownFee = ownPass * VISITOR_PASS;
+    var ownFee = (ownPass && !freeGuest) ? VISITOR_PASS : 0;
     var addFees = state.guests * VISITOR_PASS;
     var deferred = state.payAtClub ? addFees : 0;
-    var fees = billable * VISITOR_PASS;
+    // The first-visit promo waives the booker's own pass, so it must not show up as a charged pass
+    // in the fee line — otherwise the line reads "$10" while "Due now" reads "$0".
+    var chargedPasses = freeGuest ? state.guests : billable;
+    var fees = chargedPasses * VISITOR_PASS;
     var payNow = rental + ownFee + (addFees - deferred);
 
     el('cbRateLine').textContent = promoOk
@@ -154,12 +187,14 @@
     el('cbRentalAmt').textContent = money(rental);
 
     var feeRow = el('cbFeeRow');
-    if (answered && billable > 0) {
+    if (answered && chargedPasses > 0) {
       feeRow.style.display = 'flex';
-      var who = state.bookerType === 'guest'
-        ? (state.guests === 0 ? 'you' : 'you + ' + state.guests + ' guest' + (state.guests > 1 ? 's' : ''))
-        : state.guests + ' guest' + (state.guests > 1 ? 's' : '');
-      el('cbFeeLine').textContent = 'Visitor passes (' + who + ') — ' + billable + ' × ' + money(VISITOR_PASS);
+      var who = freeGuest
+        ? state.guests + ' guest' + (state.guests > 1 ? 's' : '')
+        : (state.bookerType === 'guest'
+            ? (state.guests === 0 ? 'you' : 'you + ' + state.guests + ' guest' + (state.guests > 1 ? 's' : ''))
+            : state.guests + ' guest' + (state.guests > 1 ? 's' : ''));
+      el('cbFeeLine').textContent = 'Visitor passes (' + who + ') — ' + chargedPasses + ' × ' + money(VISITOR_PASS);
       // "$0.00 + $20.00 at club" reads like a bug; drop the zero when nothing is due now.
       var payNowFees = fees - deferred;
       el('cbFeeAmt').textContent = deferred === 0
@@ -180,7 +215,7 @@
       due.textContent = 'Bring ' + money(deferred) + ' for your guest'
         + (state.guests === 1 ? "'s" : "s'") + ' visitor pass'
         + (state.guests === 1 ? '' : 'es') + ' — payable at the front desk.'
-        + (ownPass ? ' Your own pass is paid online.' : '');
+        + (ownPass ? (freeGuest ? ' Your own pass is free on your first visit.' : ' Your own pass is paid online.') : '');
     } else { due.style.display = 'none'; }
   }
 
@@ -234,6 +269,16 @@
   }
 
   // ---------- checkout ----------
+  // Fire-and-forget request for a free-court email verification code.
+  function sendVerifyCode(email) {
+    try {
+      fetch(WORKER + '/send-code', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email }),
+      });
+    } catch (e) { /* non-fatal; they can hit Resend */ }
+  }
+
   async function submit() {
     var btn = el('cbSubmit');
     var errBox = el('cbError');
@@ -253,6 +298,7 @@
       notes: el('cbNotes').value.trim(),
       promoCode: (el('cbPromo').value || '').trim(),
       bookerType: state.bookerType,
+      verifyCode: (el('cbVerifyCode') && el('cbVerifyCode').value || '').replace(/\D/g, ''),
     };
     if (!payload.firstName || !payload.lastName || !payload.email || !payload.phone) {
       return showError('Please fill in your name, email and phone.');
@@ -268,9 +314,34 @@
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
       });
       var data = await res.json();
+
+      // $0 booking (free first-visit court) — the Worker already created it, no payment step.
+      if (data.success && data.free) {
+        showStep('done');
+        el('cbDoneDate').textContent = state.date;
+        el('cbDoneTime').textContent = state.time + ' · ' + state.duration;
+        el('cbDoneCourts').textContent = (data.courts || []).join(', ');
+        el('cbDoneId').style.display = 'block';   // free first-visit booking → ID reminder
+        return;
+      }
+
       if (!res.ok || !data.clientSecret) {
         btn.disabled = false; btn.textContent = 'Continue to payment';
         if (data.conflict) { loadAvailability(); }
+        // Free court needs email verification — surface the code field and focus it.
+        if (data.verifyRequired) {
+          el('cbVerifyWrap').style.display = 'block';
+          var vc = el('cbVerifyCode'); if (vc) { vc.focus(); }
+          return showError(data.error || 'Enter the 6-digit code we emailed you to claim your free court.');
+        }
+        // If a free-promo booking was rejected as ineligible, strip the code so the total
+        // recalculates to regular price and they can just book again — no manual clearing.
+        if (data.error && /Regular rates apply/i.test(data.error)) {
+          el('cbPromo').value = '';
+          state.promo = '';
+          renderTimes(); renderSummary();
+          return showError('You\'re already in our system — the free first-visit offer doesn\'t apply. We\'ve removed the code; regular rates now show below.');
+        }
         return showError(data.error || 'Could not start checkout. Please call ' + PHONE + '.');
       }
       showStep('pay');
@@ -320,6 +391,13 @@
   function open() {
     root.classList.add('cb-open');
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('cb-modal-open');
+    // Pause any playing background video (e.g. the hero) so the modal doesn't flicker over moving
+    // content. Remember only the ones we actually paused, to resume them on close.
+    pausedMedia = [];
+    Array.prototype.forEach.call(document.querySelectorAll('video'), function (v) {
+      if (!v.paused && !v.ended) { try { v.pause(); pausedMedia.push(v); } catch (e) {} }
+    });
     showStep('form');
     el('cbError').style.display = 'none';
     var btn = el('cbSubmit');
@@ -334,6 +412,8 @@
     var whoBtns = el('cbWho').children;
     Array.prototype.forEach.call(whoBtns, function (b) { b.classList.remove('cb-pill-on'); });
     el('cbGuestsWrap').style.display = 'none';
+    el('cbFirstVisit').style.display = 'none';
+    var _idNote = el('cbDoneId'); if (_idNote) _idNote.style.display = 'none';
     renderGuestOptions();
     loadAvailability();
   }
@@ -341,6 +421,10 @@
   function close() {
     root.classList.remove('cb-open');
     document.body.style.overflow = '';
+    document.body.classList.remove('cb-modal-open');
+    // Resume the videos we paused when opening.
+    pausedMedia.forEach(function (v) { try { v.play(); } catch (e) {} });
+    pausedMedia = [];
     if (embedded) { try { embedded.destroy(); } catch (e) {} embedded = null; }
   }
 
@@ -385,6 +469,18 @@
       '      </div>',
       '      <label class="cb-field"><span>Anything we should know? <em>(optional)</em></span><textarea id="cbNotes" rows="2"></textarea></label>',
       '      <label class="cb-field"><span>Promo code <em>(optional)</em></span><input type="text" id="cbPromo" autocomplete="off" placeholder="Enter code"></label>',
+      '      <div id="cbFirstVisit" class="cb-firstvisit" style="display:none;">',
+      '        <div class="cb-fv-head">🎉 First time at LevelUp? Your first hour is on us.</div>',
+      '        <div class="cb-fv-flags"><span class="cb-fv-flag">New guests only</span><span class="cb-fv-flag">Photo ID may be required</span></div>',
+      '        <div class="cb-fv-fine">Valid 11:30 AM–6 PM · one per person · book longer and only the extra time is charged.</div>',
+      '        <button type="button" class="cb-fv-btn" id="cbFirstVisitApply">Check if I qualify</button>',
+      '        <div class="cb-fv-applied" id="cbFirstVisitApplied" style="display:none;">✅ Free first-visit court applied</div>',
+      '        <div id="cbVerifyWrap" style="display:none;margin-top:10px;">',
+      '          <input type="text" id="cbVerifyCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6-digit code" style="width:100%;box-sizing:border-box;padding:.6rem .75rem;font-size:1.1rem;letter-spacing:.3em;text-align:center;border:1px solid rgba(124,207,74,.6);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;">',
+      '          <button type="button" class="cb-fv-btn" id="cbVerifyBtn" style="margin-top:8px;">Enter</button>',
+      '          <div style="font-size:.78rem;color:#cfeebd;margin-top:6px;">Don\'t see it? Check your spam folder.</div>',
+      '        </div>',
+      '      </div>',
       '      <div class="cb-summary">',
       '        <div class="cb-rate" id="cbRateLine"></div>',
       '        <div class="cb-line"><span id="cbRentalLine"></span><span class="cb-amt" id="cbRentalAmt"></span></div>',
@@ -413,6 +509,7 @@
       '        <div class="cb-line"><span>Courts</span><strong id="cbDoneCourts">—</strong></div>',
       '      </div>',
       '      <div class="cb-due" id="cbDoneFee" style="display:none;"></div>',
+      '      <div class="cb-due" id="cbDoneId" style="display:none;">Please bring a photo ID — we may verify it at the front desk for the free first-visit court.</div>',
       '      <div class="cb-waiver" style="background:rgba(60,196,64,0.1);border:1px solid rgba(60,196,64,0.5);border-radius:8px;padding:1.1rem 1rem;margin:1.25rem 0 0.5rem;text-align:center;">',
       '        <div style="color:#fff;font-size:1rem;font-weight:600;margin-bottom:0.75rem;line-height:1.4;">Every guest must complete our waiver before playing.</div>',
       '        <a href="https://www.leveluppickleballclub.com/waiver" target="_blank" rel="noopener"',
@@ -473,11 +570,73 @@
         el('cbWhoHint').textContent = state.bookerType === 'guest'
           ? 'You\'ll pay a $10 visitor pass, plus $10 for anyone you bring.'
           : 'You play for just the court fee. Each guest you bring pays $10.';
+        // First-visit offer only makes sense for guests. Reset the check button/message each time
+        // so a prior "you qualify" (or a "no") doesn't linger from an earlier selection.
+        el('cbFirstVisit').style.display = state.bookerType === 'guest' ? 'block' : 'none';
+        el('cbFirstVisitApply').style.display = '';
+        el('cbFirstVisitApply').disabled = false;
+        el('cbFirstVisitApply').textContent = 'Check if I qualify';
+        el('cbFirstVisitApplied').style.display = 'none';
+        el('cbVerifyWrap').style.display = 'none';
+        el('cbVerifyCode').value = '';
         renderSummary();
       };
     });
     el('cbPayAtClub').onchange = function () { state.payAtClub = this.checked; renderSummary(); };
     el('cbPromo').oninput = function () { state.promo = this.value; renderSummary(); };
+
+    el('cbFirstVisitApply').onclick = async function () {
+      var btn = this, note = el('cbFirstVisitApplied');
+      var email = el('cbEmail').value.trim(), phone = el('cbPhone').value.trim();
+      function fvMsg(text, ok) {
+        note.style.display = 'block';
+        note.textContent = text;
+        note.style.marginTop = '10px';
+        note.style.color = ok ? '' : '#f3c9c9';   // soft red for a "no", default green for a "yes"
+      }
+      // We need their contact info to actually check them against our system.
+      if (!email || !phone) { fvMsg('Enter your email and phone above, then check again.', false); return; }
+
+      var label = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Checking…'; note.style.display = 'none';
+      try {
+        var res = await fetch(WORKER + '/check-eligible', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: email, phone: phone, date: state.date, time: state.time,
+            promoCode: 'FIRSTSERVE', bookerType: state.bookerType,
+          }),
+        });
+        if (res.status === 429) { fvMsg('One moment — please try again in a few seconds.', false); btn.disabled = false; btn.textContent = label; return; }
+        var data = await res.json();
+        if (data.eligible) {
+          el('cbPromo').value = 'FIRSTSERVE';
+          state.promo = 'FIRSTSERVE';
+          // Nudge them to a valid time if their current pick is outside the 11:30–6 window.
+          if (state.time && (minutesOf(state.time) < 690 || minutesOf(state.time) >= 1080)) state.time = '';
+          renderTimes(); renderSummary();
+          // Free court requires email verification — email a code and reveal the entry field.
+          sendVerifyCode(email);
+          fvMsg('✅ You qualify! We emailed a 6-digit code to ' + email + ' — enter it below to lock in your free court.', true);
+          el('cbVerifyWrap').style.display = 'block';
+          btn.style.display = 'none';
+        } else {
+          // Not eligible — make sure the code isn't lingering, show the real price and the reason.
+          el('cbPromo').value = ''; state.promo = '';
+          el('cbVerifyWrap').style.display = 'none';
+          renderTimes(); renderSummary();
+          fvMsg(data.reason || 'This offer is for new guests — regular rates apply.', false);
+          btn.disabled = false; btn.textContent = label;
+        }
+      } catch (e) {
+        fvMsg('Could not check right now — you can still book at regular rates.', false);
+        btn.disabled = false; btn.textContent = label;
+      }
+    };
+    el('cbVerifyBtn').onclick = submit;
+    el('cbVerifyCode').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); submit(); }
+    });
     el('cbSubmit').onclick = submit;
 
     // Scrolling the modal with the cursor over a <select> would otherwise change its value —
