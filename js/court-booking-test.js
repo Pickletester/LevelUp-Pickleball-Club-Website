@@ -477,7 +477,6 @@
       '        <div class="cb-fv-applied" id="cbFirstVisitApplied" style="display:none;">✅ Free first-visit court applied</div>',
       '        <div id="cbVerifyWrap" style="display:none;margin-top:10px;">',
       '          <input type="text" id="cbVerifyCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6-digit code" style="width:100%;box-sizing:border-box;padding:.6rem .75rem;font-size:1.1rem;letter-spacing:.3em;text-align:center;border:1px solid rgba(124,207,74,.6);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;">',
-      '          <div style="font-size:.78rem;color:#cfeebd;margin-top:6px;">Enter the code we emailed you. <a href="#" id="cbResendCode" style="color:#a6ee7f;">Resend</a></div>',
       '        </div>',
       '      </div>',
       '      <div class="cb-summary">',
@@ -631,15 +630,6 @@
         fvMsg('Could not check right now — you can still book at regular rates.', false);
         btn.disabled = false; btn.textContent = label;
       }
-    };
-    el('cbResendCode').onclick = function (e) {
-      e.preventDefault();
-      var em = el('cbEmail').value.trim();
-      if (!em) return;
-      var self = this;
-      sendVerifyCode(em);
-      self.textContent = 'Sent!';
-      setTimeout(function () { self.textContent = 'Resend'; }, 3000);
     };
     el('cbSubmit').onclick = submit;
 
