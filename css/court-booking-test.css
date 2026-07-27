@@ -4,8 +4,11 @@
 #cbRoot.cb-open { display: block; }
 
 #cbRoot .cb-backdrop {
-  position: fixed; inset: 0; background: rgba(8, 12, 28, 0.78);
-  backdrop-filter: blur(3px); z-index: 9998;
+  /* Near-opaque, NO backdrop-filter: blurring a live backdrop over the auto-playing hero video
+     (and the pulsing trigger buttons) forces a re-blur every frame, which flickers/flashes on
+     many GPUs. A solid dark overlay looks clean and can't flicker. */
+  position: fixed; inset: 0; background: rgba(8, 12, 28, 0.92);
+  z-index: 9998;
 }
 
 #cbRoot .cb-modal {
@@ -223,6 +226,8 @@ a[href*="publicbookings/12674"]:hover {
 @media (prefers-reduced-motion: reduce) {
   a[href*="publicbookings/12674"] { animation: none; }
 }
+/* Stop the pulse entirely while the modal is open — nothing behind the overlay should animate. */
+body.cb-modal-open a[href*="publicbookings/12674"] { animation: none; }
 
 /* First-visit free-court callout — shown only to guests. Green to read as a reward, not a form. */
 #cbRoot .cb-firstvisit {

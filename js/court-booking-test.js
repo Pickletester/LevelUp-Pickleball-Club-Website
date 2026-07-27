@@ -38,7 +38,7 @@
   };
 
   var state = { date: '', time: '', duration: '1 Hour', courts: 1, guests: 0, payAtClub: false, busy: [], courtTotal: 0, promo: '', bookerType: '' };
-  var stripe = null, embedded = null, root = null;
+  var stripe = null, embedded = null, root = null, pausedMedia = [];
 
   // ---------- helpers ----------
   function isWeekendRate(dateStr) {
@@ -374,6 +374,13 @@
   function open() {
     root.classList.add('cb-open');
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('cb-modal-open');
+    // Pause any playing background video (e.g. the hero) so the modal doesn't flicker over moving
+    // content. Remember only the ones we actually paused, to resume them on close.
+    pausedMedia = [];
+    Array.prototype.forEach.call(document.querySelectorAll('video'), function (v) {
+      if (!v.paused && !v.ended) { try { v.pause(); pausedMedia.push(v); } catch (e) {} }
+    });
     showStep('form');
     el('cbError').style.display = 'none';
     var btn = el('cbSubmit');
@@ -397,6 +404,10 @@
   function close() {
     root.classList.remove('cb-open');
     document.body.style.overflow = '';
+    document.body.classList.remove('cb-modal-open');
+    // Resume the videos we paused when opening.
+    pausedMedia.forEach(function (v) { try { v.play(); } catch (e) {} });
+    pausedMedia = [];
     if (embedded) { try { embedded.destroy(); } catch (e) {} embedded = null; }
   }
 
