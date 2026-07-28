@@ -600,6 +600,7 @@
 
     el('cbFirstVisitApply').onclick = async function () {
       var btn = this, note = el('cbFirstVisitApplied');
+      var first = el('cbFirst').value.trim(), last = el('cbLast').value.trim();
       var email = el('cbEmail').value.trim(), phone = el('cbPhone').value.trim();
       function fvMsg(text, ok) {
         note.style.display = 'block';
@@ -607,8 +608,9 @@
         note.style.marginTop = '10px';
         note.style.color = ok ? '' : '#f3c9c9';   // soft red for a "no", default green for a "yes"
       }
-      // We need their contact info to actually check them against our system.
-      if (!email || !phone) { fvMsg('Enter your email and phone above, then check again.', false); return; }
+      // Ask for name here too (they'll need it to book anyway) — the eligibility match itself only
+      // uses email + phone, but prompting for the full set keeps the form complete up front.
+      if (!first || !last || !email || !phone) { fvMsg('Enter your name, email and phone above, then check again.', false); return; }
 
       var label = btn.textContent;
       btn.disabled = true; btn.textContent = 'Checking…'; note.style.display = 'none';
