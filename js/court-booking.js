@@ -38,6 +38,18 @@
   };
 
   var state = { date: '', time: '', duration: '1 Hour', courts: 1, guests: 0, payAtClub: false, busy: [], courtTotal: 0, promo: '', bookerType: '' };
+
+  // Browser-side memory of "this person already claimed the free first-visit court" — a convenience
+  // so we don't keep dangling the offer at them. NOT enforcement: the Worker's per-person ledger +
+  // member check are the real gate. Resets if they clear their browser or use another device.
+  var CLAIM_KEY = 'lpc_free_court_claimed';
+  function freeClaimed() { try { return !!localStorage.getItem(CLAIM_KEY); } catch (e) { return false; } }
+  function markFreeClaimed() { try { localStorage.setItem(CLAIM_KEY, new Date().toISOString()); } catch (e) {} }
+  function hideFreeOffer() {
+    // Hide the homepage teaser banner(s) and, if the modal is built, its in-modal callout.
+    Array.prototype.forEach.call(document.querySelectorAll('.cb-teaser'), function (t) { t.style.display = 'none'; });
+    var fv = el('cbFirstVisit'); if (fv) fv.style.display = 'none';
+  }
   var stripe = null, embedded = null, root = null, pausedMedia = [];
 
   // ---------- helpers ----------
@@ -317,6 +329,7 @@
 
       // $0 booking (free first-visit court) — the Worker already created it, no payment step.
       if (data.success && data.free) {
+        markFreeClaimed();   // remember on this browser so we stop offering it again
         showStep('done');
         el('cbDoneDate').textContent = state.date;
         el('cbDoneTime').textContent = state.time + ' · ' + state.duration;
@@ -572,7 +585,7 @@
           : 'You play for just the court fee. Each guest you bring pays $10.';
         // First-visit offer only makes sense for guests. Reset the check button/message each time
         // so a prior "you qualify" (or a "no") doesn't linger from an earlier selection.
-        el('cbFirstVisit').style.display = state.bookerType === 'guest' ? 'block' : 'none';
+        el('cbFirstVisit').style.display = (state.bookerType === 'guest' && !freeClaimed()) ? 'block' : 'none';
         el('cbFirstVisitApply').style.display = '';
         el('cbFirstVisitApply').disabled = false;
         el('cbFirstVisitApply').textContent = 'Check if I qualify';
@@ -680,6 +693,7 @@
     try {
       build();
       bindTriggers(); // only after the modal exists, so a failure above leaves links intact
+      if (freeClaimed()) hideFreeOffer(); // returning claimer → don't dangle the free offer again
     } catch (err) {
       if (window.console) console.error('Court booking modal failed to init:', err);
     }
