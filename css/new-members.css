@@ -868,7 +868,7 @@
   }
   .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 2fr;
     gap: 3rem;
     margin-bottom: 3rem;
   }
@@ -1733,3 +1733,8 @@
     .nm-toc { left: 1.25rem; right: 1.25rem; width: auto; }
     .nm-toc-backdrop.open { opacity: 1; pointer-events: auto; }
   }
+
+.footer-right { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-content: start; }
+.footer-right .footer-map-wide { grid-column: 1 / -1; margin-top: .5rem; }
+@media (max-width: 1100px) { .footer-right { grid-column: 1 / -1; } }
+@media (max-width: 700px) { .footer-right { grid-template-columns: 1fr; } }
