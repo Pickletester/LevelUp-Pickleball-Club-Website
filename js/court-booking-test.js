@@ -34,7 +34,7 @@
     'eggwhite': { flatRental: 1, durations: ['1 Hour'], maxCourts: 1, label: '$1 test promo' },
     // Free first-visit court for a new guest. Zeroes the court AND the guest's own pass.
     // Display only — the Worker enforces the once-per-person email/phone check.
-    'firstserve': { freeNewGuest: true, freeHours: 1, maxCourts: 1, guestOnly: true, startMin: 690, startMax: 1080, label: 'First visit — first hour free' },
+    'firstserve': { freeNewGuest: true, freeHours: 1, maxCourts: 1, guestOnly: true, startMin: 690, startMax: 1020, label: 'First visit — first hour free' },
   };
 
   var state = { date: '', time: '', duration: '1 Hour', courts: 1, guests: 0, payAtClub: false, busy: [], courtTotal: 0, promo: '', bookerType: '' };
@@ -150,7 +150,7 @@
       b.textContent = t;
       b.disabled = !ok;
       b.title = past ? 'Already passed'
-        : outsidePromo ? 'Free first-visit court: 11:30 AM–6 PM only'
+        : outsidePromo ? 'Free first-visit court: 11:30 AM–5 PM only'
         : (free < state.courts ? free + ' of ' + state.courts + ' courts free' : '');
       b.onclick = function () { state.time = t; renderTimes(); renderSummary(); };
       grid.appendChild(b);
@@ -485,7 +485,7 @@
       '      <div id="cbFirstVisit" class="cb-firstvisit" style="display:none;">',
       '        <div class="cb-fv-head">🎉 First time at LevelUp? Your first hour is on us.</div>',
       '        <div class="cb-fv-flags"><span class="cb-fv-flag">New guests only</span><span class="cb-fv-flag">Photo ID will be required</span></div>',
-      '        <div class="cb-fv-fine">Valid for bookings starting 11:30 AM–6:00 PM · one per person · book longer and only the extra time is charged.</div>',
+      '        <div class="cb-fv-fine">Valid for bookings starting 11:30 AM–5:00 PM · one per person · book longer and only the extra time is charged.</div>',
       '        <button type="button" class="cb-fv-btn" id="cbFirstVisitApply">Check if I qualify</button>',
       '        <div class="cb-fv-applied" id="cbFirstVisitApplied" style="display:none;">✅ Free first-visit court applied</div>',
       '        <div id="cbVerifyWrap" style="display:none;margin-top:10px;">',
@@ -628,7 +628,7 @@
           el('cbPromo').value = 'FIRSTSERVE';
           state.promo = 'FIRSTSERVE';
           // Nudge them to a valid time if their current pick is outside the 11:30–6 window.
-          if (state.time && (minutesOf(state.time) < 690 || minutesOf(state.time) >= 1080)) state.time = '';
+          if (state.time && (minutesOf(state.time) < 690 || minutesOf(state.time) >= 1020)) state.time = '';
           renderTimes(); renderSummary();
           // Free court requires email verification — email a code and reveal the entry field.
           sendVerifyCode(email);
