@@ -485,7 +485,7 @@
       '      <div id="cbFirstVisit" class="cb-firstvisit" style="display:none;">',
       '        <div class="cb-fv-head">🎉 First time at LevelUp? Your first hour is on us.</div>',
       '        <div class="cb-fv-flags"><span class="cb-fv-flag">New guests only</span><span class="cb-fv-flag">Photo ID will be required</span></div>',
-      '        <div class="cb-fv-fine">Valid 11:30 AM–6 PM · one per person · book longer and only the extra time is charged.</div>',
+      '        <div class="cb-fv-fine">Valid for bookings starting 11:30 AM–6:00 PM · one per person · book longer and only the extra time is charged.</div>',
       '        <button type="button" class="cb-fv-btn" id="cbFirstVisitApply">Check if I qualify</button>',
       '        <div class="cb-fv-applied" id="cbFirstVisitApplied" style="display:none;">✅ Free first-visit court applied</div>',
       '        <div id="cbVerifyWrap" style="display:none;margin-top:10px;">',
