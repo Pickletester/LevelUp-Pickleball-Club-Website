@@ -389,25 +389,32 @@
           </div>
         </div>
       </div>
-      <div class="hero-visual" style="margin-top:-2rem;" id="heroVisual">
-        <div class="hero-img-frame" style="padding:0;overflow:hidden;aspect-ratio:16/9;position:relative;background:var(--navy-dark);">
-          <video id="heroVideo" autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block;background:var(--navy-dark);">
-            <source src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Videos/Club%20Ad.mp4" type="video/mp4">
-          </video>
-          <!-- Unmute button -->
-          <button id="heroMuteBtn" onclick="toggleHeroMute()" style="position:absolute;bottom:1rem;right:1rem;background:rgba(0,0,0,0.6);border:1.5px solid rgba(255,255,255,0.4);border-radius:50px;padding:0.5rem 1rem;color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.1em;cursor:pointer;display:flex;align-items:center;gap:0.4rem;transition:all 0.2s;z-index:10;backdrop-filter:blur(4px);">
-            <svg id="heroMuteIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-              <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
-            </svg>
-            <span id="heroMuteLabel">UNMUTE</span>
-          </button>
+      <div class="hero-visual" style="margin-top:0;align-self:start;" id="heroVisual">
+        <div style="position:relative;">
+          <div class="hero-img-frame" style="padding:0;overflow:hidden;aspect-ratio:16/9;position:relative;background:var(--navy-dark);">
+            <video id="heroVideo" autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block;background:var(--navy-dark);">
+              <source src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Web%20Videos/Club%20Ad.mp4" type="video/mp4">
+            </video>
+            <!-- Unmute button -->
+            <button id="heroMuteBtn" onclick="toggleHeroMute()" style="position:absolute;bottom:1rem;right:1rem;background:rgba(0,0,0,0.6);border:1.5px solid rgba(255,255,255,0.4);border-radius:50px;padding:0.5rem 1rem;color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.1em;cursor:pointer;display:flex;align-items:center;gap:0.4rem;transition:all 0.2s;z-index:10;backdrop-filter:blur(4px);">
+              <svg id="heroMuteIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+              </svg>
+              <span id="heroMuteLabel">UNMUTE</span>
+            </button>
+          </div>
+          <div class="hero-img-badge">
+            <span class="big">#1</span>
+            <span class="small">RATED FACILITY</span>
+          </div>
         </div>
-        <div class="hero-img-badge">
-          <span class="big">#1</span>
-          <span class="small">RATED FACILITY</span>
+        <!-- Tri-State Masters tournament promo -->
+        <div style="text-align:center;margin-top:2.75rem;">
+          <img src="/images/tri-state-masters.png" alt="LevelUp Tri-State Masters Pickleball Tournament" style="width:180px;max-width:55%;height:auto;display:block;margin:0 auto;">
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.03em;margin-top:0.6rem;">We're up to <span style="color:var(--green);">300 players!</span></div>
+          <a href="https://pickleballtournaments.com/tournaments/2026-levelup-tri-state-masters-dupr-rated-16-indoor-courts" target="_blank" rel="noopener" class="btn btn-green" style="margin-top:0.9rem;display:inline-block;">Sign Up for Tri-State Masters &rarr;</a>
         </div>
-        
       </div>
     </div>
   </section>
@@ -1370,5 +1377,29 @@
 </script>
   <link rel="stylesheet" href="/css/court-booking.css">
   <script src="/js/court-booking.js" defer></script>
+
+  <!-- First-visit confetti (fires once per visitor) -->
+  <script>
+  (function(){
+    try { if (localStorage.getItem('lvl_confetti_seen')) return; } catch(e) {}
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js';
+    s.onload = function(){
+      try {
+        var colors = ['#3cc440','#1E2B6E','#ffffff'];
+        confetti({ particleCount: 140, spread: 90, startVelocity: 45, origin: { y: 0.55 }, colors: colors });
+        var end = Date.now() + 1400;
+        (function frame(){
+          confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: colors });
+          confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: colors });
+          if (Date.now() < end) requestAnimationFrame(frame);
+        })();
+      } catch(e) {}
+      try { localStorage.setItem('lvl_confetti_seen','1'); } catch(e) {}
+    };
+    document.body.appendChild(s);
+  })();
+  </script>
 </body>
 </html>
