@@ -411,8 +411,9 @@
         </div>
         <!-- Tri-State Masters tournament promo -->
         <div style="text-align:center;margin-top:2.75rem;">
-          <img src="/images/tri-state-masters.png" alt="LevelUp Tri-State Masters Pickleball Tournament" style="width:180px;max-width:55%;height:auto;display:block;margin:0 auto;">
-          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.03em;margin-top:0.6rem;">We're up to <span style="color:var(--green);">300 players!</span></div>
+          <img class="tsm-logo" src="/images/tri-state-masters.png" alt="LevelUp Tri-State Masters Pickleball Tournament" style="width:340px;max-width:85%;height:auto;display:block;margin:0 auto;">
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.05em;margin-top:0.85rem;">Aug 28&ndash;30, 2026</div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.03em;margin-top:0.25rem;">We're up to <span style="color:var(--green);">300 players!</span></div>
           <a href="https://pickleballtournaments.com/tournaments/2026-levelup-tri-state-masters-dupr-rated-16-indoor-courts" target="_blank" rel="noopener" class="btn btn-green" style="margin-top:0.9rem;display:inline-block;">Sign Up for Tri-State Masters &rarr;</a>
         </div>
       </div>
@@ -1388,13 +1389,18 @@
     s.onload = function(){
       try {
         var colors = ['#3cc440','#1E2B6E','#ffffff'];
-        confetti({ particleCount: 140, spread: 90, startVelocity: 45, origin: { y: 0.55 }, colors: colors });
-        var end = Date.now() + 1400;
-        (function frame(){
-          confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: colors });
-          confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: colors });
-          if (Date.now() < end) requestAnimationFrame(frame);
-        })();
+        // Fire the burst centered on the tournament logo, not the whole screen.
+        var el = document.querySelector('.tsm-logo');
+        var origin = { x: 0.5, y: 0.4 };
+        if (el) {
+          var r = el.getBoundingClientRect();
+          if (r.width) origin = {
+            x: Math.min(1, Math.max(0, (r.left + r.width/2) / window.innerWidth)),
+            y: Math.min(1, Math.max(0, (r.top + r.height/2) / window.innerHeight))
+          };
+        }
+        confetti({ particleCount: 80, spread: 70, startVelocity: 30, origin: origin, colors: colors, scalar: 0.9 });
+        confetti({ particleCount: 40, spread: 110, startVelocity: 22, origin: origin, colors: colors, scalar: 0.8 });
       } catch(e) {}
       try { localStorage.setItem('lvl_confetti_seen','1'); } catch(e) {}
     };
