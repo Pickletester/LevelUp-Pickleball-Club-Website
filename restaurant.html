@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-31TFRX7MMP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-31TFRX7MMP');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant | LevelUp Pickleball Club — Canonsburg, PA</title>
+  <meta name="description" content="Baseline Bar & Grille — the full-service bar and restaurant inside LevelUp Pickleball Club in Canonsburg, PA. Open to the public.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://leveluppickleballclub.com/restaurant">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/golf-sim.css">
+  <style>
+    /* Fill the viewport below the fixed 68px nav; flex so the strip + iframe never overflow. */
+    .restaurant-wrap { height: calc(100vh - 68px); height: calc(100dvh - 68px); display: flex; flex-direction: column; background: var(--navy-dark); }
+    .restaurant-embed { flex: 1 1 auto; min-height: 0; }
+    .restaurant-embed iframe { display: block; width: 100%; height: 100%; border: 0; }
+    /* Tiny fallback strip in case a device blocks the embed */
+    .restaurant-fallback { flex: 0 0 auto; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; letter-spacing: 0.05em; padding: 0.4rem; background: var(--navy-dark); color: rgba(255,255,255,0.6); }
+    .restaurant-fallback a { color: var(--green); text-decoration: none; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a class="nav-logo" href="/">
+    <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png" alt="LevelUp Pickleball Club" style="height:48px;width:auto;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="/" id="nav-home">Home</a></li>
+    <li><a href="/membership" id="nav-membership">Membership</a></li>
+    <li><a href="/play" id="nav-play">Play</a></li>
+    <li><a href="/learn" id="nav-learn">Learn</a></li>
+    <li><a href="/pros" id="nav-pros">Our Pros</a></li>
+    <li><a href="/events" id="nav-events">Private Events</a></li>
+    <li><a href="/faq" id="nav-faq">FAQ</a></li>
+    <li><a href="/golf-sim" id="nav-golfsim">⛳ Golf Sim</a></li>
+    <li><a href="/restaurant" id="nav-restaurant" class="active">🍔 Restaurant</a></li>
+    <li><a href="https://app.courtreserve.com" target="_blank" class="nav-portal">Member Portal</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="toggleMobileMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">Home</a>
+  <a href="/membership">Membership</a>
+  <a href="/play">Play</a>
+  <a href="/learn">Learn</a>
+  <a href="/pros">Our Pros</a>
+  <a href="/events">Private Events</a>
+  <a href="/faq">FAQ</a>
+  <a href="/golf-sim">⛳ Golf Sim</a>
+  <a href="/restaurant">🍔 Restaurant</a>
+  <a href="/replay">🎥 CourtCam</a>
+  <a href="https://app.courtreserve.com" target="_blank">Member Portal ↗</a>
+</div>
+
+<div class="restaurant-wrap">
+  <div class="restaurant-fallback">Baseline Bar &amp; Grille — our in-house restaurant · <a href="https://www.baselinebarandgrille.com/" target="_blank" rel="noopener">Open full site &nearr;</a></div>
+  <div class="restaurant-embed">
+    <iframe title="Baseline Bar &amp; Grille — LevelUp's in-house restaurant" src="https://www.baselinebarandgrille.com/" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
