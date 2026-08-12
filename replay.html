@@ -473,8 +473,8 @@
   // Recognized promo codes (front-end display only; the Worker validates for real).
   // Keep this in sync with REPLAY_PROMOS in the Worker (lpc-stripe-worker/src/index.js).
   const REPLAY_PROMOS = {
-    '4324': { flatPrice: 1, validDurations: [30], label: '$1 promo (4324)' },
-    'courtcam': { percentOff: 50, label: '50% off (COURTCAM)' }
+    '4324': { flatPrice: 1, validDurations: [30], label: '$1 promo (4324)' }
+    // 'courtcam' (50%) removed 2026-07-30 — promo ended (was display-only; Worker never honored it).
   };
 
   const REPLAY_PRICES = { 15: 5, 30: 10 };
