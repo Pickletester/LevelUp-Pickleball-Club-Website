@@ -658,7 +658,10 @@
         // Fold the chosen session into the event value so it appears in the email + sheet
         // (e.g. "Free Cardio Pickleball — 10:45 AM"). Only for events with a session picker.
         var sess = document.getElementById('ohSession');
-        if (sess && !sess.disabled && sess.value) { fd.set('event', fd.get('event') + ' — ' + sess.value); }
+        if (sess && !sess.disabled && sess.value) {
+          fd.set('event', fd.get('event') + ' — ' + sess.value);   // event stays clean text (long string)
+          fd.set('session', "'" + sess.value);                     // leading ' keeps "10:45 AM" as TEXT in Google Sheets (else it becomes 0.447…)
+        }
         var res = await fetch('https://api.web3forms.com/submit', { method:'POST', body:fd });
         var data = await res.json();
         if(!data.success) throw new Error(data.message||'failed');
