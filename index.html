@@ -609,11 +609,29 @@
         if(!data.success) throw new Error(data.message||'failed');
         document.getElementById('ohForm').style.display = 'none';
         document.getElementById('ohDone').style.display = 'block';
+        ohConfetti();
       } catch(err){
         alert('Sorry — we could not save that. Please call 412.206.5755 to reserve your spot.');
         btn.disabled = false; btn.textContent = label;
       }
       return false;
+    }
+    // Celebration confetti on a successful signup. Uses its own top-layer canvas so it shows
+    // OVER the modal (z-index above #ohModal). Loads canvas-confetti on demand.
+    function ohConfetti(){
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      function boom(){
+        if(!window.confetti) return;
+        var cv = document.getElementById('ohConfettiCanvas');
+        if(!cv){ cv = document.createElement('canvas'); cv.id='ohConfettiCanvas'; cv.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:10001;'; document.body.appendChild(cv); }
+        var fire = window._ohConfetti || (window._ohConfetti = confetti.create(cv, { resize:true, useWorker:true }));
+        var colors = ['#3cc440','#1E2B6E','#ffffff','#ffe14d'];
+        fire({ particleCount:130, spread:80, startVelocity:45, origin:{ y:0.4 }, colors:colors });
+        fire({ particleCount:55, angle:60, spread:55, origin:{ x:0, y:0.65 }, colors:colors });
+        fire({ particleCount:55, angle:120, spread:55, origin:{ x:1, y:0.65 }, colors:colors });
+      }
+      if(window.confetti){ boom(); return; }
+      var s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js'; s.onload=boom; document.body.appendChild(s);
     }
   </script>
   <!-- ============================ END OPEN HOUSE ============================ -->
