@@ -498,7 +498,9 @@
     #ohModal .oh-x { position:absolute; top:.5rem; right:.85rem; background:none; border:none; color:rgba(255,255,255,.5); font-size:1.9rem; line-height:1; cursor:pointer; }
     #ohModal h3 { font-family:'Bebas Neue',sans-serif; font-size:1.7rem; margin:0 0 .2rem; letter-spacing:.02em; }
     #ohModal .oh-modal-event { color:#7ccf4a; font-weight:700; margin-bottom:1rem; }
-    #ohModal input { width:100%; box-sizing:border-box; margin-bottom:.6rem; padding:.7rem .85rem; border:1px solid rgba(255,255,255,.15); border-radius:9px; background:rgba(255,255,255,.06); color:#fff; font-family:inherit; font-size:.95rem; }
+    #ohModal input, #ohModal select { width:100%; box-sizing:border-box; margin-bottom:.6rem; padding:.7rem .85rem; border:1px solid rgba(255,255,255,.15); border-radius:9px; background:rgba(255,255,255,.06); color:#fff; font-family:inherit; font-size:.95rem; }
+    #ohModal select option { color:#111; }
+    #ohModal .oh-field-label { display:block; color:rgba(255,255,255,.7); font-size:.82rem; margin:.2rem 0 .35rem; }
     #ohModal button[type=submit] { width:100%; background:var(--green,#3cc440); color:#0b1f07; font-weight:800; border:none; border-radius:9px; padding:.8rem; font-size:1rem; letter-spacing:.03em; cursor:pointer; }
     #ohDone { display:none; text-align:center; padding:1rem 0; }
   </style>
@@ -597,6 +599,10 @@
         <input type="hidden" name="from_name" value="LevelUp Open House">
         <input type="hidden" name="event" id="ohEventField" value="">
         <input type="checkbox" name="botcheck" tabindex="-1" style="display:none;" aria-hidden="true">
+        <div id="ohSessionWrap" style="display:none;">
+          <label class="oh-field-label" for="ohSession">Pick your session time</label>
+          <select id="ohSession" name="session"></select>
+        </div>
         <input name="name" required placeholder="Your name" autocomplete="name">
         <input name="email" type="email" required placeholder="Email" autocomplete="email">
         <button type="submit" id="ohSubmitBtn">Reserve My Spot</button>
@@ -610,6 +616,8 @@
   </div>
 
   <script>
+    // Events with more than one session time show a picker; others don't.
+    var OH_SESSIONS = { 'Free Cardio Pickleball': ['10:45 AM','11:15 AM'] };
     function ohSignup(evt){
       var clean = evt.replace(/&amp;/g,'&');
       var f = document.getElementById('ohForm');
@@ -617,6 +625,14 @@
       document.getElementById('ohModalEvent').textContent = clean;
       document.getElementById('ohEventField').value = clean;   // set AFTER reset
       document.getElementById('ohSubject').value = 'Open House signup: ' + clean;
+      // Session picker (only for events that run multiple sessions)
+      var sessions = OH_SESSIONS[clean], wrap = document.getElementById('ohSessionWrap'), sel = document.getElementById('ohSession');
+      if (sessions && sessions.length) {
+        sel.innerHTML = '<option value="" disabled selected>Select a session…</option>' + sessions.map(function(s){ return '<option value="'+s+'">'+s+'</option>'; }).join('');
+        sel.required = true; sel.disabled = false; wrap.style.display = '';
+      } else {
+        sel.innerHTML = ''; sel.required = false; sel.disabled = true; wrap.style.display = 'none';
+      }
       var btn = document.getElementById('ohSubmitBtn'); btn.disabled = false; btn.textContent = 'Reserve My Spot';
       f.style.display = '';
       document.getElementById('ohDone').style.display = 'none';
