@@ -460,7 +460,9 @@
     .oh-sub { color:rgba(255,255,255,.75); max-width:620px; margin:.5rem auto 0; }
     .oh-special-band { display:inline-block; margin-top:1.1rem; background:#ffe14d; color:#123; font-weight:800; padding:.55rem 1.1rem; border-radius:10px; font-size:.95rem; }
     .oh-timeline { display:flex; flex-direction:column; }
-    .oh-item { display:grid; grid-template-columns:150px 1fr 130px; gap:1.25rem; align-items:center; padding:1.1rem 0; border-top:1px solid rgba(255,255,255,.1); }
+    .oh-item { display:grid; grid-template-columns:48px 140px 1fr 130px; gap:1.1rem; align-items:center; padding:1.1rem 0; border-top:1px solid rgba(255,255,255,.1); }
+    .oh-ico { width:44px; height:44px; border-radius:50%; background:#1c5e2a; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .oh-ico svg { width:22px; height:22px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
     .oh-item:last-child { border-bottom:1px solid rgba(255,255,255,.1); }
     .oh-item.oh-star { background:rgba(124,207,74,.07); border-radius:10px; padding-left:1rem; padding-right:1rem; }
     .oh-time { font-family:'Barlow Condensed',sans-serif; font-weight:700; color:#7ccf4a; letter-spacing:.03em; font-size:1.05rem; line-height:1.15; }
@@ -473,8 +475,11 @@
     .oh-foot { text-align:center; color:rgba(255,255,255,.6); font-size:.9rem; margin-top:1.75rem; }
     .oh-foot a { color:#7ccf4a; text-decoration:none; font-weight:700; }
     @media (max-width:640px){
-      .oh-item { grid-template-columns:1fr; gap:.35rem; }
-      .oh-cell-right { justify-self:stretch; width:100%; }
+      .oh-item { grid-template-columns:44px 1fr; column-gap:.9rem; row-gap:.2rem; }
+      .oh-ico { grid-column:1; grid-row:1 / span 3; align-self:start; }
+      .oh-time { grid-column:2; grid-row:1; }
+      .oh-body { grid-column:2; grid-row:2; }
+      .oh-cell-right { grid-column:2; grid-row:3; justify-self:stretch; width:100%; }
     }
     /* signup modal */
     #ohModal { display:none; position:fixed; inset:0; z-index:10000; background:rgba(8,12,28,.9); overflow-y:auto; }
@@ -498,58 +503,69 @@
 
       <div class="oh-timeline">
         <div class="oh-item">
+          <span class="oh-ico"><svg viewBox="0 0 24 24"><ellipse cx="10" cy="9" rx="6.5" ry="7.5"/><path d="M7.5 15 L4.5 20.5"/><circle cx="18" cy="17.5" r="2"/></svg></span>
           <div class="oh-time">9:00 AM–9:00 PM</div>
-          <div><div class="oh-name"><span class="oh-free">Free</span>Open Drop-In Pickleball &amp; Badminton</div><div class="oh-desc">Free open rec play — all day. Visitors welcome.</div></div>
+          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Open Drop-In Pickleball &amp; Badminton</div><div class="oh-desc">Free open rec play — all day. Visitors welcome.</div></div>
           <div class="oh-cell-right"></div>
         </div>
         <div class="oh-item">
+          <span class="oh-ico"><svg viewBox="0 0 24 24"><ellipse cx="10" cy="9" rx="6.5" ry="7.5"/><path d="M7.5 15 L4.5 20.5"/><circle cx="18" cy="17.5" r="2"/></svg></span>
           <div class="oh-time">10:00–10:30 AM</div>
-          <div><div class="oh-name"><span class="oh-free">Free</span>Clinic — Beat the Bangers</div><div class="oh-desc">Learn strategies to beat hard-hitting opponents.</div></div>
+          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Clinic — Beat the Bangers</div><div class="oh-desc">Learn strategies to beat hard-hitting opponents.</div></div>
           <div class="oh-cell-right"></div>
         </div>
         <div class="oh-item oh-star">
+          <span class="oh-ico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
           <div class="oh-time">10:45–11:45 AM</div>
-          <div><div class="oh-name"><span class="oh-free">Free</span>Cardio Pickleball ⭐</div><div class="oh-desc">Game-style PB to get your heart pumping — sessions at 10:45 &amp; 11:15. Spots limited.</div></div>
+          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Cardio Pickleball ⭐</div><div class="oh-desc">Game-style PB to get your heart pumping — sessions at 10:45 &amp; 11:15. Spots limited.</div></div>
           <div class="oh-cell-right"><button class="oh-signup" onclick="ohSignup('Free Cardio Pickleball')">Sign Up</button></div>
         </div>
         <div class="oh-item">
+          <span class="oh-ico"><svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2a2 2 0 0 0 2-2V2"/><path d="M5 2v20"/><path d="M21 15V2a5 5 0 0 0-3 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></span>
           <div class="oh-time">11:30 AM–1:00 PM</div>
-          <div><div class="oh-name"><span class="oh-free">Free</span>Appetizer with Lunch</div><div class="oh-desc">Relax indoors or on the outdoor patio — enjoy a chef-selected complimentary app.</div></div>
+          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Appetizer with Lunch</div><div class="oh-desc">Relax indoors or on the outdoor patio — enjoy a chef-selected complimentary app.</div></div>
           <div class="oh-cell-right"></div>
         </div>
         <div class="oh-item oh-star">
+          <span class="oh-ico"><svg viewBox="0 0 24 24"><ellipse cx="10" cy="9" rx="6.5" ry="7.5"/><path d="M7.5 15 L4.5 20.5"/><circle cx="18" cy="17.5" r="2"/></svg></span>
           <div class="oh-time">1:00–3:00 PM</div>
-          <div><div class="oh-name"><span class="oh-free">Free</span>Table Tennis &amp; Cornhole Tournaments ⭐</div><div class="oh-desc">Bracket play for all ages. Spots limited.</div></div>
+          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Table Tennis &amp; Cornhole Tournaments ⭐</div><div class="oh-desc">Bracket play for all ages. Spots limited.</div></div>
           <div class="oh-cell-right"><button class="oh-signup" onclick="ohSignup('Free Table Tennis &amp; Cornhole Tournaments')">Sign Up</button></div>
         </div>
         <div class="oh-item">
+          <span class="oh-ico"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
           <div class="oh-time">3:30–4:00 PM</div>
-          <div><div class="oh-name"><span class="oh-free">Free</span>Advanced PB Clinic — Team Strategies &amp; Pro Play</div><div class="oh-desc">With Wayne &amp; Lisa Dollard, 19-49 &amp; 50+ US Open Champions. All players &amp; guests welcome.</div></div>
+          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Advanced PB Clinic — Team Strategies &amp; Pro Play</div><div class="oh-desc">With Wayne &amp; Lisa Dollard, 19-49 &amp; 50+ US Open Champions. All players &amp; guests welcome.</div></div>
           <div class="oh-cell-right"></div>
         </div>
         <div class="oh-item oh-star">
+          <span class="oh-ico"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
           <div class="oh-time">4:00–5:00 PM</div>
-          <div><div class="oh-name">Up/Down Split Pickleball Social ⭐</div><div class="oh-desc">Couples or individuals — move up or down courts based on results. Guests welcome. Spots limited.</div></div>
+          <div class="oh-body"><div class="oh-name">Up/Down Split Pickleball Social ⭐</div><div class="oh-desc">Couples or individuals — move up or down courts based on results. Guests welcome. Spots limited.</div></div>
           <div class="oh-cell-right"><button class="oh-signup" onclick="ohSignup('Up/Down Split Pickleball Social')">Sign Up</button></div>
         </div>
         <div class="oh-item">
+          <span class="oh-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
           <div class="oh-time">5:00–6:00 PM</div>
-          <div><div class="oh-name">Happy Hour &amp; Social Darts</div><div class="oh-desc">Drink specials and darts with guests and members.</div></div>
+          <div class="oh-body"><div class="oh-name">Happy Hour &amp; Social Darts</div><div class="oh-desc">Drink specials and darts with guests and members.</div></div>
           <div class="oh-cell-right"></div>
         </div>
         <div class="oh-item">
+          <span class="oh-ico"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
           <div class="oh-time">6:00–7:30 PM</div>
-          <div><div class="oh-name">Dinner &amp; Music at Baseline Bar</div><div class="oh-desc">Indoor and outdoor dining — food &amp; beverage specials available all day.</div></div>
+          <div class="oh-body"><div class="oh-name">Dinner &amp; Music at Baseline Bar</div><div class="oh-desc">Indoor and outdoor dining — food &amp; beverage specials available all day.</div></div>
           <div class="oh-cell-right"></div>
         </div>
         <div class="oh-item">
+          <span class="oh-ico"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8"/><path d="M16.5 8a2.5 2.5 0 0 0 0-5C13 3 12 8 12 8"/></svg></span>
           <div class="oh-time">7:00 PM</div>
-          <div><div class="oh-name">Prize Drawings</div><div class="oh-desc">Attend to win raffle prizes &amp; giveaways.</div></div>
+          <div class="oh-body"><div class="oh-name">Prize Drawings</div><div class="oh-desc">Attend to win raffle prizes &amp; giveaways.</div></div>
           <div class="oh-cell-right"></div>
         </div>
         <div class="oh-item">
+          <span class="oh-ico"><svg viewBox="0 0 24 24"><ellipse cx="10" cy="9" rx="6.5" ry="7.5"/><path d="M7.5 15 L4.5 20.5"/><circle cx="18" cy="17.5" r="2"/></svg></span>
           <div class="oh-time">7:00–9:00 PM</div>
-          <div><div class="oh-name"><span class="oh-free">Free</span>Stay &amp; Play for Free</div><div class="oh-desc">Free pickleball and badminton courts to close out the night.</div></div>
+          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Stay &amp; Play for Free</div><div class="oh-desc">Free pickleball and badminton courts to close out the night.</div></div>
           <div class="oh-cell-right"></div>
         </div>
       </div>
