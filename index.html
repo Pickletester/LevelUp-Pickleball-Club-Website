@@ -631,7 +631,9 @@
         sel.innerHTML = '<option value="" disabled selected>Select a session…</option>' + sessions.map(function(s){ return '<option value="'+s+'">'+s+'</option>'; }).join('');
         sel.required = true; sel.disabled = false; wrap.style.display = '';
       } else {
-        sel.innerHTML = ''; sel.required = false; sel.disabled = true; wrap.style.display = 'none';
+        // Keep it ENABLED (submits an empty "session") so every row has the same columns —
+        // a disabled/absent field shifts the Google Sheet columns for non-session events.
+        sel.innerHTML = '<option value="" selected></option>'; sel.required = false; sel.disabled = false; wrap.style.display = 'none';
       }
       var btn = document.getElementById('ohSubmitBtn'); btn.disabled = false; btn.textContent = 'Reserve My Spot';
       f.style.display = '';
