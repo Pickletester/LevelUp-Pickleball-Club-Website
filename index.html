@@ -600,7 +600,7 @@
         <input type="hidden" name="event" id="ohEventField" value="">
         <input type="checkbox" name="botcheck" tabindex="-1" style="display:none;" aria-hidden="true">
         <div id="ohSessionWrap" style="display:none;">
-          <label class="oh-field-label" for="ohSession">Pick your session time</label>
+          <label class="oh-field-label" id="ohSessionLabel" for="ohSession">Pick your session time</label>
           <select id="ohSession" name="session"></select>
         </div>
         <input name="name" required placeholder="Your name" autocomplete="name">
@@ -616,8 +616,12 @@
   </div>
 
   <script>
-    // Events with more than one session time show a picker; others don't.
-    var OH_SESSIONS = { 'Free Cardio Pickleball': ['10:45 AM','11:15 AM'] };
+    // Per-event dropdown: a session time for Cardio, a tournament choice for Table Tennis/Cornhole.
+    // The picked value is submitted as "session" and folded into the event name.
+    var OH_PICKERS = {
+      'Free Cardio Pickleball': { label:'Pick your session time', placeholder:'Select a session…', options:['10:45 AM','11:15 AM'] },
+      'Free Table Tennis & Cornhole Tournaments': { label:'Which tournament?', placeholder:'Select one…', options:['Table Tennis','Cornhole','Both'] }
+    };
     function ohSignup(evt){
       var clean = evt.replace(/&amp;/g,'&');
       var f = document.getElementById('ohForm');
@@ -625,14 +629,15 @@
       document.getElementById('ohModalEvent').textContent = clean;
       document.getElementById('ohEventField').value = clean;   // set AFTER reset
       document.getElementById('ohSubject').value = 'Open House signup: ' + clean;
-      // Session picker (only for events that run multiple sessions)
-      var sessions = OH_SESSIONS[clean], wrap = document.getElementById('ohSessionWrap'), sel = document.getElementById('ohSession');
-      if (sessions && sessions.length) {
-        sel.innerHTML = '<option value="" disabled selected>Select a session…</option>' + sessions.map(function(s){ return '<option value="'+s+'">'+s+'</option>'; }).join('');
+      // Dropdown (only for events configured above)
+      var cfg = OH_PICKERS[clean], wrap = document.getElementById('ohSessionWrap'), sel = document.getElementById('ohSession'), lbl = document.getElementById('ohSessionLabel');
+      if (cfg) {
+        lbl.textContent = cfg.label;
+        sel.innerHTML = '<option value="" disabled selected>'+(cfg.placeholder||'Select…')+'</option>' + cfg.options.map(function(s){ return '<option value="'+s+'">'+s+'</option>'; }).join('');
         sel.required = true; sel.disabled = false; wrap.style.display = '';
       } else {
         // Keep it ENABLED (submits an empty "session") so every row has the same columns —
-        // a disabled/absent field shifts the Google Sheet columns for non-session events.
+        // a disabled/absent field shifts the Google Sheet columns for events without a picker.
         sel.innerHTML = '<option value="" selected></option>'; sel.required = false; sel.disabled = false; wrap.style.display = 'none';
       }
       var btn = document.getElementById('ohSubmitBtn'); btn.disabled = false; btn.textContent = 'Reserve My Spot';
