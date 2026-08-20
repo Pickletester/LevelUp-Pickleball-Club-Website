@@ -392,6 +392,17 @@
         </div>
       </div>
       <div class="hero-visual" style="margin-top:0;align-self:start;" id="heroVisual">
+        <!-- OPEN HOUSE hero card (TEMPORARY for Sept 6 2026). TO REVERT: delete this <a class="oh-hero-card">,
+             then unwrap the <template id="heroVideoBackup"> below (remove the opening/closing template tags). -->
+        <a href="#openhouse" class="oh-hero-card">
+          <span class="oh-hero-eyebrow">🎉 Free Open House</span>
+          <span class="oh-hero-title">EVERYONE'S WELCOME</span>
+          <span class="oh-hero-date">Sunday, Sept 6, 2026 · Labor Day Weekend</span>
+          <span class="oh-hero-hours">9 AM – 9 PM · All-day free play</span>
+          <span class="oh-hero-special">Membership special Aug 28–Sep 7 · Initiation fee waived, save $99</span>
+          <span class="oh-hero-cta">See schedule &amp; sign up ↓</span>
+        </a>
+        <template id="heroVideoBackup">
         <div style="position:relative;">
           <div class="hero-img-frame" style="padding:0;overflow:hidden;aspect-ratio:16/9;position:relative;background:var(--navy-dark);">
             <video id="heroVideo" autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block;background:var(--navy-dark);">
@@ -411,16 +422,201 @@
             <span class="small">RATED FACILITY</span>
           </div>
         </div>
+        </template>
         <!-- Tri-State Masters tournament promo -->
         <div style="text-align:center;margin-top:2.75rem;">
           <img class="tsm-logo" src="/images/tri-state-masters.png" alt="LevelUp Tri-State Masters Pickleball Tournament" style="width:340px;max-width:85%;height:auto;display:block;margin:0 auto;">
           <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.05em;margin-top:0.85rem;">Aug 28&ndash;30, 2026</div>
-          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.03em;margin-top:0.25rem;">We're up to <span style="color:var(--green);">380+ players!</span></div>
+          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.03em;margin-top:0.25rem;">We're up to <span style="color:var(--green);">300 players!</span></div>
           <a href="https://pickleballtournaments.com/tournaments/2026-levelup-tri-state-masters-dupr-rated-16-indoor-courts" target="_blank" rel="noopener" class="btn btn-green" style="margin-top:0.9rem;display:inline-block;">Sign Up for Tri-State Masters &rarr;</a>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ============================================================================
+       OPEN HOUSE (TEMPORARY — added for the Sept 6, 2026 Open House).
+       TO REVERT: delete this whole block (style + section + modal + script, down to
+       the "END OPEN HOUSE" marker), delete the .oh-hero-card <a> in the hero, and
+       unwrap the <template id="heroVideoBackup"> to restore the video.
+       ============================================================================ -->
+  <style id="ohStyles">
+    .oh-hero-card { display:flex; flex-direction:column; gap:.35rem; text-align:center; text-decoration:none;
+      background:linear-gradient(150deg,#2e8b3d 0%,#1c5e2a 100%); border:1px solid rgba(255,255,255,.18);
+      border-radius:16px; padding:2rem 1.5rem; box-shadow:0 20px 50px rgba(0,0,0,.45); }
+    .oh-hero-card:hover { transform:translateY(-2px); transition:transform .2s; }
+    .oh-hero-eyebrow { font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.14em; text-transform:uppercase; font-size:.85rem; color:#eafbe0; }
+    .oh-hero-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.4rem,5vw,3.4rem); line-height:.95; color:#fff; letter-spacing:.02em; }
+    .oh-hero-date { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; color:#ffe14d; letter-spacing:.03em; }
+    .oh-hero-hours { color:#eafbe0; font-weight:600; font-size:.95rem; }
+    .oh-hero-special { margin-top:.5rem; background:#ffe14d; color:#123; font-weight:800; font-size:.8rem; letter-spacing:.02em; padding:.4rem .75rem; border-radius:8px; align-self:center; }
+    .oh-hero-cta { margin-top:.75rem; display:inline-block; background:#fff; color:#1c5e2a; font-weight:800; letter-spacing:.05em; text-transform:uppercase; font-size:.9rem; padding:.65rem 1.1rem; border-radius:8px; align-self:center; }
+
+    .oh-section { scroll-margin-top:80px; background:linear-gradient(180deg,#0c1f12 0%,#123421 100%); padding:4.5rem 0; }
+    .oh-container { max-width:1000px; margin:0 auto; padding:0 1.5rem; }
+    .oh-head { text-align:center; margin-bottom:2.5rem; }
+    .oh-eyebrow { font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#7ccf4a; font-size:.9rem; }
+    .oh-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.2rem,6vw,3.6rem); color:#fff; letter-spacing:.02em; margin:.3rem 0; line-height:1; text-wrap:balance; }
+    .oh-sub { color:rgba(255,255,255,.75); max-width:620px; margin:.5rem auto 0; }
+    .oh-special-band { display:inline-block; margin-top:1.1rem; background:#ffe14d; color:#123; font-weight:800; padding:.55rem 1.1rem; border-radius:10px; font-size:.95rem; }
+    .oh-timeline { display:flex; flex-direction:column; }
+    .oh-item { display:grid; grid-template-columns:150px 1fr 130px; gap:1.25rem; align-items:center; padding:1.1rem 0; border-top:1px solid rgba(255,255,255,.1); }
+    .oh-item:last-child { border-bottom:1px solid rgba(255,255,255,.1); }
+    .oh-item.oh-star { background:rgba(124,207,74,.07); border-radius:10px; padding-left:1rem; padding-right:1rem; }
+    .oh-time { font-family:'Barlow Condensed',sans-serif; font-weight:700; color:#7ccf4a; letter-spacing:.03em; font-size:1.05rem; line-height:1.15; }
+    .oh-name { color:#fff; font-weight:700; font-size:1.05rem; }
+    .oh-desc { color:rgba(255,255,255,.65); font-size:.9rem; margin-top:.15rem; }
+    .oh-free { display:inline-block; font-size:.65rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#0c1f12; background:#7ccf4a; padding:.12rem .45rem; border-radius:4px; margin-right:.5rem; vertical-align:middle; }
+    .oh-signup { width:100%; background:var(--green,#3cc440); color:#0b1f07; border:none; font-family:'Barlow Condensed',sans-serif; font-weight:800; letter-spacing:.05em; text-transform:uppercase; font-size:.85rem; padding:.6rem .5rem; border-radius:8px; cursor:pointer; }
+    .oh-signup:hover { filter:brightness(1.06); }
+    .oh-cell-right { justify-self:end; width:130px; }
+    .oh-foot { text-align:center; color:rgba(255,255,255,.6); font-size:.9rem; margin-top:1.75rem; }
+    .oh-foot a { color:#7ccf4a; text-decoration:none; font-weight:700; }
+    @media (max-width:640px){
+      .oh-item { grid-template-columns:1fr; gap:.35rem; }
+      .oh-cell-right { justify-self:stretch; width:100%; }
+    }
+    /* signup modal */
+    #ohModal { display:none; position:fixed; inset:0; z-index:10000; background:rgba(8,12,28,.9); overflow-y:auto; }
+    #ohModal .oh-modal-card { max-width:420px; margin:8vh auto; background:#12162b; border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:1.75rem; position:relative; color:#fff; box-shadow:0 24px 70px rgba(0,0,0,.55); }
+    #ohModal .oh-x { position:absolute; top:.5rem; right:.85rem; background:none; border:none; color:rgba(255,255,255,.5); font-size:1.9rem; line-height:1; cursor:pointer; }
+    #ohModal h3 { font-family:'Bebas Neue',sans-serif; font-size:1.7rem; margin:0 0 .2rem; letter-spacing:.02em; }
+    #ohModal .oh-modal-event { color:#7ccf4a; font-weight:700; margin-bottom:1rem; }
+    #ohModal input { width:100%; box-sizing:border-box; margin-bottom:.6rem; padding:.7rem .85rem; border:1px solid rgba(255,255,255,.15); border-radius:9px; background:rgba(255,255,255,.06); color:#fff; font-family:inherit; font-size:.95rem; }
+    #ohModal button[type=submit] { width:100%; background:var(--green,#3cc440); color:#0b1f07; font-weight:800; border:none; border-radius:9px; padding:.8rem; font-size:1rem; letter-spacing:.03em; cursor:pointer; }
+    #ohDone { display:none; text-align:center; padding:1rem 0; }
+  </style>
+
+  <section class="oh-section" id="openhouse">
+    <div class="oh-container">
+      <div class="oh-head">
+        <div class="oh-eyebrow">🎉 Open House Celebration · Everyone Welcome</div>
+        <h2 class="oh-title">Sunday, September 6, 2026 — Labor Day Weekend</h2>
+        <p class="oh-sub">All-day free play, free clinics, tournaments, food &amp; prizes. Bring your friends and family — no membership required.</p>
+        <span class="oh-special-band">Membership Special Aug 28–Sep 7 · Initiation Fee Waived — Save $99</span>
+      </div>
+
+      <div class="oh-timeline">
+        <div class="oh-item">
+          <div class="oh-time">9:00 AM–9:00 PM</div>
+          <div><div class="oh-name"><span class="oh-free">Free</span>Open Drop-In Pickleball &amp; Badminton</div><div class="oh-desc">Free open rec play — all day. Visitors welcome.</div></div>
+          <div class="oh-cell-right"></div>
+        </div>
+        <div class="oh-item">
+          <div class="oh-time">10:00–10:30 AM</div>
+          <div><div class="oh-name"><span class="oh-free">Free</span>Clinic — Beat the Bangers</div><div class="oh-desc">Learn strategies to beat hard-hitting opponents.</div></div>
+          <div class="oh-cell-right"></div>
+        </div>
+        <div class="oh-item oh-star">
+          <div class="oh-time">10:45–11:45 AM</div>
+          <div><div class="oh-name"><span class="oh-free">Free</span>Cardio Pickleball ⭐</div><div class="oh-desc">Game-style PB to get your heart pumping — sessions at 10:45 &amp; 11:15. Spots limited.</div></div>
+          <div class="oh-cell-right"><button class="oh-signup" onclick="ohSignup('Free Cardio Pickleball')">Sign Up</button></div>
+        </div>
+        <div class="oh-item">
+          <div class="oh-time">11:30 AM–1:00 PM</div>
+          <div><div class="oh-name"><span class="oh-free">Free</span>Appetizer with Lunch</div><div class="oh-desc">Relax indoors or on the outdoor patio — enjoy a chef-selected complimentary app.</div></div>
+          <div class="oh-cell-right"></div>
+        </div>
+        <div class="oh-item oh-star">
+          <div class="oh-time">1:00–3:00 PM</div>
+          <div><div class="oh-name"><span class="oh-free">Free</span>Table Tennis &amp; Cornhole Tournaments ⭐</div><div class="oh-desc">Bracket play for all ages. Spots limited.</div></div>
+          <div class="oh-cell-right"><button class="oh-signup" onclick="ohSignup('Free Table Tennis &amp; Cornhole Tournaments')">Sign Up</button></div>
+        </div>
+        <div class="oh-item">
+          <div class="oh-time">3:30–4:00 PM</div>
+          <div><div class="oh-name"><span class="oh-free">Free</span>Advanced PB Clinic — Team Strategies &amp; Pro Play</div><div class="oh-desc">With Wayne &amp; Lisa Dollard, 19-49 &amp; 50+ US Open Champions. All players &amp; guests welcome.</div></div>
+          <div class="oh-cell-right"></div>
+        </div>
+        <div class="oh-item oh-star">
+          <div class="oh-time">4:00–5:00 PM</div>
+          <div><div class="oh-name">Up/Down Split Pickleball Social ⭐</div><div class="oh-desc">Couples or individuals — move up or down courts based on results. Guests welcome. Spots limited.</div></div>
+          <div class="oh-cell-right"><button class="oh-signup" onclick="ohSignup('Up/Down Split Pickleball Social')">Sign Up</button></div>
+        </div>
+        <div class="oh-item">
+          <div class="oh-time">5:00–6:00 PM</div>
+          <div><div class="oh-name">Happy Hour &amp; Social Darts</div><div class="oh-desc">Drink specials and darts with guests and members.</div></div>
+          <div class="oh-cell-right"></div>
+        </div>
+        <div class="oh-item">
+          <div class="oh-time">6:00–7:30 PM</div>
+          <div><div class="oh-name">Dinner &amp; Music at Baseline Bar</div><div class="oh-desc">Indoor and outdoor dining — food &amp; beverage specials available all day.</div></div>
+          <div class="oh-cell-right"></div>
+        </div>
+        <div class="oh-item">
+          <div class="oh-time">7:00 PM</div>
+          <div><div class="oh-name">Prize Drawings</div><div class="oh-desc">Attend to win raffle prizes &amp; giveaways.</div></div>
+          <div class="oh-cell-right"></div>
+        </div>
+        <div class="oh-item">
+          <div class="oh-time">7:00–9:00 PM</div>
+          <div><div class="oh-name"><span class="oh-free">Free</span>Stay &amp; Play for Free</div><div class="oh-desc">Free pickleball and badminton courts to close out the night.</div></div>
+          <div class="oh-cell-right"></div>
+        </div>
+      </div>
+
+      <div class="oh-foot">⭐ Spots are limited on these events — sign up above, or call <a href="tel:4122065755">412.206.5755</a>. · 33 Mayview Road, Canonsburg, PA</div>
+    </div>
+  </section>
+
+  <!-- Open House signup modal -->
+  <div id="ohModal" role="dialog" aria-modal="true" aria-label="Open House event signup">
+    <div class="oh-modal-card">
+      <button type="button" class="oh-x" onclick="ohClose()" aria-label="Close">&times;</button>
+      <h3>Reserve Your Spot</h3>
+      <div class="oh-modal-event" id="ohModalEvent"></div>
+      <form id="ohForm" onsubmit="return ohSubmit(event)">
+        <input type="hidden" name="access_key" value="13e4b698-dbeb-41d8-ade1-de5487dcf74a">
+        <input type="hidden" name="subject" id="ohSubject" value="Open House signup">
+        <input type="hidden" name="from_name" value="LevelUp Open House">
+        <input type="hidden" name="event" id="ohEventField" value="">
+        <input type="checkbox" name="botcheck" tabindex="-1" style="display:none;" aria-hidden="true">
+        <input name="name" required placeholder="Your name" autocomplete="name">
+        <input name="email" type="email" required placeholder="Email" autocomplete="email">
+        <button type="submit" id="ohSubmitBtn">Reserve My Spot</button>
+      </form>
+      <div id="ohDone">
+        <div style="font-size:2.2rem;color:var(--green,#3cc440);">✓</div>
+        <h3 style="margin:.3rem 0;">You're in!</h3>
+        <p style="color:rgba(255,255,255,.7);font-size:.9rem;">We saved your spot. See you September 6th! Questions? Call <a href="tel:4122065755" style="color:var(--green,#3cc440);">412.206.5755</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function ohSignup(evt){
+      var clean = evt.replace(/&amp;/g,'&');
+      var f = document.getElementById('ohForm');
+      f.reset();                                   // fresh form each open (clears name/email)
+      document.getElementById('ohModalEvent').textContent = clean;
+      document.getElementById('ohEventField').value = clean;   // set AFTER reset
+      document.getElementById('ohSubject').value = 'Open House signup: ' + clean;
+      var btn = document.getElementById('ohSubmitBtn'); btn.disabled = false; btn.textContent = 'Reserve My Spot';
+      f.style.display = '';
+      document.getElementById('ohDone').style.display = 'none';
+      document.getElementById('ohModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+    function ohClose(){ document.getElementById('ohModal').style.display='none'; document.body.style.overflow=''; }
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') ohClose(); });
+    document.getElementById('ohModal').addEventListener('click', function(e){ if(e.target===this) ohClose(); });
+    async function ohSubmit(e){
+      e.preventDefault();
+      var btn = document.getElementById('ohSubmitBtn'), label = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Saving…';
+      try {
+        var res = await fetch('https://api.web3forms.com/submit', { method:'POST', body:new FormData(document.getElementById('ohForm')) });
+        var data = await res.json();
+        if(!data.success) throw new Error(data.message||'failed');
+        document.getElementById('ohForm').style.display = 'none';
+        document.getElementById('ohDone').style.display = 'block';
+      } catch(err){
+        alert('Sorry — we could not save that. Please call 412.206.5755 to reserve your spot.');
+        btn.disabled = false; btn.textContent = label;
+      }
+      return false;
+    }
+  </script>
+  <!-- ============================ END OPEN HOUSE ============================ -->
 
   <!-- FACILITY -->
   <section class="facility">
