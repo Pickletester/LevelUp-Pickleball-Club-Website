@@ -657,7 +657,7 @@
       var remaining = s.cap - s.count;
       if(remaining <= 0) return '';                 // full — the button already says so
       if(remaining <= 10) return '⚡ Only ' + remaining + ' spot' + (remaining===1?'':'s') + ' left!';
-      if(s.count / s.cap >= 0.34) return '🔥 Spots going fast';
+      if(s.count / s.cap > 0.5) return '🔥 Spots going fast';
       return '';
     }
     // Grey out + relabel any full button, and refresh the scarcity badges.
