@@ -21,7 +21,7 @@
     background: var(--dark);
     color: var(--white);
     overflow-x: hidden;
-    padding-top: 108px;
+    padding-top: 68px; /* matches the 68px fixed nav (was 108px — leftover alert-bar allowance) */
   }
 
   /* ===== UTILITY ===== */
