@@ -481,6 +481,7 @@
     .oh-free { display:inline-block; font-size:.65rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#0c1f12; background:#7ccf4a; padding:.12rem .45rem; border-radius:4px; margin-right:.5rem; vertical-align:middle; }
     .oh-signup { width:100%; background:var(--green,#3cc440); color:#0b1f07; border:none; font-family:'Barlow Condensed',sans-serif; font-weight:800; letter-spacing:.05em; text-transform:uppercase; font-size:.85rem; padding:.6rem .5rem; border-radius:8px; cursor:pointer; }
     .oh-signup:hover { filter:brightness(1.06); }
+    .oh-signup.oh-full, .oh-signup:disabled { background:#3a4a52; color:rgba(255,255,255,.6); cursor:not-allowed; filter:none; }
     .oh-cell-right { justify-self:end; width:130px; }
     .oh-foot { text-align:center; color:rgba(255,255,255,.6); font-size:.9rem; margin-top:1.75rem; }
     .oh-foot a { color:#7ccf4a; text-decoration:none; font-weight:700; }
@@ -510,6 +511,7 @@
         <div class="oh-eyebrow">🎉 Open House Celebration · Everyone Welcome</div>
         <h2 class="oh-title">Sunday, September 6, 2026 — Labor Day Weekend</h2>
         <p class="oh-sub">All-day free play, free clinics, tournaments, food &amp; prizes. Bring your friends and family — no membership required.</p>
+        <span class="oh-special-band">Membership Special Aug 28–Sep 7 · Initiation Fee Waived — Save $99</span>
       </div>
 
       <div class="oh-timeline">
@@ -529,7 +531,7 @@
           <span class="oh-ico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
           <div class="oh-time">10:45–11:45 AM</div>
           <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Cardio Pickleball ⭐</div><div class="oh-desc">Game-style PB to get your heart pumping — sessions at 10:45 &amp; 11:15. Spots limited.</div></div>
-          <div class="oh-cell-right"><button class="oh-signup" onclick="ohSignup('Free Cardio Pickleball')">Sign Up</button></div>
+          <div class="oh-cell-right"><button class="oh-signup" data-oh-btn="cardio" onclick="ohSignup('Free Cardio Pickleball')">Sign Up</button></div>
         </div>
         <div class="oh-item">
           <span class="oh-ico"><svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2a2 2 0 0 0 2-2V2"/><path d="M5 2v20"/><path d="M21 15V2a5 5 0 0 0-3 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></span>
@@ -541,7 +543,7 @@
           <span class="oh-ico"><svg viewBox="0 0 24 24"><ellipse cx="10" cy="9" rx="6.5" ry="7.5"/><path d="M7.5 15 L4.5 20.5"/><circle cx="18" cy="17.5" r="2"/></svg></span>
           <div class="oh-time">1:00–3:00 PM</div>
           <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Table Tennis &amp; Cornhole Tournaments ⭐</div><div class="oh-desc">Bracket play for all ages. Spots limited.</div></div>
-          <div class="oh-cell-right"><button class="oh-signup" onclick="ohSignup('Free Table Tennis &amp; Cornhole Tournaments')">Sign Up</button></div>
+          <div class="oh-cell-right"><button class="oh-signup" data-oh-btn="tt" onclick="ohSignup('Free Table Tennis &amp; Cornhole Tournaments')">Sign Up</button></div>
         </div>
         <div class="oh-item">
           <span class="oh-ico"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
@@ -553,7 +555,7 @@
           <span class="oh-ico"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
           <div class="oh-time">4:00–5:00 PM</div>
           <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Up/Down Split Pickleball Social ⭐</div><div class="oh-desc">Couples or individuals — move up or down courts based on results. Guests welcome. Spots limited.</div></div>
-          <div class="oh-cell-right"><button class="oh-signup" onclick="ohSignup('Up/Down Split Pickleball Social')">Sign Up</button></div>
+          <div class="oh-cell-right"><button class="oh-signup" data-oh-btn="updown" onclick="ohSignup('Up/Down Split Pickleball Social')">Sign Up</button></div>
         </div>
         <div class="oh-item">
           <span class="oh-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
@@ -620,29 +622,82 @@
       'Free Cardio Pickleball': { label:'Pick your session time', placeholder:'Select a session…', options:['10:45 AM','11:15 AM'] },
       'Free Table Tennis & Cornhole Tournaments': { label:'Which tournament?', placeholder:'Select one…', options:['Table Tennis','Cornhole'] }
     };
-    function ohSignup(evt){
-      var clean = evt.replace(/&amp;/g,'&');
-      var f = document.getElementById('ohForm');
-      f.reset();                                   // fresh form each open (clears name/email)
-      document.getElementById('ohModalEvent').textContent = clean;
-      document.getElementById('ohEventField').value = clean;   // set AFTER reset
-      document.getElementById('ohSubject').value = 'Open House signup: ' + clean;
-      // Dropdown (only for events configured above)
+
+    // ---- Capacity limits (reads live counts from the published Google Sheet "Counts" tab) ----
+    // Change a cap here to raise/lower a limit; set to 0 to close an event. Counts come from the sheet.
+    var OH_COUNTS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRorIUwmv5P7yOPmhYDZB5RG1rKNOLyw3mbXEFD6-WD8GZOM8VhXmHhtCqTsKjhsK_wjapP9qymIdZ_/pub?gid=772025387&single=true&output=csv';
+    var OH_CAPS = { cardio_1045:27, cardio_1115:27, table_tennis:52, cornhole:52, updown:64 };
+    var OH_COUNTS = {};                              // populated from the CSV; empty until first load
+    // Maps a picker option -> its Counts key (per event). Single-cap events use OH_EVENT_KEY.
+    var OH_OPT_KEY = {
+      'Free Cardio Pickleball': { '10:45 AM':'cardio_1045', '11:15 AM':'cardio_1115' },
+      'Free Table Tennis & Cornhole Tournaments': { 'Table Tennis':'table_tennis', 'Cornhole':'cornhole' }
+    };
+    var OH_EVENT_KEY = { 'Up/Down Split Pickleball Social':'updown' };
+    function ohIsFull(key){ return key!=null && OH_COUNTS[key]!=null && OH_COUNTS[key] >= OH_CAPS[key]; }
+    function ohBtnFull(kind){
+      if(kind==='cardio') return ohIsFull('cardio_1045') && ohIsFull('cardio_1115');
+      if(kind==='tt')     return ohIsFull('table_tennis') && ohIsFull('cornhole');
+      if(kind==='updown') return ohIsFull('updown');
+      return false;
+    }
+    // Grey out + relabel any schedule button whose event is fully booked.
+    function ohApplyCaps(){
+      document.querySelectorAll('.oh-signup[data-oh-btn]').forEach(function(btn){
+        if(ohBtnFull(btn.getAttribute('data-oh-btn'))){ btn.disabled=true; btn.textContent='Full'; btn.classList.add('oh-full'); }
+        else { btn.disabled=false; btn.classList.remove('oh-full'); btn.textContent='Sign Up'; }
+      });
+    }
+    // Fetch the live counts, then re-apply. Cache-busted so it reflects recent (incl. manual) adds.
+    function ohLoadCounts(){
+      return fetch(OH_COUNTS_URL + '&_=' + Date.now(), { cache:'no-store' })
+        .then(function(r){ return r.text(); })
+        .then(function(t){
+          t.trim().split(/\r?\n/).forEach(function(line){
+            var i = line.indexOf(','); if(i<0) return;
+            var key = line.slice(0,i).trim().replace(/^"|"$/g,'');
+            var val = parseInt(line.slice(i+1).replace(/[^0-9-]/g,''),10);
+            if(key && !isNaN(val)) OH_COUNTS[key]=val;
+          });
+          ohApplyCaps();
+        }).catch(function(){ /* if the sheet is unreachable, leave everything open */ });
+    }
+    // Build the session/tournament dropdown, disabling any full option.
+    function ohBuildPicker(clean){
       var cfg = OH_PICKERS[clean], wrap = document.getElementById('ohSessionWrap'), sel = document.getElementById('ohSession'), lbl = document.getElementById('ohSessionLabel');
       if (cfg) {
         lbl.textContent = cfg.label;
-        sel.innerHTML = '<option value="" disabled selected>'+(cfg.placeholder||'Select…')+'</option>' + cfg.options.map(function(s){ return '<option value="'+s+'">'+s+'</option>'; }).join('');
+        var km = OH_OPT_KEY[clean];
+        sel.innerHTML = '<option value="" disabled selected>'+(cfg.placeholder||'Select…')+'</option>' + cfg.options.map(function(s){
+          var full = km && ohIsFull(km[s]);
+          return '<option value="'+s+'"'+(full?' disabled':'')+'>'+s+(full?' — Full':'')+'</option>';
+        }).join('');
         sel.required = true; sel.disabled = false; wrap.style.display = '';
       } else {
         // Keep it ENABLED (submits an empty "session") so every row has the same columns —
         // a disabled/absent field shifts the Google Sheet columns for events without a picker.
         sel.innerHTML = '<option value="" selected></option>'; sel.required = false; sel.disabled = false; wrap.style.display = 'none';
       }
+    }
+    function ohSignup(evt){
+      var clean = evt.replace(/&amp;/g,'&');
+      var f = document.getElementById('ohForm');
+      f.reset();                                   // fresh form each open (clears name/email)
+      window._ohOpenEvent = clean;
+      document.getElementById('ohModalEvent').textContent = clean;
+      document.getElementById('ohEventField').value = clean;   // set AFTER reset
+      document.getElementById('ohSubject').value = 'Open House signup: ' + clean;
+      ohBuildPicker(clean);
       var btn = document.getElementById('ohSubmitBtn'); btn.disabled = false; btn.textContent = 'Reserve My Spot';
       f.style.display = '';
       document.getElementById('ohDone').style.display = 'none';
       document.getElementById('ohModal').style.display = 'block';
       document.body.style.overflow = 'hidden';
+      // Refresh counts in the background; if the modal is still on this event and nothing picked yet, rebuild.
+      ohLoadCounts().then(function(){
+        var sel = document.getElementById('ohSession');
+        if(document.getElementById('ohModal').style.display==='block' && window._ohOpenEvent===clean && (!sel.value)) ohBuildPicker(clean);
+      });
     }
     function ohClose(){ document.getElementById('ohModal').style.display='none'; document.body.style.overflow=''; }
     document.addEventListener('keydown', function(e){ if(e.key==='Escape') ohClose(); });
@@ -653,9 +708,17 @@
       btn.disabled = true; btn.textContent = 'Saving…';
       try {
         var fd = new FormData(document.getElementById('ohForm'));
+        var clean = document.getElementById('ohModalEvent').textContent;
+        // Last-second capacity guard (in case it filled since the modal opened).
+        var sess = document.getElementById('ohSession');
+        var pickedKey = (sess && sess.value) ? (OH_OPT_KEY[clean] && OH_OPT_KEY[clean][sess.value]) : OH_EVENT_KEY[clean];
+        if (ohIsFull(pickedKey)) {
+          alert('Sorry — that just filled up. Please pick another option or call 412.206.5755 to reserve your spot.');
+          ohBuildPicker(clean); ohApplyCaps();
+          btn.disabled = false; btn.textContent = label; return false;
+        }
         // Fold the chosen session into the event value so it appears in the email + sheet
         // (e.g. "Free Cardio Pickleball — 10:45 AM"). Only for events with a session picker.
-        var sess = document.getElementById('ohSession');
         if (sess && !sess.disabled && sess.value) {
           fd.set('event', fd.get('event') + ' — ' + sess.value);   // event stays clean text (long string)
           fd.set('session', "'" + sess.value);                     // leading ' keeps "10:45 AM" as TEXT in Google Sheets (else it becomes 0.447…)
@@ -689,6 +752,9 @@
       if(window.confetti){ boom(); return; }
       var s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js'; s.onload=boom; document.body.appendChild(s);
     }
+    // Load live counts on page load, and refresh whenever the tab regains focus.
+    ohLoadCounts();
+    document.addEventListener('visibilitychange', function(){ if(!document.hidden) ohLoadCounts(); });
   </script>
   <!-- ============================ END OPEN HOUSE ============================ -->
 
