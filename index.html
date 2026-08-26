@@ -669,7 +669,7 @@
       document.querySelectorAll('.oh-heat[data-oh-heat]').forEach(function(el){
         var txt = ohHeatText(el.getAttribute('data-oh-heat'));
         el.textContent = txt;
-        el.style.display = txt ? '' : 'none';
+        el.style.display = txt ? 'block' : 'none';
         el.classList.toggle('oh-heat-urgent', txt.indexOf('Only') === 0 || txt.indexOf('⚡') === 0);
       });
     }
