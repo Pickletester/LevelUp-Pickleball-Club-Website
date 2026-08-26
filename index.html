@@ -482,6 +482,8 @@
     .oh-signup { width:100%; background:var(--green,#3cc440); color:#0b1f07; border:none; font-family:'Barlow Condensed',sans-serif; font-weight:800; letter-spacing:.05em; text-transform:uppercase; font-size:.85rem; padding:.6rem .5rem; border-radius:8px; cursor:pointer; }
     .oh-signup:hover { filter:brightness(1.06); }
     .oh-signup.oh-full, .oh-signup:disabled { background:#3a4a52; color:rgba(255,255,255,.6); cursor:not-allowed; filter:none; }
+    .oh-heat { display:none; margin-top:.4rem; font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.03em; font-size:.82rem; color:#ffb020; }
+    .oh-heat.oh-heat-urgent { color:#ff6a4d; }
     .oh-cell-right { justify-self:end; width:130px; }
     .oh-foot { text-align:center; color:rgba(255,255,255,.6); font-size:.9rem; margin-top:1.75rem; }
     .oh-foot a { color:#7ccf4a; text-decoration:none; font-weight:700; }
@@ -529,7 +531,7 @@
         <div class="oh-item oh-star">
           <span class="oh-ico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
           <div class="oh-time">10:45–11:45 AM</div>
-          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Cardio Pickleball ⭐</div><div class="oh-desc">Game-style PB to get your heart pumping — sessions at 10:45 &amp; 11:15. Spots limited.</div></div>
+          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Cardio Pickleball ⭐</div><div class="oh-desc">Game-style PB to get your heart pumping — sessions at 10:45 &amp; 11:15. Spots limited.</div><div class="oh-heat" data-oh-heat="cardio"></div></div>
           <div class="oh-cell-right"><button class="oh-signup" data-oh-btn="cardio" onclick="ohSignup('Free Cardio Pickleball')">Sign Up</button></div>
         </div>
         <div class="oh-item">
@@ -541,7 +543,7 @@
         <div class="oh-item oh-star">
           <span class="oh-ico"><svg viewBox="0 0 24 24"><ellipse cx="10" cy="9" rx="6.5" ry="7.5"/><path d="M7.5 15 L4.5 20.5"/><circle cx="18" cy="17.5" r="2"/></svg></span>
           <div class="oh-time">1:00–3:00 PM</div>
-          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Table Tennis &amp; Cornhole Tournaments ⭐</div><div class="oh-desc">Bracket play for all ages. Spots limited.</div></div>
+          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Table Tennis &amp; Cornhole Tournaments ⭐</div><div class="oh-desc">Bracket play for all ages. Spots limited.</div><div class="oh-heat" data-oh-heat="tt"></div></div>
           <div class="oh-cell-right"><button class="oh-signup" data-oh-btn="tt" onclick="ohSignup('Free Table Tennis &amp; Cornhole Tournaments')">Sign Up</button></div>
         </div>
         <div class="oh-item">
@@ -553,7 +555,7 @@
         <div class="oh-item oh-star">
           <span class="oh-ico"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
           <div class="oh-time">4:00–5:00 PM</div>
-          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Up/Down Split Pickleball Social ⭐</div><div class="oh-desc">Couples or individuals — move up or down courts based on results. Guests welcome. Spots limited.</div></div>
+          <div class="oh-body"><div class="oh-name"><span class="oh-free">Free</span>Up/Down Split Pickleball Social ⭐</div><div class="oh-desc">Couples or individuals — move up or down courts based on results. Guests welcome. Spots limited.</div><div class="oh-heat" data-oh-heat="updown"></div></div>
           <div class="oh-cell-right"><button class="oh-signup" data-oh-btn="updown" onclick="ohSignup('Up/Down Split Pickleball Social')">Sign Up</button></div>
         </div>
         <div class="oh-item">
@@ -627,6 +629,7 @@
     var OH_COUNTS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRorIUwmv5P7yOPmhYDZB5RG1rKNOLyw3mbXEFD6-WD8GZOM8VhXmHhtCqTsKjhsK_wjapP9qymIdZ_/pub?gid=772025387&single=true&output=csv';
     var OH_CAPS = { cardio_1045:27, cardio_1115:27, table_tennis:52, cornhole:52, updown:64 };
     var OH_COUNTS = {};                              // populated from the CSV; empty until first load
+    var OH_COUNTS_LOADED = false;                    // true once a fetch has succeeded
     // Maps a picker option -> its Counts key (per event). Single-cap events use OH_EVENT_KEY.
     var OH_OPT_KEY = {
       'Free Cardio Pickleball': { '10:45 AM':'cardio_1045', '11:15 AM':'cardio_1115' },
@@ -640,11 +643,34 @@
       if(kind==='updown') return ohIsFull('updown');
       return false;
     }
-    // Grey out + relabel any schedule button whose event is fully booked.
+    // Total count + total cap for an event (Cardio & TT/Cornhole sum their two sub-caps).
+    function ohHeatSum(kind){
+      if(kind==='cardio') return { count:(OH_COUNTS.cardio_1045||0)+(OH_COUNTS.cardio_1115||0), cap:OH_CAPS.cardio_1045+OH_CAPS.cardio_1115 };
+      if(kind==='tt')     return { count:(OH_COUNTS.table_tennis||0)+(OH_COUNTS.cornhole||0),   cap:OH_CAPS.table_tennis+OH_CAPS.cornhole };
+      if(kind==='updown') return { count:(OH_COUNTS.updown||0), cap:OH_CAPS.updown };
+      return { count:0, cap:0 };
+    }
+    // Scarcity badge text — only ever shows when it's TRUE. Empty string = hide.
+    function ohHeatText(kind){
+      var s = ohHeatSum(kind);
+      if(!s.cap || !OH_COUNTS_LOADED) return '';   // no data yet -> no false urgency
+      var remaining = s.cap - s.count;
+      if(remaining <= 0) return '';                 // full — the button already says so
+      if(remaining <= 10) return '⚡ Only ' + remaining + ' spot' + (remaining===1?'':'s') + ' left!';
+      if(s.count / s.cap >= 0.34) return '🔥 Spots going fast';
+      return '';
+    }
+    // Grey out + relabel any full button, and refresh the scarcity badges.
     function ohApplyCaps(){
       document.querySelectorAll('.oh-signup[data-oh-btn]').forEach(function(btn){
         if(ohBtnFull(btn.getAttribute('data-oh-btn'))){ btn.disabled=true; btn.textContent='Full'; btn.classList.add('oh-full'); }
         else { btn.disabled=false; btn.classList.remove('oh-full'); btn.textContent='Sign Up'; }
+      });
+      document.querySelectorAll('.oh-heat[data-oh-heat]').forEach(function(el){
+        var txt = ohHeatText(el.getAttribute('data-oh-heat'));
+        el.textContent = txt;
+        el.style.display = txt ? '' : 'none';
+        el.classList.toggle('oh-heat-urgent', txt.indexOf('Only') === 0 || txt.indexOf('⚡') === 0);
       });
     }
     // Fetch the live counts, then re-apply. Cache-busted so it reflects recent (incl. manual) adds.
@@ -658,6 +684,7 @@
             var val = parseInt(line.slice(i+1).replace(/[^0-9-]/g,''),10);
             if(key && !isNaN(val)) OH_COUNTS[key]=val;
           });
+          OH_COUNTS_LOADED = true;
           ohApplyCaps();
         }).catch(function(){ /* if the sheet is unreachable, leave everything open */ });
     }
