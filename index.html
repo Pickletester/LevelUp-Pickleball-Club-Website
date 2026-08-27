@@ -398,11 +398,12 @@
         <!-- OPEN HOUSE hero card (TEMPORARY for Sept 6 2026). TO REVERT: delete this <a class="oh-hero-card">,
              then unwrap the <template id="heroVideoBackup"> below (remove the opening/closing template tags). -->
         <a href="#openhouse" class="oh-hero-card">
-          <span class="oh-hero-eyebrow">🎉 Free Open House</span>
-          <span class="oh-hero-title">EVERYONE'S WELCOME</span>
-          <span class="oh-hero-date">Sunday, Sept 6, 2026 · Labor Day Weekend</span>
-          <span class="oh-hero-hours">9 AM – 9 PM · All-day free play</span>
-          <span class="oh-hero-cta">See schedule &amp; sign up ↓</span>
+          <span class="oh-hero-eyebrow">🎉 You're Invited · Free Open House</span>
+          <span class="oh-hero-title">EVERYONE'S<br>WELCOME</span>
+          <span class="oh-hero-date">Sunday, Sept 6, 2026</span>
+          <span class="oh-hero-hours">Labor Day Weekend · 9 AM–9 PM · All-Day Free Play</span>
+          <span class="oh-hero-highlights">🍔 Free Food · 🎁 Prizes · 🏓 Free Clinics &amp; Tournaments</span>
+          <span class="oh-hero-cta">See Schedule &amp; Sign Up ↓</span>
         </a>
         <template id="heroVideoBackup">
         <div style="position:relative;">
@@ -425,13 +426,6 @@
           </div>
         </div>
         </template>
-        <!-- Tri-State Masters tournament promo -->
-        <div style="text-align:center;margin-top:2.75rem;">
-          <img class="tsm-logo" src="/images/tri-state-masters.png" alt="LevelUp Tri-State Masters Pickleball Tournament" style="width:340px;max-width:85%;height:auto;display:block;margin:0 auto;">
-          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:0.05em;margin-top:0.85rem;">Aug 28&ndash;30, 2026</div>
-          <div style="color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.03em;margin-top:0.25rem;">We're up to <span style="color:var(--green);">400 players!</span></div>
-          <a href="https://pickleballtournaments.com/tournaments/2026-levelup-tri-state-masters-dupr-rated-16-indoor-courts" target="_blank" rel="noopener" class="btn btn-green" style="margin-top:0.9rem;display:inline-block;">Sign Up for Tri-State Masters &rarr;</a>
-        </div>
       </div>
     </div>
   </section>
@@ -443,16 +437,25 @@
        unwrap the <template id="heroVideoBackup"> to restore the video.
        ============================================================================ -->
   <style id="ohStyles">
-    .oh-hero-card { display:flex; flex-direction:column; gap:.35rem; text-align:center; text-decoration:none;
-      background:linear-gradient(150deg,#2e8b3d 0%,#1c5e2a 100%); border:1px solid rgba(255,255,255,.18);
-      border-radius:16px; padding:2rem 1.5rem; box-shadow:0 20px 50px rgba(0,0,0,.45); }
-    .oh-hero-card:hover { transform:translateY(-2px); transition:transform .2s; }
+    .oh-hero-card { position:relative; overflow:hidden; display:flex; flex-direction:column; gap:.45rem; text-align:center; text-decoration:none;
+      background:linear-gradient(155deg,#3aa64c 0%,#1f6a30 55%,#134420 100%); border:1px solid rgba(255,255,255,.22);
+      border-radius:22px; padding:2.6rem 1.9rem; box-shadow:0 26px 64px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.16);
+      transition:transform .2s, box-shadow .2s; }
+    .oh-hero-card::before { content:''; position:absolute; inset:0; pointer-events:none; background:
+      radial-gradient(circle at 50% -5%, rgba(255,255,255,.22), transparent 55%),
+      radial-gradient(circle at 88% 92%, rgba(124,207,74,.28), transparent 55%); }
+    .oh-hero-card::after { content:''; position:absolute; inset:0; pointer-events:none; opacity:.45;
+      background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);
+      background-size:28px 28px; }
+    .oh-hero-card > * { position:relative; z-index:1; }
+    .oh-hero-card:hover { transform:translateY(-3px); box-shadow:0 32px 74px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.16); }
     .oh-hero-eyebrow { font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.14em; text-transform:uppercase; font-size:.85rem; color:#eafbe0; }
-    .oh-hero-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.4rem,5vw,3.4rem); line-height:.95; color:#fff; letter-spacing:.02em; }
-    .oh-hero-date { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; color:#ffe14d; letter-spacing:.03em; }
-    .oh-hero-hours { color:#eafbe0; font-weight:600; font-size:.95rem; }
-    .oh-hero-special { margin-top:.5rem; background:#ffe14d; color:#123; font-weight:800; font-size:.8rem; letter-spacing:.02em; padding:.4rem .75rem; border-radius:8px; align-self:center; }
-    .oh-hero-cta { margin-top:.75rem; display:inline-block; background:#fff; color:#1c5e2a; font-weight:800; letter-spacing:.05em; text-transform:uppercase; font-size:.9rem; padding:.65rem 1.1rem; border-radius:8px; align-self:center; }
+    .oh-hero-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.7rem,5.5vw,3.9rem); line-height:.92; color:#fff; letter-spacing:.02em; text-shadow:0 2px 24px rgba(0,0,0,.28); margin:.15rem 0 .1rem; }
+    .oh-hero-date { font-family:'Bebas Neue',sans-serif; font-size:1.7rem; color:#ffe14d; letter-spacing:.04em; }
+    .oh-hero-hours { color:#eafbe0; font-weight:600; font-size:.92rem; letter-spacing:.02em; }
+    .oh-hero-highlights { color:#d8f5c9; font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:.02em; font-size:.92rem; margin-top:.15rem; }
+    .oh-hero-cta { margin-top:1rem; display:inline-block; align-self:center; background:#fff; color:#1c5e2a; font-family:'Barlow Condensed',sans-serif; font-weight:800; letter-spacing:.06em; text-transform:uppercase; font-size:.95rem; padding:.7rem 1.3rem; border-radius:10px; box-shadow:0 8px 22px rgba(0,0,0,.28); }
+    .oh-hero-card:hover .oh-hero-cta { background:#eafbe0; }
 
     /* Mobile-only Open House banner (the hero card sits far down the stack on phones) */
     .oh-mobile-banner { display:none; }
@@ -462,21 +465,27 @@
         font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.02em; font-size:.98rem; line-height:1.25; padding:.75rem 1rem; }
       .oh-mobile-banner strong { color:#ffe14d; }
     }
-    .oh-section { scroll-margin-top:80px; background:linear-gradient(180deg,#0c1f12 0%,#123421 100%); padding:4.5rem 0; }
-    .oh-container { max-width:1000px; margin:0 auto; padding:0 1.5rem; }
-    .oh-head { text-align:center; margin-bottom:2.5rem; }
-    .oh-eyebrow { font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#7ccf4a; font-size:.9rem; }
-    .oh-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.2rem,6vw,3.6rem); color:#fff; letter-spacing:.02em; margin:.3rem 0; line-height:1; text-wrap:balance; }
-    .oh-sub { color:rgba(255,255,255,.75); max-width:620px; margin:.5rem auto 0; }
+    .oh-section { position:relative; overflow:hidden; scroll-margin-top:80px; background:radial-gradient(120% 90% at 50% -10%, #1a4d2c 0%, #0c1f12 60%); padding:5.5rem 0; }
+    .oh-container { position:relative; z-index:1; max-width:1000px; margin:0 auto; padding:0 1.5rem; }
+    .oh-head { text-align:center; margin-bottom:2.75rem; }
+    .oh-eyebrow { font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#7ccf4a; font-size:.95rem; }
+    .oh-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.6rem,7vw,4.4rem); color:#fff; letter-spacing:.02em; margin:.2rem 0 0; line-height:1; text-wrap:balance; }
+    .oh-datepill { display:inline-block; margin-top:1rem; background:linear-gradient(90deg,#ffe14d,#ffcf1a); color:#123; font-family:'Barlow Condensed',sans-serif; font-weight:800; letter-spacing:.03em; padding:.55rem 1.2rem; border-radius:999px; font-size:1.02rem; box-shadow:0 8px 24px rgba(255,207,26,.28); }
+    .oh-sub { color:rgba(255,255,255,.75); max-width:620px; margin:1rem auto 0; }
+    .oh-highlights { display:flex; flex-wrap:wrap; justify-content:center; gap:.55rem; margin-top:1.5rem; }
+    .oh-chip { font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.03em; font-size:.9rem; color:#eafbe0; background:rgba(124,207,74,.12); border:1px solid rgba(124,207,74,.32); padding:.45rem .9rem; border-radius:999px; }
     .oh-special-band { display:inline-block; margin-top:1.1rem; background:#ffe14d; color:#123; font-weight:800; padding:.55rem 1.1rem; border-radius:10px; font-size:.95rem; }
     .oh-timeline { display:flex; flex-direction:column; }
-    .oh-item { display:grid; grid-template-columns:48px 140px 1fr 130px; gap:1.1rem; align-items:center; padding:1.1rem 0.9rem; border-top:1px solid rgba(255,255,255,.1); }
-    .oh-ico { width:44px; height:44px; border-radius:50%; background:#1c5e2a; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .oh-item { display:grid; grid-template-columns:48px 140px 1fr 130px; gap:1.1rem; align-items:center; padding:1.15rem 0.9rem; border-top:1px solid rgba(255,255,255,.1); }
+    .oh-ico { width:46px; height:46px; border-radius:50%; background:linear-gradient(145deg,#2e8b3d,#184f24); display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 4px 12px rgba(0,0,0,.3); }
     .oh-ico svg { width:22px; height:22px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
     .oh-item:last-child { border-bottom:1px solid rgba(255,255,255,.1); }
-    .oh-item.oh-star { background:rgba(124,207,74,.07); border-radius:10px; }
+    .oh-item.oh-star { background:linear-gradient(90deg,rgba(124,207,74,.15),rgba(124,207,74,.04)); border-radius:14px; border-top-color:transparent; box-shadow:inset 4px 0 0 #7ccf4a; margin:.25rem 0; }
+    .oh-item.oh-star + .oh-item { border-top-color:transparent; }
+    .oh-star .oh-ico { background:linear-gradient(145deg,#8fe15a,#3aa64c); box-shadow:0 0 0 4px rgba(124,207,74,.16), 0 6px 16px rgba(124,207,74,.4); }
+    .oh-star .oh-ico svg { stroke:#0c1f12; }
     .oh-time { font-family:'Barlow Condensed',sans-serif; font-weight:700; color:#7ccf4a; letter-spacing:.03em; font-size:1.05rem; line-height:1.15; }
-    .oh-name { color:#fff; font-weight:700; font-size:1.05rem; }
+    .oh-name { color:#fff; font-weight:700; font-size:1.08rem; }
     .oh-desc { color:rgba(255,255,255,.65); font-size:.9rem; margin-top:.15rem; }
     .oh-free { display:inline-block; font-size:.65rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#0c1f12; background:#7ccf4a; padding:.12rem .45rem; border-radius:4px; margin-right:.5rem; vertical-align:middle; }
     .oh-signup { width:100%; background:var(--green,#3cc440); color:#0b1f07; border:none; font-family:'Barlow Condensed',sans-serif; font-weight:800; letter-spacing:.05em; text-transform:uppercase; font-size:.85rem; padding:.6rem .5rem; border-radius:8px; cursor:pointer; }
@@ -510,9 +519,17 @@
   <section class="oh-section" id="openhouse">
     <div class="oh-container">
       <div class="oh-head">
-        <div class="oh-eyebrow">🎉 Open House Celebration · Everyone Welcome</div>
-        <h2 class="oh-title">Sunday, September 6, 2026 — Labor Day Weekend</h2>
+        <div class="oh-eyebrow">🎉 You're Invited</div>
+        <h2 class="oh-title">Free Open House</h2>
+        <div class="oh-datepill">Sunday, Sept 6, 2026 · Labor Day Weekend · 9 AM–9 PM</div>
         <p class="oh-sub">All-day free play, free clinics, tournaments, food &amp; prizes. Bring your friends and family — no membership required.</p>
+        <div class="oh-highlights">
+          <span class="oh-chip">🏓 All-Day Free Play</span>
+          <span class="oh-chip">🥇 Free Clinics</span>
+          <span class="oh-chip">🎯 Tournaments</span>
+          <span class="oh-chip">🍔 Food &amp; Drinks</span>
+          <span class="oh-chip">🎁 Prizes &amp; Raffles</span>
+        </div>
       </div>
 
       <div class="oh-timeline">
@@ -1753,8 +1770,8 @@
     s.onload = function(){
       try {
         var colors = ['#3cc440','#1E2B6E','#ffffff'];
-        // Fire the burst centered on the tournament logo, not the whole screen.
-        var el = document.querySelector('.tsm-logo');
+        // Fire the burst centered on the Open House card, not the whole screen.
+        var el = document.querySelector('.oh-hero-card');
         var origin = { x: 0.5, y: 0.4 };
         if (el) {
           var r = el.getBoundingClientRect();
