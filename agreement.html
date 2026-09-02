@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#131d4f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>LevelUp Pickleball Club — Membership Agreement</title>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #3CC440;
+  --green-dark: #2aa32e;
+  --green-light: #7EE882;
+  --navy: #1E2B6E;
+  --navy-dark: #131d4f;
+  --orange: #F5900A;
+  --white: #ffffff;
+  --dark: #0D0F1A;
+  --gray: #8A8F9E;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--dark);
+  color: var(--white);
+  overflow-x: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Prevent iOS zoom on input focus */
+input, select, textarea, button { font-size: 16px; }
+
+/* ───── NAV ───── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--navy-dark);
+  border-bottom: 3px solid var(--green);
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding-top: env(safe-area-inset-top);
+  height: calc(60px + env(safe-area-inset-top));
+}
+.nav-logo img { height: 40px; width: auto; display: block; }
+.nav-badge {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(60,196,64,0.12);
+  border: 1px solid rgba(60,196,64,0.3);
+  color: var(--green);
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.nav-right { display: flex; align-items: center; gap: 0.6rem; }
+.nav-cta {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--orange);
+  color: var(--dark);
+  padding: 0.5rem 0.85rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+.nav-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.6) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: skewX(-20deg);
+  animation: navCtaShimmer 3.2s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes navCtaShimmer {
+  0%   { left: -75%; }
+  60%  { left: 125%; }
+  100% { left: 125%; }
+}
+.nav-cta > * { position: relative; z-index: 1; }
+.nav-cta:hover { background: #ffa522; transform: translateY(-1px); }
+.nav-cta:active { transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .nav-cta::before { animation: none; display: none; }
+}
+@media (max-width: 480px) {
+  .nav-badge { display: none; }
+  .nav-cta { font-size: 0.65rem; padding: 0.45rem 0.7rem; letter-spacing: 0.08em; }
+}
+
+/* ───── PROGRESS ───── */
+.progress-wrap {
+  height: 3px;
+  background: rgba(255,255,255,0.07);
+  position: sticky;
+  top: calc(60px + env(safe-area-inset-top));
+  z-index: 999;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* ───── HERO ───── */
+.page-hero {
+  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+  padding: 2rem 1.25rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(60,196,64,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(60,196,64,0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+.page-hero-content { position: relative; z-index: 1; }
+.section-tag {
+  display: inline-block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--green);
+  color: var(--dark);
+  padding: 0.25rem 0.7rem;
+  border-radius: 2px;
+  margin-bottom: 0.6rem;
+}
+.page-hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 11vw, 4rem);
+  line-height: 0.95;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+}
+.page-hero h1 span { color: var(--green); }
+.page-hero p {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+/* ───── STEP PIPS ───── */
+.steps-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 360px;
+  margin: 1.5rem auto 0;
+  padding: 0 0.5rem;
+  position: relative;
+}
+.step-pip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+.pip-circle {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--navy-dark);
+  border: 2px solid rgba(255,255,255,0.18);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.35);
+  transition: all 0.3s;
+}
+.pip-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  transition: color 0.3s;
+  white-space: nowrap;
+}
+.step-pip.active .pip-circle { background: var(--green); border-color: var(--green); color: var(--dark); }
+.step-pip.active .pip-label { color: var(--green); }
+.step-pip.done .pip-circle { background: var(--green-dark); border-color: var(--green-dark); color: var(--dark); }
+.step-pip.done .pip-label { color: var(--green); }
+
+/* connector line behind pips */
+.steps-row::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 30px;
+  right: 30px;
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  z-index: 1;
+}
+.steps-row::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 30px;
+  height: 2px;
+  background: var(--green-dark);
+  z-index: 1;
+  width: 0;
+  transition: width 0.4s ease;
+}
+.steps-row[data-progress="0"]::after { width: 0; }
+.steps-row[data-progress="1"]::after { width: calc(33.33% - 10px); }
+.steps-row[data-progress="2"]::after { width: calc(66.66% - 20px); }
+.steps-row[data-progress="3"]::after { width: calc(100% - 60px); }
+
+/* ───── WRAPPER ───── */
+.wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 6rem;
+}
+
+.step { display: none; }
+.step.active { display: block; animation: fadeUp 0.3s ease; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ───── CARDS ───── */
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.85rem;
+}
+.card-head {
+  background: var(--navy);
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.head-icon {
+  width: 28px; height: 28px;
+  background: var(--green);
+  color: var(--dark);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.card-head h3 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--white);
+}
+.card-body { padding: 1rem; }
+
+/* ───── FORM FIELDS ───── */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 0.85rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.85rem; }
+.form-group:last-child { margin-bottom: 0; }
+
+.form-group label {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(255,255,255,0.92);
+}
+.form-group label .req { color: var(--green); }
+
+.form-group input,
+.form-group select {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 1rem 1rem;
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 17px; /* prevents iOS zoom and easier to read */
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 52px;
+}
+.form-group input:focus,
+.form-group select:focus { border-color: var(--green); background: rgba(255,255,255,0.1); }
+.form-group input::placeholder { color: rgba(255,255,255,0.4); }
+.form-group select option { background: var(--navy-dark); }
+
+.form-group select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.45)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  padding-right: 2.2rem;
+  cursor: pointer;
+}
+
+.dob-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.1fr;
+  gap: 0.5rem;
+}
+.dob-grid select { padding-left: 0.7rem; padding-right: 1.8rem; }
+
+/* iOS date input fix */
+.field-err { font-size: 0.75rem; color: #ff6666; margin-top: 2px; display: none; }
+.form-group.has-error .field-err { display: block; }
+.form-group.has-error input { border-color: #ff5555; }
+
+/* ───── TOGGLE ───── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  user-select: none;
+  min-height: 44px;
+}
+.toggle-row input[type="checkbox"] { display: none; }
+.tog-track {
+  width: 48px; height: 28px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 14px;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.tog-track::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 22px; height: 22px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  transition: transform 0.2s, background 0.2s;
+}
+.toggle-row input:checked ~ .tog-track { background: var(--green); }
+.toggle-row input:checked ~ .tog-track::after { transform: translateX(20px); background: var(--dark); }
+.tog-label {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(255,255,255,0.95);
+  line-height: 1.35;
+}
+
+/* ───── MINORS ───── */
+.minors-area { display: none; }
+.minors-area.open { display: block; }
+.minor-entry {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.65rem;
+}
+.minor-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(255,255,255,0.85);
+}
+.rm-btn {
+  background: transparent;
+  border: 1px solid rgba(255,102,102,0.3);
+  color: #ff6666;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 4px;
+  min-height: 32px;
+}
+.add-minor-btn {
+  width: 100%;
+  background: transparent;
+  border: 1.5px dashed rgba(60,196,64,0.45);
+  color: var(--green);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  min-height: 48px;
+}
+.add-minor-btn:active { background: rgba(60,196,64,0.12); border-color: var(--green); }
+
+/* ───── WAIVER ───── */
+.waiver-wrap {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.waiver-box {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+  max-height: 240px;
+  overflow-y: auto;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.78);
+  -webkit-overflow-scrolling: touch;
+}
+.waiver-box::-webkit-scrollbar { width: 4px; }
+.waiver-box::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+.waiver-box h3 {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--green);
+  margin: 1rem 0 0.4rem;
+}
+.waiver-box h3:first-child { margin-top: 0; }
+.waiver-box p { margin-bottom: 0.65rem; }
+.waiver-box strong { color: var(--white); }
+
+/* scroll fade indicator */
+.waiver-fade {
+  position: absolute;
+  bottom: 0; left: 1px; right: 1px;
+  height: 30px;
+  background: linear-gradient(to top, rgba(13,15,26,0.95), transparent);
+  pointer-events: none;
+  border-radius: 0 0 8px 8px;
+  transition: opacity 0.2s;
+}
+.waiver-fade.hidden { opacity: 0; }
+
+.waiver-hint {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* ───── CHECKBOXES ───── */
+.check-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-bottom: 0.85rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  min-height: 44px;
+}
+.check-item:last-child { margin-bottom: 0; }
+.check-item input[type="checkbox"] { display: none; }
+.check-box {
+  width: 28px; height: 28px;
+  background: rgba(255,255,255,0.07);
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  margin-top: 1px;
+}
+.check-item input:checked + .check-box { background: var(--green); border-color: var(--green); }
+.check-item input:checked + .check-box svg { display: block; }
+.check-box svg { display: none; }
+.check-text { font-size: 1rem; line-height: 1.55; color: rgba(255,255,255,0.95); }
+.check-text .req { color: var(--green); }
+
+/* ───── SIGNATURE ───── */
+.sig-wrap {
+  border: 1.5px solid rgba(255,255,255,0.18);
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+.sig-ghost {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.18);
+  pointer-events: none;
+  transition: opacity 0.2s;
+  text-align: center;
+}
+.sig-line {
+  position: absolute;
+  bottom: 30%;
+  left: 8%; right: 8%;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  pointer-events: none;
+}
+canvas {
+  display: block;
+  width: 100%;
+  height: 180px;
+  cursor: crosshair;
+  touch-action: none;
+}
+.sig-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.15);
+}
+.sig-status {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+.sig-status.signed { color: var(--green); }
+.sig-clear-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: var(--gray);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  min-height: 32px;
+}
+.sig-clear-btn:active { border-color: #ff6666; color: #ff6666; }
+
+/* ───── INFO NOTE ───── */
+.info-note {
+  background: rgba(60,196,64,0.08);
+  border: 1px solid rgba(60,196,64,0.22);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.info-note strong { color: var(--green); }
+
+/* ───── MINOR CONSENT ITEMS ───── */
+.minor-ci {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 0.45rem;
+  font-size: 0.88rem;
+}
+.minor-ci strong { color: var(--white); display: block; margin-bottom: 2px; }
+.minor-ci span { color: var(--gray); font-size: 0.78rem; }
+
+/* ───── BUTTONS ───── */
+.btn-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+.btn {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.95rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex: 1;
+  min-height: 52px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.btn-back {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: var(--gray);
+  flex: 0 0 auto;
+  padding: 0.95rem 1.1rem;
+}
+.btn-back:active { border-color: var(--green); color: var(--green); }
+.btn-green { background: var(--green); color: var(--dark); }
+.btn-green:active { background: var(--green-dark); transform: scale(0.98); }
+
+/* sticky bottom button bar on small screens */
+@media (max-width: 600px) {
+  .btn-row.sticky-bottom {
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(to top, var(--dark) 60%, rgba(13,15,26,0));
+    padding: 1rem 0 calc(1rem + env(safe-area-inset-bottom));
+    margin: 1.25rem -1rem 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    z-index: 10;
+  }
+}
+
+/* ───── SUCCESS ───── */
+.success-screen { display: none; text-align: center; padding: 3rem 1.25rem; }
+.success-screen.visible { display: block; animation: fadeUp 0.4s ease; }
+.suc-icon {
+  width: 72px; height: 72px;
+  background: var(--green);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.25rem;
+  font-size: 2rem;
+  color: var(--dark);
+  box-shadow: 0 0 0 8px rgba(60,196,64,0.12);
+}
+.success-screen h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 10vw, 3.5rem);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.success-screen h2 span { color: var(--green); }
+.success-screen p {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  max-width: 380px;
+  margin: 0 auto 1.5rem;
+}
+.suc-box {
+  background: var(--navy);
+  border: 1px solid rgba(60,196,64,0.22);
+  border-radius: 10px;
+  padding: 1.25rem;
+  max-width: 380px;
+  margin: 0 auto;
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.65;
+}
+.suc-box strong {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 0.4rem;
+}
+
+/* ───── FOOTER ───── */
+footer {
+  background: var(--navy-dark);
+  border-top: 3px solid var(--green);
+  padding: 1.25rem 1rem;
+  padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+  text-align: center;
+}
+footer p {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.3);
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+}
+footer a { color: inherit; }
+
+/* ───── MEDIA QUERIES ───── */
+@media (min-width: 601px) {
+  nav { padding: 0 2rem; height: 68px; }
+  .nav-logo img { height: 48px; }
+  .nav-badge { font-size: 0.78rem; padding: 0.4rem 1rem; }
+  .progress-wrap { top: 68px; }
+  .page-hero { padding: 3.5rem 2rem 3rem; }
+  .page-hero h1 { font-size: clamp(3rem, 8vw, 5.5rem); margin-bottom: 0.75rem; }
+  .page-hero p { font-size: 1rem; max-width: 480px; }
+  .steps-row { max-width: 480px; margin-top: 2rem; padding: 0; }
+  .pip-circle { width: 34px; height: 34px; font-size: 1rem; }
+  .pip-label { font-size: 0.65rem; letter-spacing: 0.1em; }
+  .steps-row::before, .steps-row::after { top: 16px; left: 34px; right: 34px; }
+  .steps-row[data-progress="1"]::after { width: calc(33.33% - 12px); }
+  .steps-row[data-progress="2"]::after { width: calc(66.66% - 24px); }
+  .steps-row[data-progress="3"]::after { width: calc(100% - 68px); }
+  .wrapper { padding: 2.5rem 1.5rem 5rem; }
+  .card { border-radius: 12px; margin-bottom: 1.25rem; }
+  .card-head { padding: 1rem 1.5rem; }
+  .head-icon { width: 30px; height: 30px; }
+  .card-head h3 { font-size: 1.2rem; letter-spacing: 0; }
+  .card-body { padding: 1.5rem; }
+  .form-row { gap: 1rem; }
+  .waiver-box { max-height: 300px; padding: 1.25rem 1.5rem; }
+  canvas { height: 160px; }
+}
+
+@media (min-width: 768px) {
+  .form-row { gap: 1rem; }
+}
+
+/* prevent overscroll bounce showing white */
+html { background: var(--dark); }
+
+/* better landscape handling on phones */
+@media (max-height: 500px) and (orientation: landscape) {
+  .page-hero { padding: 1.5rem 1.25rem 1rem; }
+  .steps-row { margin-top: 1rem; }
+  canvas { height: 140px; }
+}
+
+/* ───── MEMBERSHIP TIER CARDS ───── */
+.tier-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.tier-option { position: relative; display: block; cursor: pointer; }
+.tier-option input { position: absolute; opacity: 0; pointer-events: none; }
+.tier-card {
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  background: rgba(255,255,255,0.04);
+  transition: border-color 0.2s, background 0.2s;
+}
+.tier-option input:checked + .tier-card { border-color: var(--green); background: rgba(60,196,64,0.1); }
+.tier-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+.tier-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.35rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--white); }
+.tier-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--green); letter-spacing: 0.02em; white-space: nowrap; }
+.tier-price small { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+.tier-desc { color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.5; margin-top: 0.35rem; }
+.tier-check { position: absolute; top: 0.9rem; right: 0.9rem; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; }
+.tier-option input:checked + .tier-card .tier-check { opacity: 1; background: var(--green); border-color: var(--green); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="https://leveluppickleballclub.com">
+    <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png" alt="LevelUp Pickleball Club">
+  </a>
+  <div class="nav-right">
+    <div class="nav-badge">Membership Agreement</div>
+    <a class="nav-cta" href="tel:4122065755">Questions? Call</a>
+  </div>
+</nav>
+<div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="section-tag">12-Month Term</div>
+    <h1>Membership <span>Agreement</span></h1>
+    <p>Review and sign your LevelUp membership agreement. New terms effective October 1, 2026.</p>
+    <div class="steps-row" id="stepsRow" data-progress="0">
+      <div class="step-pip active" id="pip1"><div class="pip-circle">1</div><div class="pip-label">Info</div></div>
+      <div class="step-pip" id="pip2"><div class="pip-circle">2</div><div class="pip-label">Plan</div></div>
+      <div class="step-pip" id="pip3"><div class="pip-circle">3</div><div class="pip-label">Terms</div></div>
+      <div class="step-pip" id="pip4"><div class="pip-circle">4</div><div class="pip-label">Sign</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper">
+
+  <!-- STEP 1 -->
+  <div class="step active" id="step1">
+    <div class="card">
+      <div class="card-head">
+        <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <h3>Member Information</h3>
+      </div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group" id="fg-first">
+            <label>First Name <span class="req">*</span></label>
+            <input type="text" id="firstName" placeholder="Jane" autocomplete="given-name" autocapitalize="words">
+            <div class="field-err">Required</div>
+          </div>
+          <div class="form-group" id="fg-last">
+            <label>Last Name <span class="req">*</span></label>
+            <input type="text" id="lastName" placeholder="Smith" autocomplete="family-name" autocapitalize="words">
+            <div class="field-err">Required</div>
+          </div>
+        </div>
+        <div class="form-group" id="fg-email">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="jane@example.com" autocomplete="email" inputmode="email" autocapitalize="off">
+          <div class="field-err">Valid email required</div>
+        </div>
+        <div class="form-group" id="fg-phone">
+          <label>Phone Number <span class="req">*</span></label>
+          <input type="tel" id="phone" placeholder="(412) 555-0100" autocomplete="tel" inputmode="tel">
+          <div class="field-err">Required</div>
+        </div>
+        <div class="form-group" id="fg-address">
+          <label>Street Address <span class="req">*</span></label>
+          <input type="text" id="address" placeholder="123 Main St" autocomplete="address-line1" autocapitalize="words">
+          <div class="field-err">Required</div>
+        </div>
+        <div class="form-row" style="grid-template-columns:2fr 1fr 1fr;">
+          <div class="form-group" id="fg-city">
+            <label>City <span class="req">*</span></label>
+            <input type="text" id="city" placeholder="Canonsburg" autocomplete="address-level2" autocapitalize="words">
+            <div class="field-err">Required</div>
+          </div>
+          <div class="form-group" id="fg-state">
+            <label>State <span class="req">*</span></label>
+            <input type="text" id="state" placeholder="PA" value="PA" autocomplete="address-level1" autocapitalize="characters" maxlength="2">
+            <div class="field-err">Required</div>
+          </div>
+          <div class="form-group" id="fg-zip">
+            <label>ZIP <span class="req">*</span></label>
+            <input type="text" id="zip" placeholder="15317" autocomplete="postal-code" inputmode="numeric" maxlength="10">
+            <div class="field-err">Required</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" id="fg-dob">
+            <label>Date of Birth <span class="req">*</span></label>
+            <input type="date" id="dob">
+            <div class="field-err">Required</div>
+          </div>
+          <div class="form-group" id="fg-start">
+            <label>Membership Start Date <span class="req">*</span></label>
+            <input type="date" id="startDate">
+            <div class="field-err">Required</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row sticky-bottom">
+      <button class="btn btn-green" onclick="goStep(2)">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="step2">
+    <div class="card">
+      <div class="card-head">
+        <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg></div>
+        <h3>Choose Your Membership</h3>
+      </div>
+      <div class="card-body">
+        <div class="info-note" style="margin-bottom:1rem;">All memberships are a <strong>12-month commitment</strong>, billed monthly. Existing active members pay <strong>no initiation fee</strong>.</div>
+        <div class="tier-list" id="fg-tier">
+          <label class="tier-option">
+            <input type="radio" name="tier" value="Diamond" data-price="129" onchange="pickTier()">
+            <div class="tier-card">
+              <div class="tier-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="tier-top"><span class="tier-name">Diamond</span><span class="tier-price">$129<small>/mo</small></span></div>
+              <div class="tier-desc">One drop-in per day included, all ladders &amp; team leagues included, 7-day advance booking, $10 Fri/Sat socials, preferred court rates.</div>
+            </div>
+          </label>
+          <label class="tier-option">
+            <input type="radio" name="tier" value="Silver" data-price="29" onchange="pickTier()">
+            <div class="tier-card">
+              <div class="tier-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="tier-top"><span class="tier-name">Silver</span><span class="tier-price">$29<small>/mo</small></span></div>
+              <div class="tier-desc">Preferred member rates: $12 drop-ins, $10 ladders, $72 eight-week leagues, 4-day advance booking, discounted court reservations.</div>
+            </div>
+          </label>
+          <label class="tier-option">
+            <input type="radio" name="tier" value="Junior" data-price="29" onchange="pickTier()">
+            <div class="tier-card">
+              <div class="tier-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="tier-top"><span class="tier-name">Junior <span style="font-size:0.7rem;color:rgba(255,255,255,0.5);">(21 &amp; under)</span></span><span class="tier-price">$29<small>/mo</small></span></div>
+              <div class="tier-desc">Member rates for players 21 and under: $5 drop-ins, $10 ladders, $72 eight-week leagues, 4-day advance booking.</div>
+            </div>
+          </label>
+        </div>
+        <div class="field-err" id="tier-err" style="margin-top:0.5rem;">Please choose a membership.</div>
+
+        <label class="toggle-row" style="margin-top:1.25rem;">
+          <input type="checkbox" id="locker">
+          <div class="tog-track"></div>
+          <span class="tog-label">Add an optional locker <span style="color:rgba(255,255,255,0.5);font-size:0.85rem;">(Diamond $10/mo · Silver &amp; Junior $15/mo)</span></span>
+        </label>
+      </div>
+    </div>
+    <div class="btn-row sticky-bottom">
+      <button class="btn btn-back" onclick="goStep(1)">&larr; Back</button>
+      <button class="btn btn-green" onclick="goStep(3)">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="step3">
+    <div class="card">
+      <div class="card-head">
+        <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <h3>Membership Agreement</h3>
+      </div>
+      <div class="card-body">
+        <div class="waiver-wrap">
+          <div class="waiver-box" id="waiverBox">
+            <p style="color:var(--green);font-weight:700;">LevelUp Pickleball Club — Membership Agreement · 12-Month Term<br>Effective October 1, 2026 · 33 Mayview Road, Canonsburg, PA 15317</p>
+            <h3>1. Membership Term &amp; Dues</h3>
+            <p>Membership is a <strong>12-month commitment</strong> billed monthly. Diamond is $129/month, Silver is $29/month, and Junior (21 &amp; under) is $29/month. This Agreement does <strong>not</strong> automatically renew; continued membership after the term requires your affirmative renewal acceptance.</p>
+            <h3>2. Initiation Fee</h3>
+            <p>There is <strong>no initiation fee for existing active members.</strong></p>
+            <h3>3. Court Reservations</h3>
+            <p>Court rates are per player, per hour. Peak hours are 7&ndash;11 a.m. and 5&ndash;11 p.m.; off-peak is 11 a.m.&ndash;5 p.m. For reservations of 1&ndash;3 players, the minimum is based on the reserving member. The total charge is the greater of the combined per-player charges or the applicable minimum. All players must be listed, the reserving member must play, and fewer players attending does not reduce the charge. Rates and times are subject to change.</p>
+            <h3>4. Cancellations &amp; No-Shows</h3>
+            <p>Court reservations must be canceled by <strong>9:00 p.m. the prior evening</strong>; late cancellations and no-shows remain responsible for the applicable charges and minimums. Drop-ins must be canceled at least <strong>3 hours</strong> before the session; a late-cancel or no-show Diamond Member is charged $10, and all other players their applicable drop-in fee.</p>
+            <h3>5. Other Member Rates</h3>
+            <p>Wednesday Ladies Up/Down Split: $10. Friday/Saturday Pickleball Socials: $10. Open tournaments: event rates apply. Lockers: Diamond $10/month; Silver/Junior $15/month.</p>
+            <h3>6. Term, Payment &amp; Early Cancellation</h3>
+            <p>You authorize recurring monthly dues to your payment method on file. Except for statutory cancellation rights, <strong>early cancellation requires payment of 50% of the remaining dues and at least 30 days&rsquo; written notice</strong> to info@leveluppickleballclub.com. Downgrades may take effect after the current term.</p>
+            <h3>7. Diamond Medical Pause</h3>
+            <p>Diamond Members may elect a $65/month pause for up to 3 consecutive months, once per year, for surgery with a doctor&rsquo;s note. Benefits and pricing are suspended while paused, and the term extends by the number of paused months. This option does not limit rights provided by law.</p>
+            <h3>8. Pennsylvania Health Club Act &mdash; Your Consumer Rights</h3>
+            <p>This Agreement is intended to be subject to the Pennsylvania Health Club Act. Among other rights, you may <strong>cancel without penalty within three (3) business days</strong> after signing and receiving a completed copy; you may have cancellation or extension rights for qualifying club closures, disability, death or relocation; and you must receive any refund required by law within the statutory time period. Statutory rights control over any inconsistent term. If the Club ceases operations and does not offer a comparable alternate location within ten miles, no further payments are due under this Agreement.</p>
+            <h3>9. Acknowledgment</h3>
+            <p>By signing, you confirm you have selected the membership indicated; understand the dues, fees, booking/cancellation rules and 12-month commitment; agree to follow Club rules and safety policies; authorize recurring monthly charges to your payment method on file; and acknowledge receipt of a completed copy of this Agreement. Optional program and event fees are charged only when used or registered for.</p>
+          </div>
+          <div class="waiver-fade" id="waiverFade"></div>
+        </div>
+        <p class="waiver-hint">&uarr; Scroll to read the full agreement</p>
+
+        <label class="check-item"><input type="checkbox" id="ack1"><div class="check-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I understand this is a <strong>12-month membership commitment</strong>, billed monthly. <span class="req">*</span></span></label>
+        <label class="check-item"><input type="checkbox" id="ack2"><div class="check-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I understand the dues, fees, and booking/cancellation rules. <span class="req">*</span></span></label>
+        <label class="check-item"><input type="checkbox" id="ack3"><div class="check-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I authorize LevelUp to charge my monthly dues to my payment method on file. <span class="req">*</span></span></label>
+        <label class="check-item"><input type="checkbox" id="ack4"><div class="check-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I understand early cancellation requires 50% of remaining dues and 30 days&rsquo; written notice (except statutory rights). <span class="req">*</span></span></label>
+        <label class="check-item"><input type="checkbox" id="ack5"><div class="check-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I acknowledge my Pennsylvania Health Club Act rights, including the right to cancel within 3 business days. <span class="req">*</span></span></label>
+        <label class="check-item"><input type="checkbox" id="ack6"><div class="check-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I acknowledge I have received and reviewed a completed copy of this Agreement. <span class="req">*</span></span></label>
+      </div>
+    </div>
+    <div class="btn-row sticky-bottom">
+      <button class="btn btn-back" onclick="goStep(2)">&larr; Back</button>
+      <button class="btn btn-green" onclick="goStep(4)">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step" id="step4">
+    <div class="card">
+      <div class="card-head">
+        <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+        <h3>Your Signature</h3>
+      </div>
+      <div class="card-body">
+        <p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin-bottom:0.85rem;line-height:1.55;">Sign with your finger or mouse below. This is your legal electronic signature confirming agreement to all terms above.</p>
+        <div class="sig-wrap">
+          <canvas id="sigCanvas"></canvas>
+          <div class="sig-line"></div>
+          <div class="sig-ghost" id="sigGhost">Sign here</div>
+        </div>
+        <div class="sig-bar">
+          <span class="sig-status" id="sigStatus">Not signed</span>
+          <button class="sig-clear-btn" onclick="clearSig()">Clear</button>
+        </div>
+        <div class="form-group" id="fg-guardian" style="margin-top:1rem;">
+          <label>Parent / Guardian Name <span style="color:rgba(255,255,255,0.5);font-weight:400;">(required if member is under 18)</span></label>
+          <input type="text" id="guardian" placeholder="Full name" autocapitalize="words">
+          <div class="field-err">Required for members under 18</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h3>Confirm &amp; Submit</h3>
+      </div>
+      <div class="card-body">
+        <label class="check-item"><input type="checkbox" id="finalConfirm"><div class="check-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-text">I confirm all information is accurate and I agree to this Membership Agreement. This is my legal electronic signature. <span class="req">*</span></span></label>
+      </div>
+    </div>
+
+    <div class="btn-row sticky-bottom">
+      <button class="btn btn-back" onclick="goStep(3)">&larr; Back</button>
+      <button class="btn btn-green" onclick="submitForm()">Sign &amp; Submit &check;</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="successScreen">
+    <div class="suc-icon">&check;</div>
+    <h2>Agreement <span>Signed!</span></h2>
+    <p>Thank you &mdash; your LevelUp Membership Agreement has been submitted and a copy has been recorded. Our team will confirm your membership shortly.</p>
+    <div class="suc-box">
+      <strong>What&rsquo;s Next</strong>
+      You&rsquo;ll receive confirmation from LevelUp. Questions about your membership? Call <a href="tel:4122065755" style="color:var(--green);">412.206.5755</a> or email <a href="mailto:info@leveluppickleballclub.com" style="color:var(--green);">info@leveluppickleballclub.com</a>.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>&copy; 2026 LevelUp Pickleball Club, LLC<br>33 Mayview Rd, Canonsburg, PA 15317<br><a href="mailto:info@leveluppickleballclub.com">info@leveluppickleballclub.com</a></p>
+</footer>
+
+<script>
+// ============================================================================
+//  CONTRACTS WEB3FORMS KEY — paste the dedicated contracts access key here.
+//  (Generate a NEW key at web3forms.com, point it at a Contracts inbox +
+//   Google Sheet, then replace the placeholder below.)
+// ============================================================================
+var CONTRACTS_KEY = '87c0becb-fd96-444c-9a51-f8e30a615354';
+
+var TIER_PRICE = { Diamond: 129, Silver: 29, Junior: 29 };
+var LOCKER_PRICE = { Diamond: 10, Silver: 15, Junior: 15 };
+let cur = 1, sigDrawn = false, canvas, ctx;
+
+function goStep(n) {
+  if (n > cur && !validate(cur)) return;
+  document.getElementById('step' + cur).classList.remove('active');
+  cur = n;
+  document.getElementById('step' + cur).classList.add('active');
+  updateUI();
+  setTimeout(() => { document.querySelector('.wrapper').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
+  if (n === 4) setTimeout(initCanvas, 150);
+}
+
+function updateUI() {
+  document.getElementById('progressFill').style.width = ((cur - 1) / 4 * 100) + '%';
+  document.getElementById('stepsRow').setAttribute('data-progress', cur - 1);
+  for (let i = 1; i <= 4; i++) {
+    const p = document.getElementById('pip' + i);
+    p.className = 'step-pip' + (i < cur ? ' done' : i === cur ? ' active' : '');
+  }
+}
+
+function validate(n) {
+  if (n === 1) return v1();
+  if (n === 2) return v2();
+  if (n === 3) return v3();
+  return true;
+}
+
+function fld(iid, gid, email) {
+  const el = document.getElementById(iid), gr = document.getElementById(gid);
+  let ok = el.value.trim() !== '';
+  if (ok && email) ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value);
+  gr.classList.toggle('has-error', !ok);
+  return ok;
+}
+
+function v1() {
+  const checks = [
+    fld('firstName','fg-first'), fld('lastName','fg-last'),
+    fld('email','fg-email', true), fld('phone','fg-phone'),
+    fld('address','fg-address'), fld('city','fg-city'),
+    fld('state','fg-state'), fld('zip','fg-zip'),
+    fld('dob','fg-dob'), fld('startDate','fg-start')
+  ];
+  if (!checks.every(Boolean)) {
+    const firstErr = document.querySelector('.form-group.has-error');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return false;
+  }
+  return true;
+}
+
+function pickTier() {
+  const sel = document.querySelector('input[name="tier"]:checked');
+  document.getElementById('tier-err').style.display = sel ? 'none' : '';
+}
+
+function v2() {
+  const sel = document.querySelector('input[name="tier"]:checked');
+  if (!sel) { document.getElementById('tier-err').style.display = 'block'; showToast('Please choose a membership'); return false; }
+  return true;
+}
+
+function v3() {
+  if (['ack1','ack2','ack3','ack4','ack5','ack6'].some(id => !document.getElementById(id).checked)) {
+    showToast('Please check all boxes to accept the agreement');
+    return false;
+  }
+  return true;
+}
+
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#ff4444;color:white;padding:12px 20px;border-radius:8px;font-family:Barlow Condensed,sans-serif;font-weight:600;font-size:0.9rem;letter-spacing:0.04em;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.4);max-width:90%;text-align:center;opacity:0;transition:opacity 0.3s;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg; t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2800);
+}
+
+// hide waiver fade once scrolled to bottom
+document.addEventListener('DOMContentLoaded', () => {
+  const wb = document.getElementById('waiverBox'), wf = document.getElementById('waiverFade');
+  if (wb && wf) {
+    wb.addEventListener('scroll', () => {
+      if (wb.scrollTop + wb.clientHeight >= wb.scrollHeight - 10) wf.classList.add('hidden');
+      else wf.classList.remove('hidden');
+    });
+  }
+});
+
+function initCanvas() {
+  canvas = document.getElementById('sigCanvas');
+  if (!canvas) return;
+  ctx = canvas.getContext('2d');
+  resizeCanvas();
+  ctx.strokeStyle = '#3CC440'; ctx.lineWidth = 2.8; ctx.lineCap = ctx.lineJoin = 'round';
+  let drawing = false;
+  const pos = e => { const r = canvas.getBoundingClientRect(); const t = e.touches ? e.touches[0] : e; return { x: t.clientX - r.left, y: t.clientY - r.top }; };
+  const start = e => { e.preventDefault(); drawing = true; const {x,y} = pos(e); ctx.beginPath(); ctx.moveTo(x, y); };
+  const move = e => {
+    if (!drawing) return; e.preventDefault();
+    const {x,y} = pos(e); ctx.lineTo(x, y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y);
+    if (!sigDrawn) { sigDrawn = true; document.getElementById('sigGhost').style.opacity = '0'; const s = document.getElementById('sigStatus'); s.textContent = '✓ Signed'; s.classList.add('signed'); }
+  };
+  const end = () => drawing = false;
+  canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', end); canvas.addEventListener('mouseleave', end);
+  canvas.addEventListener('touchstart', start, {passive:false}); canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end); canvas.addEventListener('touchcancel', end);
+  window.addEventListener('resize', () => {
+    if (cur === 4 && canvas) {
+      const data = sigDrawn ? canvas.toDataURL() : null;
+      resizeCanvas(); ctx.strokeStyle = '#3CC440'; ctx.lineWidth = 2.8; ctx.lineCap = ctx.lineJoin = 'round';
+      if (data) { const img = new Image(); img.onload = () => { const r = canvas.getBoundingClientRect(); ctx.drawImage(img, 0, 0, r.width, r.height); }; img.src = data; }
+    }
+  });
+}
+
+function resizeCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  const r = canvas.getBoundingClientRect();
+  canvas.width = r.width * dpr; canvas.height = r.height * dpr;
+  ctx.scale(dpr, dpr); canvas.style.width = r.width + 'px'; canvas.style.height = r.height + 'px';
+}
+
+function clearSig() {
+  if (!canvas || !ctx) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height); sigDrawn = false;
+  document.getElementById('sigGhost').style.opacity = '1';
+  const s = document.getElementById('sigStatus'); s.textContent = 'Not signed'; s.classList.remove('signed');
+}
+
+function getCompactSignature() {
+  const tmp = document.createElement('canvas'); tmp.width = 600; tmp.height = 180;
+  const t = tmp.getContext('2d'); t.fillStyle = '#ffffff'; t.fillRect(0,0,tmp.width,tmp.height);
+  t.drawImage(canvas, 0, 0, tmp.width, tmp.height);
+  return tmp.toDataURL('image/jpeg', 0.75);
+}
+
+function agreementText() {
+  // Plain-text copy of the exact terms shown, stored with each submission for the record.
+  return document.getElementById('waiverBox').innerText.replace(/\n{3,}/g, '\n\n').trim();
+}
+
+function submitForm() {
+  if (CONTRACTS_KEY.indexOf('PASTE_') === 0) {
+    showToast('Form not configured yet — contracts key missing');
+    return;
+  }
+  if (!sigDrawn) { showToast('Please sign before submitting'); document.querySelector('.sig-wrap').scrollIntoView({behavior:'smooth', block:'center'}); return; }
+  if (!document.getElementById('finalConfirm').checked) { showToast('Please confirm to submit'); return; }
+
+  const dob = document.getElementById('dob').value;
+  const guardian = document.getElementById('guardian').value.trim();
+  // Under-18 check -> guardian required
+  if (dob) {
+    const age = (Date.now() - new Date(dob).getTime()) / 31557600000;
+    if (age < 18 && !guardian) {
+      document.getElementById('fg-guardian').classList.add('has-error');
+      showToast('Parent/guardian name is required for members under 18');
+      document.getElementById('fg-guardian').scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+  }
+  document.getElementById('fg-guardian').classList.remove('has-error');
+
+  const submitBtn = document.querySelector('#step4 .btn-green');
+  const originalBtnText = submitBtn.innerHTML;
+  submitBtn.disabled = true; submitBtn.innerHTML = 'Submitting…'; submitBtn.style.opacity = '0.7'; submitBtn.style.cursor = 'wait';
+
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName  = document.getElementById('lastName').value.trim();
+  const tierEl = document.querySelector('input[name="tier"]:checked');
+  const tier = tierEl ? tierEl.value : '';
+  const dues = TIER_PRICE[tier] || '';
+  const locker = document.getElementById('locker').checked;
+  const signature = getCompactSignature();
+
+  const fd = new FormData();
+  fd.append('access_key', CONTRACTS_KEY);
+  fd.append('subject', 'Membership Agreement Signed: ' + firstName + ' ' + lastName + ' — ' + tier);
+  fd.append('from_name', 'LevelUp Membership Agreement');
+  fd.append('replyto', document.getElementById('email').value.trim());
+  fd.append('botcheck', '');
+
+  fd.append('Signed At', new Date().toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'long' }));
+  fd.append('Agreement', 'LevelUp Membership Agreement — 12-Month Term (effective Oct 1, 2026)');
+  fd.append('Member Name', firstName + ' ' + lastName);
+  fd.append('Email', document.getElementById('email').value.trim());
+  fd.append('Phone', document.getElementById('phone').value.trim());
+  fd.append('Address', document.getElementById('address').value.trim());
+  fd.append('City / State / ZIP', document.getElementById('city').value.trim() + ', ' + document.getElementById('state').value.trim().toUpperCase() + ' ' + document.getElementById('zip').value.trim());
+  fd.append('Date of Birth', dob);
+  fd.append('Membership Start Date', document.getElementById('startDate').value);
+  fd.append('Membership Tier', tier);
+  fd.append('Monthly Dues', dues ? ('$' + dues + '/month') : '');
+  fd.append('Optional Locker', locker ? ('Yes — $' + (LOCKER_PRICE[tier]||'') + '/month') : 'No');
+  if (guardian) fd.append('Parent / Guardian', guardian);
+
+  const acks = [
+    'I understand this is a 12-month membership commitment, billed monthly.',
+    'I understand the dues, fees, and booking/cancellation rules.',
+    'I authorize LevelUp to charge my monthly dues to my payment method on file.',
+    'I understand early cancellation requires 50% of remaining dues and 30 days written notice (except statutory rights).',
+    'I acknowledge my Pennsylvania Health Club Act rights, including the right to cancel within 3 business days.',
+    'I acknowledge I have received and reviewed a completed copy of this Agreement.'
+  ];
+  acks.forEach((txt, i) => {
+    const checked = (document.getElementById('ack' + (i+1)) || {}).checked === true;
+    fd.append('Acknowledgment ' + (i+1), (checked ? '✓ AGREED' : '✗ NOT CHECKED') + ' — ' + txt);
+  });
+  fd.append('Final Confirmation', (document.getElementById('finalConfirm').checked ? '✓ AGREED' : '✗ NOT CHECKED') + ' — This is my legal electronic signature agreeing to the Membership Agreement.');
+
+  // Full agreement text signed (the record of exactly what was agreed to)
+  fd.append('Agreement Text Signed', agreementText());
+  fd.append('Signature (base64 JPEG)', signature);
+
+  fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
+    .then(async (response) => {
+      const result = await response.json();
+      if (response.status === 200 && result.success) {
+        document.getElementById('step4').classList.remove('active');
+        document.getElementById('successScreen').classList.add('visible');
+        document.getElementById('progressFill').style.width = '100%';
+        document.getElementById('stepsRow').setAttribute('data-progress', 4);
+        document.querySelectorAll('.step-pip').forEach(p => p.classList.add('done'));
+        window.scrollTo({top:0, behavior:'smooth'});
+      } else {
+        showToast(result.message || 'Submission failed. Please try again.');
+        submitBtn.disabled = false; submitBtn.innerHTML = originalBtnText; submitBtn.style.opacity = ''; submitBtn.style.cursor = '';
+      }
+    })
+    .catch(() => {
+      showToast('Network error. Please check your connection and try again.');
+      submitBtn.disabled = false; submitBtn.innerHTML = originalBtnText; submitBtn.style.opacity = ''; submitBtn.style.cursor = '';
+    });
+}
+</script>
+</body>
+</html>
