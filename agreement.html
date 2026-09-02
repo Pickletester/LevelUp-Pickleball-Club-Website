@@ -1200,6 +1200,20 @@ document.addEventListener('DOMContentLoaded', () => {
       else wf.classList.remove('hidden');
     });
   }
+
+  // DOB: open the picker ~50 years ago so older members don't scroll back from today.
+  // Set a default on focus (so the picker opens there); clear it on blur if untouched,
+  // so no one accidentally submits the default and the under-18 guardian check stays honest.
+  const dobEl = document.getElementById('dob');
+  if (dobEl) {
+    const today = new Date();
+    dobEl.max = today.toISOString().split('T')[0];   // no future dates
+    dobEl.min = '1900-01-01';
+    const d = new Date(); d.setFullYear(d.getFullYear() - 50);
+    const DEFAULT_DOB = d.toISOString().split('T')[0];
+    dobEl.addEventListener('focus', () => { if (!dobEl.value) dobEl.value = DEFAULT_DOB; });
+    dobEl.addEventListener('blur',  () => { if (dobEl.value === DEFAULT_DOB) dobEl.value = ''; });
+  }
 });
 
 function initCanvas() {
