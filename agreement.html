@@ -1312,10 +1312,9 @@ function submitForm() {
     'I acknowledge my Pennsylvania Health Club Act rights, including the right to cancel within 3 business days.',
     'I acknowledge I have received and reviewed a completed copy of this Agreement.'
   ];
-  acks.forEach((txt, i) => {
-    const checked = (document.getElementById('ack' + (i+1)) || {}).checked === true;
-    fd.append('Acknowledgment ' + (i+1), (checked ? '✓ AGREED' : '✗ NOT CHECKED') + ' — ' + txt);
-  });
+  const allAcked = acks.every((t, i) => (document.getElementById('ack' + (i+1)) || {}).checked === true);
+  // One column, but keeps the full text of every acknowledgment for the record.
+  fd.append('Acknowledgments', (allAcked ? '✓ AGREED to all — ' : '✗ NOT all checked — ') + acks.map((t, i) => (i+1) + ') ' + t).join('  |  '));
   fd.append('Final Confirmation', (document.getElementById('finalConfirm').checked ? '✓ AGREED' : '✗ NOT CHECKED') + ' — This is my legal electronic signature agreeing to the Membership Agreement.');
   fd.append('Agreement Text Signed', agreementText());   // the record of exactly what was agreed to
   fd.append('Signature (base64 JPEG)', signature);
