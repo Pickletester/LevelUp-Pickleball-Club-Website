@@ -821,9 +821,9 @@ html { background: var(--dark); }
     <h1>Membership <span>Agreement</span></h1>
     <p>Review and sign your LevelUp membership agreement. New terms effective October 1, 2026.</p>
     <div class="steps-row" id="stepsRow" data-progress="0">
-      <div class="step-pip active" id="pip1"><div class="pip-circle">1</div><div class="pip-label">Info</div></div>
-      <div class="step-pip" id="pip2"><div class="pip-circle">2</div><div class="pip-label">Plan</div></div>
-      <div class="step-pip" id="pip3"><div class="pip-circle">3</div><div class="pip-label">Terms</div></div>
+      <div class="step-pip active" id="pip1"><div class="pip-circle">1</div><div class="pip-label">Plan</div></div>
+      <div class="step-pip" id="pip2"><div class="pip-circle">2</div><div class="pip-label">Terms</div></div>
+      <div class="step-pip" id="pip3"><div class="pip-circle">3</div><div class="pip-label">Info</div></div>
       <div class="step-pip" id="pip4"><div class="pip-circle">4</div><div class="pip-label">Sign</div></div>
     </div>
   </div>
@@ -831,8 +831,8 @@ html { background: var(--dark); }
 
 <div class="wrapper">
 
-  <!-- STEP 1 -->
-  <div class="step active" id="step1">
+  <!-- STEP: Member Info (shown 3rd) -->
+  <div class="step" id="step1">
     <div class="card">
       <div class="card-head">
         <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
@@ -899,12 +899,13 @@ html { background: var(--dark); }
     </div>
 
     <div class="btn-row sticky-bottom">
-      <button class="btn btn-green" onclick="goStep(2)">Continue &rarr;</button>
+      <button class="btn btn-back" onclick="prevStep()">&larr; Back</button>
+      <button class="btn btn-green" onclick="nextStep()">Continue &rarr;</button>
     </div>
   </div>
 
-  <!-- STEP 2 -->
-  <div class="step" id="step2">
+  <!-- STEP: Choose Membership (shown 1st) -->
+  <div class="step active" id="step2">
     <div class="card">
       <div class="card-head">
         <div class="head-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg></div>
@@ -948,8 +949,7 @@ html { background: var(--dark); }
       </div>
     </div>
     <div class="btn-row sticky-bottom">
-      <button class="btn btn-back" onclick="goStep(1)">&larr; Back</button>
-      <button class="btn btn-green" onclick="goStep(3)">Continue &rarr;</button>
+      <button class="btn btn-green" onclick="nextStep()">Continue &rarr;</button>
     </div>
   </div>
 
@@ -996,8 +996,8 @@ html { background: var(--dark); }
       </div>
     </div>
     <div class="btn-row sticky-bottom">
-      <button class="btn btn-back" onclick="goStep(2)">&larr; Back</button>
-      <button class="btn btn-green" onclick="goStep(4)">Continue &rarr;</button>
+      <button class="btn btn-back" onclick="prevStep()">&larr; Back</button>
+      <button class="btn btn-green" onclick="nextStep()">Continue &rarr;</button>
     </div>
   </div>
 
@@ -1038,7 +1038,7 @@ html { background: var(--dark); }
     </div>
 
     <div class="btn-row sticky-bottom">
-      <button class="btn btn-back" onclick="goStep(3)">&larr; Back</button>
+      <button class="btn btn-back" onclick="prevStep()">&larr; Back</button>
       <button class="btn btn-green" onclick="submitForm()">Sign &amp; Submit &check;</button>
     </div>
   </div>
@@ -1071,16 +1071,22 @@ var CONTRACTS_KEY = '87c0becb-fd96-444c-9a51-f8e30a615354';
 var TIER_PRICE = { Diamond: 129, Silver: 29, Junior: 29 };
 var LOCKER_PRICE = { Diamond: 10, Silver: 15, Junior: 15 };
 let cur = 1, sigDrawn = false, canvas, ctx;
+// Display order of the steps (DOM ids) + the validator that must pass to leave each.
+// step1=Info, step2=Plan, step3=Terms, step4=Sign — shown as Plan → Terms → Info → Sign.
+var STEP_IDS = ['step2','step3','step1','step4'];
+var STEP_VALIDATORS = [v2, v3, v1, function(){ return true; }];
 
 function goStep(n) {
-  if (n > cur && !validate(cur)) return;
-  document.getElementById('step' + cur).classList.remove('active');
+  if (n > cur && !STEP_VALIDATORS[cur-1]()) return;
+  document.getElementById(STEP_IDS[cur-1]).classList.remove('active');
   cur = n;
-  document.getElementById('step' + cur).classList.add('active');
+  document.getElementById(STEP_IDS[cur-1]).classList.add('active');
   updateUI();
   setTimeout(() => { document.querySelector('.wrapper').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
-  if (n === 4) setTimeout(initCanvas, 150);
+  if (STEP_IDS[cur-1] === 'step4') setTimeout(initCanvas, 150);
 }
+function nextStep(){ goStep(cur + 1); }
+function prevStep(){ goStep(cur - 1); }
 
 function updateUI() {
   document.getElementById('progressFill').style.width = ((cur - 1) / 4 * 100) + '%';
@@ -1089,13 +1095,6 @@ function updateUI() {
     const p = document.getElementById('pip' + i);
     p.className = 'step-pip' + (i < cur ? ' done' : i === cur ? ' active' : '');
   }
-}
-
-function validate(n) {
-  if (n === 1) return v1();
-  if (n === 2) return v2();
-  if (n === 3) return v3();
-  return true;
 }
 
 function fld(iid, gid, email) {
