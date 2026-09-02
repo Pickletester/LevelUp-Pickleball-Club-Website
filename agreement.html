@@ -1284,27 +1284,26 @@ function submitForm() {
   const lastName  = document.getElementById('lastName').value.trim();
   const tierEl = document.querySelector('input[name="tier"]:checked');
   const tier = tierEl ? tierEl.value : '';
-  const dues = TIER_PRICE[tier] || '';
   const locker = document.getElementById('locker').checked;
   const signature = getCompactSignature();
 
+  const email = document.getElementById('email').value.trim();
+  // Column order in the Google Sheet follows this append order (Timestamp is auto-added first).
   const fd = new FormData();
-  fd.append('access_key', CONTRACTS_KEY);
-  fd.append('subject', 'Membership Agreement Signed: ' + firstName + ' ' + lastName + ' — ' + tier);
-  fd.append('from_name', 'LevelUp Membership Agreement');
-  fd.append('replyto', document.getElementById('email').value.trim());
-  fd.append('botcheck', '');
+  fd.append('access_key', CONTRACTS_KEY);   // config, not a column
+  fd.append('botcheck', '');                // config, not a column
 
-  fd.append('Signed At', new Date().toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'long' }));
-  fd.append('Agreement', 'LevelUp Membership Agreement — 12-Month Term (effective Oct 1, 2026)');
+  // --- Front columns ---
+  fd.append('subject', 'Membership Agreement Signed: ' + firstName + ' ' + lastName + ' — ' + tier);
   fd.append('Member Name', firstName + ' ' + lastName);
-  fd.append('Email', document.getElementById('email').value.trim());
+  fd.append('Membership Tier', tier);
+  fd.append('Optional Locker', locker ? ('Yes — $' + (LOCKER_PRICE[tier]||'') + '/month') : 'No');
+  fd.append('Email', email);
   fd.append('Phone', document.getElementById('phone').value.trim());
   fd.append('Date of Birth', dob);
-  fd.append('Membership Tier', tier);
-  fd.append('Monthly Dues', dues ? ('$' + dues + '/month') : '');
-  fd.append('Optional Locker', locker ? ('Yes — $' + (LOCKER_PRICE[tier]||'') + '/month') : 'No');
 
+  // --- Agreement record (middle) ---
+  fd.append('Agreement', 'LevelUp Membership Agreement — 12-Month Term (effective Oct 1, 2026)');
   const acks = [
     'I understand this is a 12-month membership commitment, billed monthly.',
     'I understand the dues, fees, and booking/cancellation rules.',
@@ -1318,10 +1317,13 @@ function submitForm() {
     fd.append('Acknowledgment ' + (i+1), (checked ? '✓ AGREED' : '✗ NOT CHECKED') + ' — ' + txt);
   });
   fd.append('Final Confirmation', (document.getElementById('finalConfirm').checked ? '✓ AGREED' : '✗ NOT CHECKED') + ' — This is my legal electronic signature agreeing to the Membership Agreement.');
-
-  // Full agreement text signed (the record of exactly what was agreed to)
-  fd.append('Agreement Text Signed', agreementText());
+  fd.append('Agreement Text Signed', agreementText());   // the record of exactly what was agreed to
   fd.append('Signature (base64 JPEG)', signature);
+
+  // --- Plumbing / metadata (kept at the end) ---
+  fd.append('from_name', 'LevelUp Membership Agreement');
+  fd.append('Signed At', new Date().toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'long' }));
+  fd.append('replyto', email);
 
   fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
     .then(async (response) => {
