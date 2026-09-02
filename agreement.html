@@ -800,6 +800,48 @@ html { background: var(--dark); }
 .tier-desc { color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.5; margin-top: 0.35rem; }
 .tier-check { position: absolute; top: 0.9rem; right: 0.9rem; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; }
 .tier-option input:checked + .tier-card .tier-check { opacity: 1; background: var(--green); border-color: var(--green); }
+
+/* ───── EXPAND-TO-READ (full-screen agreement) ───── */
+.terms-expand {
+  width: 100%; margin-bottom: 0.7rem;
+  background: rgba(60,196,64,0.12); border: 1px solid rgba(60,196,64,0.4);
+  color: var(--green); font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.82rem;
+  padding: 0.75rem; border-radius: 8px; cursor: pointer; min-height: 48px;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.terms-expand:active { background: rgba(60,196,64,0.2); }
+.terms-modal { display: none; position: fixed; inset: 0; z-index: 10000; background: var(--dark); flex-direction: column; }
+.terms-modal.open { display: flex; }
+.terms-modal-bar {
+  flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  padding: 0.9rem 1.1rem; padding-top: calc(0.9rem + env(safe-area-inset-top));
+  background: var(--navy-dark); border-bottom: 2px solid var(--green);
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #fff; font-size: 0.95rem;
+}
+.terms-x {
+  background: var(--green); color: var(--dark); border: none; border-radius: 8px;
+  padding: 0.5rem 1rem; font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+  letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.85rem; cursor: pointer;
+  display: flex; align-items: center; gap: 0.35rem; min-height: 40px; white-space: nowrap;
+}
+.terms-modal-body {
+  flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding: 1.4rem 1.25rem 2rem; font-size: 1.05rem; line-height: 1.75; color: rgba(255,255,255,0.9);
+}
+.terms-modal-body h3 { color: var(--green); font-size: 1.15rem; margin: 1.4rem 0 0.5rem; font-weight: 700; }
+.terms-modal-body h3:first-child { margin-top: 0; }
+.terms-modal-body p { margin-bottom: 0.9rem; }
+.terms-modal-body strong { color: #fff; }
+.terms-modal-foot {
+  flex: 0 0 auto; padding: 0.85rem 1.1rem calc(0.85rem + env(safe-area-inset-bottom));
+  background: var(--navy-dark); border-top: 1px solid rgba(255,255,255,0.1);
+}
+.terms-modal-foot button {
+  width: 100%; background: var(--green); color: var(--dark); border: none; border-radius: 10px;
+  padding: 0.95rem; font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+  letter-spacing: 0.05em; text-transform: uppercase; font-size: 1rem; cursor: pointer; min-height: 52px;
+}
 </style>
 </head>
 <body>
@@ -932,6 +974,7 @@ html { background: var(--dark); }
         <h3>Membership Agreement</h3>
       </div>
       <div class="card-body">
+        <button type="button" class="terms-expand" onclick="openTerms()">⤢ Tap to read full screen</button>
         <div class="waiver-wrap">
           <div class="waiver-box" id="waiverBox">
             <p style="color:var(--green);font-weight:700;">LevelUp Pickleball Club — Membership Agreement · 12-Month Term<br>Effective October 1, 2026 · 33 Mayview Road, Canonsburg, PA 15317</p>
@@ -1031,6 +1074,16 @@ html { background: var(--dark); }
   <p>&copy; 2026 LevelUp Pickleball Club, LLC<br>33 Mayview Rd, Canonsburg, PA 15317<br><a href="mailto:info@leveluppickleballclub.com">info@leveluppickleballclub.com</a></p>
 </footer>
 
+<!-- Full-screen agreement reader -->
+<div id="termsModal" class="terms-modal" role="dialog" aria-modal="true" aria-label="Membership Agreement full text">
+  <div class="terms-modal-bar">
+    <span>Membership Agreement</span>
+    <button type="button" class="terms-x" onclick="closeTerms()" aria-label="Close">&times; Close</button>
+  </div>
+  <div class="terms-modal-body" id="termsModalBody"></div>
+  <div class="terms-modal-foot"><button type="button" onclick="closeTerms()">Done Reading</button></div>
+</div>
+
 <script>
 // ============================================================================
 //  CONTRACTS WEB3FORMS KEY — paste the dedicated contracts access key here.
@@ -1121,6 +1174,20 @@ function showToast(msg) {
   clearTimeout(t._timer);
   t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2800);
 }
+
+// Full-screen agreement reader (easier to read on phones)
+function openTerms() {
+  const b = document.getElementById('termsModalBody');
+  b.innerHTML = document.getElementById('waiverBox').innerHTML;   // same text, larger + full screen
+  b.scrollTop = 0;
+  document.getElementById('termsModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeTerms() {
+  document.getElementById('termsModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeTerms(); });
 
 // hide waiver fade once scrolled to bottom
 document.addEventListener('DOMContentLoaded', () => {
