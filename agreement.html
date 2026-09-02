@@ -609,8 +609,8 @@ canvas {
   border: 1px solid rgba(60,196,64,0.22);
   border-radius: 8px;
   padding: 0.85rem 1rem;
-  font-size: 0.85rem;
-  color: rgba(255,255,255,0.6);
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.88);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
@@ -796,8 +796,8 @@ html { background: var(--dark); }
 .tier-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
 .tier-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.35rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--white); }
 .tier-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--green); letter-spacing: 0.02em; white-space: nowrap; }
-.tier-price small { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
-.tier-desc { color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.5; margin-top: 0.35rem; }
+.tier-price small { font-size: 0.85rem; color: rgba(255,255,255,0.75); }
+.tier-desc { color: rgba(255,255,255,0.88); font-size: 0.95rem; line-height: 1.55; margin-top: 0.4rem; }
 .tier-check { position: absolute; top: 0.9rem; right: 0.9rem; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; }
 .tier-option input:checked + .tier-card .tier-check { opacity: 1; background: var(--green); border-color: var(--green); }
 
@@ -949,7 +949,7 @@ html { background: var(--dark); }
             <input type="radio" name="tier" value="Junior" data-price="29" onchange="pickTier()">
             <div class="tier-card">
               <div class="tier-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div class="tier-top"><span class="tier-name">Junior <span style="font-size:0.7rem;color:rgba(255,255,255,0.5);">(21 &amp; under)</span></span><span class="tier-price">$29<small>/mo</small></span></div>
+              <div class="tier-top"><span class="tier-name">Junior <span style="font-size:0.72rem;color:rgba(255,255,255,0.75);">(21 &amp; under)</span></span><span class="tier-price">$29<small>/mo</small></span></div>
               <div class="tier-desc">Member rates for players 21 and under: $5 drop-ins, $10 ladders, $72 eight-week leagues, 4-day advance booking.</div>
             </div>
           </label>
