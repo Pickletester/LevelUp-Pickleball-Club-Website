@@ -1209,6 +1209,9 @@ document.addEventListener('DOMContentLoaded', () => {
     dobEl.addEventListener('focus', () => { if (!dobEl.value) dobEl.value = DEFAULT_DOB; });
     dobEl.addEventListener('blur',  () => { if (dobEl.value === DEFAULT_DOB) dobEl.value = ''; });
   }
+
+  // Best-effort client IP for the audit trail (Web3Forms also logs IP server-side).
+  fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => { window._clientIP = d.ip; }).catch(() => {});
 });
 
 function initCanvas() {
@@ -1319,9 +1322,12 @@ function submitForm() {
   fd.append('Agreement Text Signed', agreementText());   // the record of exactly what was agreed to
   fd.append('Signature (base64 JPEG)', signature);
 
-  // --- Plumbing / metadata (kept at the end) ---
+  // --- Plumbing / audit metadata (kept at the end) ---
   fd.append('from_name', 'LevelUp Membership Agreement');
   fd.append('Signed At', new Date().toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'long' }));
+  fd.append('Signed At (UTC)', new Date().toISOString());
+  fd.append('IP Address', window._clientIP || '(logged by Web3Forms server-side)');
+  fd.append('Device / Browser', navigator.userAgent);
   fd.append('replyto', email);
 
   fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
