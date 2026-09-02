@@ -1035,11 +1035,6 @@ html { background: var(--dark); }
           <span class="sig-status" id="sigStatus">Not signed</span>
           <button class="sig-clear-btn" onclick="clearSig()">Clear</button>
         </div>
-        <div class="form-group" id="fg-guardian" style="margin-top:1rem;">
-          <label>Parent / Guardian Name <span style="color:rgba(255,255,255,0.5);font-weight:400;">(required if member is under 18)</span></label>
-          <input type="text" id="guardian" placeholder="Full name" autocapitalize="words">
-          <div class="field-err">Required for members under 18</div>
-        </div>
       </div>
     </div>
 
@@ -1203,7 +1198,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // DOB: open the picker ~50 years ago so older members don't scroll back from today.
   // Set a default on focus (so the picker opens there); clear it on blur if untouched,
-  // so no one accidentally submits the default and the under-18 guardian check stays honest.
+  // so no one accidentally submits the default date of birth.
   const dobEl = document.getElementById('dob');
   if (dobEl) {
     const today = new Date();
@@ -1279,18 +1274,6 @@ function submitForm() {
   if (!document.getElementById('finalConfirm').checked) { showToast('Please confirm to submit'); return; }
 
   const dob = document.getElementById('dob').value;
-  const guardian = document.getElementById('guardian').value.trim();
-  // Under-18 check -> guardian required
-  if (dob) {
-    const age = (Date.now() - new Date(dob).getTime()) / 31557600000;
-    if (age < 18 && !guardian) {
-      document.getElementById('fg-guardian').classList.add('has-error');
-      showToast('Parent/guardian name is required for members under 18');
-      document.getElementById('fg-guardian').scrollIntoView({behavior:'smooth', block:'center'});
-      return;
-    }
-  }
-  document.getElementById('fg-guardian').classList.remove('has-error');
 
   const submitBtn = document.querySelector('#step4 .btn-green');
   const originalBtnText = submitBtn.innerHTML;
@@ -1320,7 +1303,6 @@ function submitForm() {
   fd.append('Membership Tier', tier);
   fd.append('Monthly Dues', dues ? ('$' + dues + '/month') : '');
   fd.append('Optional Locker', locker ? ('Yes — $' + (LOCKER_PRICE[tier]||'') + '/month') : 'No');
-  if (guardian) fd.append('Parent / Guardian', guardian);
 
   const acks = [
     'I understand this is a 12-month membership commitment, billed monthly.',
