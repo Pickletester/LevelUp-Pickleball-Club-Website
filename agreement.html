@@ -1254,10 +1254,11 @@ function clearSig() {
 }
 
 function getCompactSignature() {
-  const tmp = document.createElement('canvas'); tmp.width = 600; tmp.height = 180;
+  // Kept small (≈8-12KB -> well under Google Sheets' 50k-char/cell limit) so no row fails to write.
+  const tmp = document.createElement('canvas'); tmp.width = 440; tmp.height = 130;
   const t = tmp.getContext('2d'); t.fillStyle = '#ffffff'; t.fillRect(0,0,tmp.width,tmp.height);
   t.drawImage(canvas, 0, 0, tmp.width, tmp.height);
-  return tmp.toDataURL('image/jpeg', 0.75);
+  return tmp.toDataURL('image/jpeg', 0.55);
 }
 
 function agreementText() {
