@@ -798,6 +798,8 @@ html { background: var(--dark); }
 .tier-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--green); letter-spacing: 0.02em; white-space: nowrap; }
 .tier-price small { font-size: 0.85rem; color: rgba(255,255,255,0.75); }
 .tier-desc { color: rgba(255,255,255,0.88); font-size: 0.95rem; line-height: 1.55; margin-top: 0.4rem; }
+.tier-feats { margin: 0.55rem 0 0; padding-left: 1.15rem; color: rgba(255,255,255,0.88); font-size: 0.92rem; line-height: 1.5; }
+.tier-feats li { margin-bottom: 0.25rem; }
 .tier-check { position: absolute; top: 0.9rem; right: 0.9rem; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; }
 .tier-option input:checked + .tier-card .tier-check { opacity: 1; background: var(--green); border-color: var(--green); }
 
@@ -934,7 +936,18 @@ html { background: var(--dark); }
             <div class="tier-card">
               <div class="tier-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
               <div class="tier-top"><span class="tier-name">Diamond <span style="font-size:0.72rem;color:rgba(255,255,255,0.75);">Annual</span></span><span class="tier-price">$124<small>/mo</small></span></div>
-              <div class="tier-desc">Open play sessions included · all ladders, team leagues &amp; Up/Down Splits included · 7-day advance registration · $5 Fri/Sat socials · 2 first-time visitor passes/mo · court rentals $20 off-peak / $28 peak.</div>
+              <ul class="tier-feats">
+                <li>Open Play sessions are included</li>
+                <li>Ladders, team leagues, and Up and Down Splits included</li>
+                <li>Team leagues are included</li>
+                <li>7-day advance registration</li>
+                <li>Friday and Saturday socials $5</li>
+                <li>Optional locker $120 per year</li>
+                <li>(2) First-time visitor drop-in passes per month</li>
+                <li>Private Court Rentals - $20/hour off-peak and $28/hour peak</li>
+                <li>No standard seasonal, travel, or medical freeze</li>
+                <li>$99 Initiation Fee for new members or those who previously cancelled</li>
+              </ul>
             </div>
           </label>
           <label class="tier-option">
@@ -942,7 +955,18 @@ html { background: var(--dark); }
             <div class="tier-card">
               <div class="tier-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0F1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
               <div class="tier-top"><span class="tier-name">Silver <span style="font-size:0.72rem;color:rgba(255,255,255,0.75);">Annual</span></span><span class="tier-price">$29<small>/mo</small></span></div>
-              <div class="tier-desc">Open play $12/session · ladders &amp; Up/Down Splits $10 · team leagues $72/8 wks · 4-day advance registration · $10 Fri/Sat socials · 1 visitor pass/mo · court rentals $27 off-peak / $30 peak.</div>
+              <ul class="tier-feats">
+                <li>Open Play $12 per session</li>
+                <li>Ladders and Up and Down Splits $10 per session</li>
+                <li>Team leagues $72 per 8 weeks</li>
+                <li>4-day advance registration</li>
+                <li>Friday and Saturday socials $10</li>
+                <li>Optional locker $180 per year</li>
+                <li>(1) First-time visitor drop-in pass per month</li>
+                <li>Private Court Rentals - $27/hour off-peak and $30/hour peak</li>
+                <li>No standard seasonal, travel, or medical freeze</li>
+                <li>$99 Initiation Fee for new members or those who previously cancelled</li>
+              </ul>
             </div>
           </label>
         </div>
