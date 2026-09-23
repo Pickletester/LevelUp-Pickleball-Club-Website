@@ -120,12 +120,21 @@
       <h2 class="pricing-title">CHOOSE YOUR TIER</h2>
       <p class="pricing-sub">All memberships include access to world-class courts, events, and the LevelUp community.<br><strong>Annual</strong> = 12-month agreement · <strong>Flex</strong> = month-to-month · New rates effective October 1, 2026.</p>
       <div class="pricing-grid">
-        <!-- Silver (Annual + Flex) -->
+        <!-- Silver (Annual + Flex toggle) -->
+        <style>
+          .sv-tabs { display:flex; gap:4px; background:#eceef2; border-radius:9px; padding:4px; margin:0.35rem 0 0.85rem; }
+          .sv-tab { flex:1; border:none; background:transparent; font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.82rem; color:#8A8F9E; padding:0.55rem 0.4rem; border-radius:6px; cursor:pointer; transition:all 0.15s; }
+          .sv-tab.active { background:#A8A9AD; color:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.18); }
+        </style>
         <div class="pricing-card fade-up" style="border-top:4px solid #A8A9AD;">
           <div class="pricing-header">
             <div class="pricing-tier" style="color:#A8A9AD;">Silver</div>
-            <div class="pricing-price"><sup>$</sup>29<sub>/mo</sub></div>
-            <div class="pricing-tagline">Annual · or <strong>$39/mo</strong> month-to-month (Flex)</div>
+            <div class="sv-tabs">
+              <button type="button" class="sv-tab active" data-plan="annual" onclick="setSilverPlan('annual')">Annual</button>
+              <button type="button" class="sv-tab" data-plan="flex" onclick="setSilverPlan('flex')">Flex</button>
+            </div>
+            <div class="pricing-price"><sup>$</sup><span id="svPrice">29</span><sub>/mo</sub></div>
+            <div class="pricing-tagline" id="svTagline">Annual · 12-month agreement</div>
           </div>
           <div class="pricing-body">
             <ul class="pricing-features">
@@ -139,8 +148,7 @@
               <li><span class="check" style="color:#A8A9AD;">✓</span> Private Court: $27 off-peak / $30 peak (per hr)</li>
               <li><span class="check" style="color:#A8A9AD;">✓</span> $99 Initiation Fee</li>
             </ul>
-            <a class="btn" style="background:#A8A9AD;color:white;width:100%;text-align:center;" href="https://app.courtreserve.com/Online/Memberships/ViewPublicMembership/12674?membershipId=274079" target="_blank" rel="noopener">Sign Up — Silver Annual</a>
-            <a href="https://app.courtreserve.com/Online/Memberships/ViewPublicMembership/12674?membershipId=139407" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:0.6rem;font-size:0.82rem;color:#A8A9AD;text-decoration:none;font-weight:600;">Prefer month-to-month? Join Silver Flex &nearr;</a>
+            <a class="btn" id="svBtn" style="background:#A8A9AD;color:white;width:100%;text-align:center;" href="https://app.courtreserve.com/Online/Memberships/ViewPublicMembership/12674?membershipId=274079" target="_blank" rel="noopener">Sign Up — Silver Annual</a>
           </div>
         </div>
         <!-- Diamond Annual (Featured) -->
@@ -321,5 +329,17 @@
 
   <link rel="stylesheet" href="/css/court-booking.css">
   <script src="/js/court-booking.js" defer></script>
+  <script>
+    // Silver card: toggle between Annual and month-to-month Flex.
+    function setSilverPlan(plan){
+      var annual = plan === 'annual';
+      document.getElementById('svPrice').textContent = annual ? '29' : '39';
+      document.getElementById('svTagline').textContent = annual ? 'Annual · 12-month agreement' : 'Flex · month-to-month, cancel anytime';
+      var btn = document.getElementById('svBtn');
+      btn.textContent = annual ? 'Sign Up — Silver Annual' : 'Sign Up — Silver Flex';
+      btn.href = 'https://app.courtreserve.com/Online/Memberships/ViewPublicMembership/12674?membershipId=' + (annual ? '274079' : '139407');
+      document.querySelectorAll('.sv-tab').forEach(function(t){ t.classList.toggle('active', t.dataset.plan === plan); });
+    }
+  </script>
 </body>
 </html>
