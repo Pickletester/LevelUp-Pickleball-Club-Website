@@ -526,8 +526,150 @@
           </p>
         </div>
       </div>
+      <div style="text-align:center;margin-top:2.75rem;">
+        <button class="btn btn-green" onclick="openWeeklySchedule()" style="cursor:pointer;">📅 View Full Weekly Schedule</button>
+      </div>
     </div>
   </section>
+
+  <!-- ===== WEEKLY SCHEDULE MODAL ===== -->
+  <style>
+    #weeklyScheduleModal { display:none; position:fixed; inset:0; z-index:10000; background:rgba(8,12,28,.85); overflow-y:auto; padding:1rem; }
+    #weeklyScheduleModal.open { display:block; }
+    .ws-card { max-width:1200px; margin:2rem auto; background:#f7f8fa; border-radius:16px; box-shadow:0 30px 80px rgba(0,0,0,.55); overflow:hidden; }
+    .ws-head { position:relative; text-align:center; padding:1.6rem 3.5rem 1.2rem; background:#1E2B6E; color:#fff; }
+    .ws-head h2 { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.5rem,4vw,2.4rem); letter-spacing:.02em; margin:0; line-height:1; }
+    .ws-dates { font-family:'Barlow Condensed',sans-serif; letter-spacing:.08em; text-transform:uppercase; font-size:.85rem; color:#9fd88a; margin-top:.35rem; }
+    .ws-x { position:absolute; top:1rem; right:1rem; background:#3CC440; color:#0b1f07; border:none; border-radius:8px; padding:.5rem .95rem; font-family:'Barlow Condensed',sans-serif; font-weight:800; letter-spacing:.05em; text-transform:uppercase; font-size:.8rem; cursor:pointer; }
+    .ws-hint { display:none; text-align:center; font-size:.72rem; color:#8a90a0; padding:.55rem; font-family:'Barlow Condensed',sans-serif; letter-spacing:.1em; text-transform:uppercase; }
+    .ws-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; padding:1rem; }
+    table.ws-grid { border-collapse:separate; border-spacing:4px; min-width:1000px; width:100%; }
+    table.ws-grid th { background:#2f7d3a; color:#fff; font-family:'Barlow Condensed',sans-serif; letter-spacing:.05em; text-transform:uppercase; font-size:.85rem; padding:.55rem .5rem; border-radius:6px; }
+    table.ws-grid th.ws-timehead { background:#1E2B6E; }
+    .ws-time { background:#e7e9ee; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:.8rem; color:#333; text-align:center; padding:.4rem; border-radius:6px; white-space:nowrap; }
+    .ws-cell { border-radius:6px; padding:.5rem .55rem; vertical-align:middle; }
+    .ws-act { font-family:'Barlow',sans-serif; font-weight:700; font-size:.82rem; line-height:1.2; }
+    .ws-cap { font-size:.72rem; opacity:.85; margin-top:.15rem; line-height:1.2; }
+    .ws-stack { background:transparent; padding:0; }
+    .ws-stack .ws-mini { border-radius:6px; padding:.5rem .55rem; }
+    .ws-stack .ws-mini + .ws-mini { margin-top:4px; }
+    .ws-blue{background:#dbe7f6;color:#16407a;} .ws-orange{background:#fbe3cd;color:#8a4b12;}
+    .ws-purple{background:#e6ddf5;color:#4a2c86;} .ws-green{background:#dcecd2;color:#34602a;}
+    .ws-pink{background:#f3d9dc;color:#8a2f3a;} .ws-red{background:#f6d4d1;color:#9a2b23;}
+    .ws-gold{background:#fff3b0;color:#7a5b00;} .ws-gray{background:#eceef2;color:#5a6270;}
+    .ws-empty{background:#f0f1f4;}
+    .ws-legend { display:flex; flex-wrap:wrap; gap:.5rem 1.1rem; justify-content:center; padding:.25rem 1rem 1.4rem; }
+    .ws-legend span { font-family:'Barlow Condensed',sans-serif; font-size:.78rem; letter-spacing:.03em; color:#555; display:inline-flex; align-items:center; gap:.4rem; }
+    .ws-legend i { width:14px; height:14px; border-radius:3px; display:inline-block; }
+    @media (max-width:820px){ .ws-hint{ display:block; } .ws-card{ margin:1rem auto; } }
+  </style>
+  <div id="weeklyScheduleModal" role="dialog" aria-modal="true" aria-label="Weekly program schedule">
+    <div class="ws-card">
+      <div class="ws-head">
+        <button class="ws-x" onclick="closeWeeklySchedule()">✕ Close</button>
+        <h2>Weekly Pickleball Program Schedule</h2>
+        <div class="ws-dates">October 1 – December 31, 2026</div>
+      </div>
+      <div class="ws-hint">← swipe to see all days →</div>
+      <div class="ws-scroll">
+        <table class="ws-grid">
+          <thead><tr>
+            <th class="ws-timehead">Time</th>
+            <th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th><th>Sunday</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="ws-time">7:00–9:00 AM</td>
+              <td class="ws-cell ws-blue" rowspan="2"><div class="ws-act">Skill-Based Drop-in</div><div class="ws-cap">7:00–11:45 AM · Cap. 100 · LPC Rating Test-up</div></td>
+              <td class="ws-cell ws-blue" rowspan="2"><div class="ws-act">Skill-Based Drop-in</div><div class="ws-cap">7:00–11:45 AM · Cap. 100 · LPC Rating Test-up</div></td>
+              <td class="ws-cell ws-blue"><div class="ws-act">Skill-Based Drop-in</div><div class="ws-cap">Cap. 64</div></td>
+              <td class="ws-cell ws-blue" rowspan="2"><div class="ws-act">Skill-Based Drop-in</div><div class="ws-cap">7:00–11:45 AM · Cap. 100 · LPC Rating Test-up</div></td>
+              <td class="ws-cell ws-blue"><div class="ws-act">Skill-Based Drop-in</div><div class="ws-cap">Cap. 64</div></td>
+              <td class="ws-cell ws-blue" rowspan="2"><div class="ws-act">Skill-Based Drop-in</div><div class="ws-cap">7:00–11:45 AM · Cap. 100 · LPC Rating Test-up</div></td>
+              <td class="ws-cell ws-blue"><div class="ws-act">Skill-Based Drop-in</div><div class="ws-cap">Cap. 64</div></td>
+            </tr>
+            <tr>
+              <td class="ws-time">9:10–11:10 AM</td>
+              <td class="ws-cell ws-pink"><div class="ws-act">Men's &amp; Women's Ladders</div><div class="ws-cap">Cap. 60</div></td>
+              <td class="ws-cell ws-green"><div class="ws-act">Morning Coed Team Leagues</div><div class="ws-cap">8 wk · Cap. 60</div></td>
+              <td class="ws-cell ws-orange"><div class="ws-act">Up/Down Splits</div><div class="ws-cap">Cap. 64</div></td>
+            </tr>
+            <tr>
+              <td class="ws-time">11:00 AM–12:00 PM</td>
+              <td class="ws-cell ws-empty"></td>
+              <td class="ws-cell ws-empty"></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Open Court Reservations</div></td>
+              <td class="ws-cell ws-empty"></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Open Court Reservations</div></td>
+              <td class="ws-cell ws-gray" rowspan="2"><div class="ws-act">Open Party Reservations</div></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Open Court Reservations</div></td>
+            </tr>
+            <tr>
+              <td class="ws-time">1:00–3:00 PM</td>
+              <td class="ws-cell ws-orange"><div class="ws-act">Up/Down Splits</div><div class="ws-cap">Cap. 64</div></td>
+              <td class="ws-cell ws-purple"><div class="ws-act">Beginner Skills &amp; Play</div><div class="ws-cap">No Cap</div></td>
+              <td class="ws-cell ws-orange"><div class="ws-act">Up/Down Splits</div><div class="ws-cap">Cap. 64</div></td>
+              <td class="ws-cell ws-purple"><div class="ws-act">Intermediate Skills &amp; Play</div><div class="ws-cap">No Cap</div></td>
+              <td class="ws-cell ws-stack"><div class="ws-mini ws-purple"><div class="ws-act">Beginner Skills &amp; Play</div><div class="ws-cap">No Cap</div></div><div class="ws-mini ws-orange"><div class="ws-act">Up/Down Splits</div><div class="ws-cap">Cap. 64</div></div></td>
+              <td class="ws-cell ws-gold"><div class="ws-act">Sunday Up/Down Splits</div><div class="ws-cap">2 hrs before the Steeler Game · Cap. 60</div></td>
+            </tr>
+            <tr>
+              <td class="ws-time">3:30–5:00 PM</td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Kids Program</div><div class="ws-cap">Coming Soon</div></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Kids Program</div><div class="ws-cap">Coming Soon</div></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Kids Program</div><div class="ws-cap">Coming Soon</div></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Kids Program</div><div class="ws-cap">Coming Soon</div></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Kids Program</div><div class="ws-cap">Coming Soon</div></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Kids Program</div><div class="ws-cap">Coming Soon</div></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Kids Program</div><div class="ws-cap">Coming Soon</div></td>
+            </tr>
+            <tr>
+              <td class="ws-time">5:00–7:00 PM</td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Open Party Reservations</div></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Open Party Reservations</div></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Open Party Reservations</div></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Open Party Reservations</div></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Open Party Reservations</div></td>
+              <td class="ws-cell ws-orange"><div class="ws-act">Up/Down Splits</div><div class="ws-cap">Cap. 60</div></td>
+              <td class="ws-cell ws-blue" rowspan="2"><div class="ws-act">Open All-Level Drop-in</div><div class="ws-cap">5:00–8:00 PM · Cap. 80</div></td>
+            </tr>
+            <tr>
+              <td class="ws-time">6:00–8:00 PM</td>
+              <td class="ws-cell ws-blue" rowspan="2"><div class="ws-act">Skill-Based Drop-in</div><div class="ws-cap">6:00–10:00 PM · Cap. 84 · LPC Rating Test-up</div></td>
+              <td class="ws-cell ws-pink"><div class="ws-act">Men's &amp; Women's Ladders</div><div class="ws-cap">Cap. 60</div></td>
+              <td class="ws-cell ws-green"><div class="ws-act">Evening Coed Team Leagues</div><div class="ws-cap">8 wk · Cap. 64</div></td>
+              <td class="ws-cell ws-blue" rowspan="2"><div class="ws-act">Skill-Based Drop-in</div><div class="ws-cap">6:00–10:00 PM · Cap. 84 · LPC Rating Test-up</div></td>
+              <td class="ws-cell ws-stack"><div class="ws-mini ws-red"><div class="ws-act">Dinks and Drinks</div><div class="ws-cap">Cap. 48</div></div><div class="ws-mini ws-blue"><div class="ws-act">Skill-Based Drop-in</div><div class="ws-cap">Cap. 70</div></div></td>
+              <td class="ws-cell ws-blue" rowspan="2"><div class="ws-act">Skill-Based Drop-in</div><div class="ws-cap">6:00–10:00 PM · Cap. 84 · LPC Rating Test-up</div></td>
+            </tr>
+            <tr>
+              <td class="ws-time">8:00–10:00 PM</td>
+              <td class="ws-cell ws-blue"><div class="ws-act">Open All-Level Drop-in</div><div class="ws-cap">Cap. 80</div></td>
+              <td class="ws-cell ws-blue"><div class="ws-act">Open All-Level Drop-in</div><div class="ws-cap">Cap. 80</div></td>
+              <td class="ws-cell ws-blue"><div class="ws-act">Open All-Level Drop-in</div><div class="ws-cap">Cap. 80</div></td>
+              <td class="ws-cell ws-gray"><div class="ws-act">Closed</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ws-legend">
+        <span><i style="background:#dbe7f6"></i>Drop-in</span>
+        <span><i style="background:#fbe3cd"></i>Up/Down Splits</span>
+        <span><i style="background:#e6ddf5"></i>Skills &amp; Play</span>
+        <span><i style="background:#dcecd2"></i>Team Leagues</span>
+        <span><i style="background:#f3d9dc"></i>Ladders</span>
+        <span><i style="background:#f6d4d1"></i>Special Event</span>
+        <span><i style="background:#fff3b0"></i>Steeler Sunday</span>
+        <span><i style="background:#eceef2"></i>Reservations / Kids / Closed</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    function openWeeklySchedule(){ document.getElementById('weeklyScheduleModal').classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeWeeklySchedule(){ document.getElementById('weeklyScheduleModal').classList.remove('open'); document.body.style.overflow=''; }
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeWeeklySchedule(); });
+    document.getElementById('weeklyScheduleModal').addEventListener('click', function(e){ if(e.target===this) closeWeeklySchedule(); });
+  </script>
 
   <!-- TESTIMONIALS -->
   <section class="testimonials">
