@@ -142,6 +142,31 @@
     /* Background items content layer transitions beautifully post-reveal */
     .replay-hero-content { opacity: 0; transition: opacity 0.5s ease 0.2s; }
     .replay-hero.cc-visible .replay-hero-content { opacity: 1; }
+
+    .replay-preview {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(30,43,110,0.12);
+      margin-bottom: 1.25rem;
+      background: var(--dark);
+    }
+    .replay-preview img { display: block; width: 100%; aspect-ratio: 5 / 4; object-fit: cover; }
+    .replay-preview-caption {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.4rem;
+      padding: 0.6rem 0.9rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.03);
+    }
+    .replay-preview-tag { color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.7rem; }
+    .replay-preview-loading {
+      display: flex; align-items: center; justify-content: center;
+      aspect-ratio: 5 / 4;
+      color: rgba(255,255,255,0.4);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+    }
   </style>
 </head>
 <body>
@@ -324,6 +349,17 @@
             </div>
           </div>
 
+          <div class="replay-preview" id="replayPreview" style="display:none;">
+            <img id="replayPreviewImg" alt="Preview frame of your selected court and time">
+            <div class="replay-preview-caption">
+              <span id="replayPreviewLabel">Preview of your selected time</span>
+              <span class="replay-preview-tag">Live court footage · not your final recording</span>
+            </div>
+          </div>
+          <div class="replay-preview replay-preview-loading" id="replayPreviewLoading" style="display:none;">
+            Loading preview…
+          </div>
+
           <div class="price-summary" id="priceSummary">
             <div class="ps-duration" id="psDuration">Pick a start time &amp; duration</div>
             <div class="ps-price" id="psPrice">$—</div>
@@ -379,11 +415,53 @@
     var dateEl = document.getElementById('replayDate');
     var startEl = document.getElementById('replayStart');
     var durationEl = document.getElementById('replayDuration');
+    var courtEl = document.getElementById('replayCourt');
     var priceEl = document.getElementById('psPrice');
     var durEl = document.getElementById('psDuration');
     var summary = document.getElementById('priceSummary');
     var btn = document.getElementById('replayBtn');
     if (!dateEl) return;
+
+    // ---- Preview frame: real freeze-frame of the picked court/time, pulled
+    // live from the Eagle Eye bridge Worker, so people see "yes, that's
+    // really my session" before they pay. ----
+    var PREVIEW_WORKER_URL = 'https://levelup-eagleeye-bridge.s-jackson.workers.dev';
+    var previewBox = document.getElementById('replayPreview');
+    var previewImg = document.getElementById('replayPreviewImg');
+    var previewLabel = document.getElementById('replayPreviewLabel');
+    var previewLoading = document.getElementById('replayPreviewLoading');
+    var previewTimer = null;
+    var previewToken = 0;
+
+    function updatePreview() {
+      clearTimeout(previewTimer);
+      var court = courtEl.value, date = dateEl.value, start = startEl.value;
+      if (!court || !date || !start) {
+        previewBox.style.display = 'none';
+        previewLoading.style.display = 'none';
+        return;
+      }
+      previewTimer = setTimeout(function() {
+        var myToken = ++previewToken;
+        previewBox.style.display = 'none';
+        previewLoading.style.display = 'flex';
+        var qs = '?court=' + encodeURIComponent(court) + '&date=' + encodeURIComponent(date) + '&start=' + encodeURIComponent(start);
+        fetch(PREVIEW_WORKER_URL + '/preview-frame' + qs)
+          .then(function(res) { if (!res.ok) throw new Error('no frame'); return res.blob(); })
+          .then(function(blob) {
+            if (myToken !== previewToken) return; // a newer selection superseded this one
+            previewImg.src = URL.createObjectURL(blob);
+            previewLabel.textContent = 'Preview — ' + court + ' at ' + fmt12(start);
+            previewLoading.style.display = 'none';
+            previewBox.style.display = 'block';
+          })
+          .catch(function() {
+            if (myToken !== previewToken) return;
+            previewLoading.style.display = 'none';
+            previewBox.style.display = 'none';
+          });
+      }, 400);
+    }
 
     function pad(n) { return n < 10 ? '0' + n : '' + n; }
     function fmtDate(d) { return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
@@ -451,9 +529,10 @@
     // Expose for the promo handler defined below to call back into updatePrice()
     window.replayRefreshPrice = updatePrice;
 
-    dateEl.addEventListener('change', function() { updateConstraints(); updatePrice(); });
-    startEl.addEventListener('change', function() { updateConstraints(); updatePrice(); });
-    startEl.addEventListener('input', function() { updateConstraints(); updatePrice(); });
+    courtEl.addEventListener('change', updatePreview);
+    dateEl.addEventListener('change', function() { updateConstraints(); updatePrice(); updatePreview(); });
+    startEl.addEventListener('change', function() { updateConstraints(); updatePrice(); updatePreview(); });
+    startEl.addEventListener('input', function() { updateConstraints(); updatePrice(); updatePreview(); });
     durationEl.addEventListener('change', function() {
       updatePrice();
       // re-validate the promo against the new duration
@@ -462,6 +541,7 @@
 
     updateConstraints();
     updatePrice();
+    updatePreview();
   })();
 
   // ====== STRIPE EMBEDDED CHECKOUT (Cloudflare Worker) ======
