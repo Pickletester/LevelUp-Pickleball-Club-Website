@@ -206,22 +206,36 @@
   <section class="rental-section">
     <div class="container">
       <h2 class="rental-title">COURT <span>RENTAL FEES</span></h2>
-      <div class="rental-grid">
-        <div class="rental-card fade-up">
-          <div>
-            <div class="rental-day">Off-Peak</div>
-            <div class="rental-time">11 AM – 5 PM</div>
+      <div class="rental-grid" style="grid-template-columns:repeat(3,1fr);max-width:1000px;">
+        <div class="rental-card fade-up" style="display:block;">
+          <div class="rental-day" style="font-size:1.3rem;margin-bottom:0.75rem;color:#8B5CF6;">Diamond</div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.35rem;">
+            <span class="rental-time">Off-Peak</span><span class="rental-price" style="font-size:1.9rem;">$20<span>/hr</span></span>
           </div>
-          <div><div class="rental-price">$27<span>/hr</span></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span class="rental-time">Peak</span><span class="rental-price" style="font-size:1.9rem;">$28<span>/hr</span></span>
+          </div>
         </div>
-        <div class="rental-card fade-up">
-          <div>
-            <div class="rental-day">Peak</div>
-            <div class="rental-time">7–11 AM &amp; 5–10 PM</div>
+        <div class="rental-card fade-up" style="display:block;">
+          <div class="rental-day" style="font-size:1.3rem;margin-bottom:0.75rem;color:#A8A9AD;">Silver</div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.35rem;">
+            <span class="rental-time">Off-Peak</span><span class="rental-price" style="font-size:1.9rem;">$27<span>/hr</span></span>
           </div>
-          <div><div class="rental-price">$30<span>/hr</span></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span class="rental-time">Peak</span><span class="rental-price" style="font-size:1.9rem;">$30<span>/hr</span></span>
+          </div>
+        </div>
+        <div class="rental-card fade-up" style="display:block;">
+          <div class="rental-day" style="font-size:1.3rem;margin-bottom:0.75rem;color:var(--green);">Junior</div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.35rem;">
+            <span class="rental-time">Off-Peak</span><span class="rental-price" style="font-size:1.9rem;">$27<span>/hr</span></span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span class="rental-time">Peak</span><span class="rental-price" style="font-size:1.9rem;">$30<span>/hr</span></span>
+          </div>
         </div>
       </div>
+      <p style="text-align:center;color:rgba(255,255,255,0.5);font-size:0.85rem;margin:-1.5rem auto 2.5rem;max-width:640px;line-height:1.6;">Per court, per hour. <strong style="color:rgba(255,255,255,0.7);">Peak:</strong> 7–11 AM &amp; 5–10 PM · <strong style="color:rgba(255,255,255,0.7);">Off-Peak:</strong> 11 AM – 5 PM. Rates are based on each player&rsquo;s membership level.</p>
       <div style="text-align:center;">
         <a class="btn btn-green" href="https://app.courtreserve.com/online/publicbookings/12674?step=initial&tab=reserve" target="_blank">Book a Court</a>
       </div>
