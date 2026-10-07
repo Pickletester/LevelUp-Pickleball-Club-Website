@@ -24,8 +24,8 @@
   // Display only — the Worker recomputes every total, so tampering here changes nothing.
   var VISITOR_PASS = 10;
   // Court rates per court-hour (display estimate; the Worker sets the real charge).
-  // Peak = 7–11am & 5–10pm. Off-Peak = 11am–5pm. Diamond has its own rate.
-  var COURT_RATES = { diamond: { peak: 28, offPeak: 20 }, standard: { peak: 30, offPeak: 27 } };
+  // Peak = 7–11am & 5–10pm. Off-Peak = 11am–5pm. One price for everyone on the website.
+  var COURT_RATES = { peak: 30, offPeak: 27 };
   var PEAK_WINDOWS = [[420, 660], [1020, 1320]]; // minutes from midnight
   var DURATIONS = ['1 Hour', '1.5 Hours', '2 Hours', '2.5 Hours', '3 Hours'];
   var DURATION_MINS = { '1 Hour': 60, '1.5 Hours': 90, '2 Hours': 120, '2.5 Hours': 150, '3 Hours': 180 };
@@ -56,8 +56,8 @@
   var stripe = null, embedded = null, root = null, pausedMedia = [];
 
   // ---------- helpers ----------
-  function courtRentalEstimate(startMins, minutes, tier) {
-    var rates = COURT_RATES[tier] || COURT_RATES.standard, total = 0;
+  function courtRentalEstimate(startMins, minutes) {
+    var rates = COURT_RATES, total = 0;
     for (var t = startMins; t < startMins + minutes; t += 30) {
       var block = Math.min(30, startMins + minutes - t);
       var peak = PEAK_WINDOWS.some(function (w) { return t >= w[0] && t < w[1]; });
@@ -171,7 +171,7 @@
     var hasTime = !!state.time;
     var startMins = hasTime ? minutesOf(state.time) : 0;
     var minutesLen = DURATION_MINS[state.duration];
-    var rental = hasTime ? courtRentalEstimate(startMins, minutesLen, 'standard') * state.courts : 0;
+    var rental = hasTime ? courtRentalEstimate(startMins, minutesLen) * state.courts : 0;
     var promo = PROMOS[(state.promo || '').toLowerCase().trim()];
     var promoOk = promo
       && (!promo.durations || promo.durations.indexOf(state.duration) !== -1)
@@ -179,7 +179,7 @@
       && (!promo.guestOnly || state.bookerType === 'guest');
     var freeGuest = promoOk && promo.freeNewGuest;
     if (promoOk && typeof promo.flatRental === 'number') rental = promo.flatRental;
-    if (freeGuest && hasTime) rental = courtRentalEstimate(startMins + 60, Math.max(0, minutesLen - 60), 'standard') * state.courts;
+    if (freeGuest && hasTime) rental = courtRentalEstimate(startMins + 60, Math.max(0, minutesLen - 60)) * state.courts;
     // Reflect the first-visit callout: swap the Apply button for a confirmation once applied.
     var fvApply = el('cbFirstVisitApply'), fvDone = el('cbFirstVisitApplied');
     if (fvApply && fvDone) {
@@ -202,7 +202,7 @@
 
     el('cbRateLine').textContent = promoOk
       ? promo.label + ' applied'
-      : 'Peak $30 · Off-Peak $27 per court-hour · Diamond $28 / $20 applied automatically';
+      : 'Peak $30 · Off-Peak $27 per court-hour';
     el('cbRentalLine').textContent = state.courts + ' court' + (state.courts > 1 ? 's' : '') + ' × ' + state.duration.toLowerCase();
     el('cbRentalAmt').textContent = hasTime ? money(rental) : 'Pick a start time';
 
@@ -472,7 +472,7 @@
       '      <div class="cb-field"><span>Are you a member or a guest?</span><div class="cb-pills" id="cbWho">',
       '        <button type="button" class="cb-pill" data-who="member">I\'m a member</button>',
       '        <button type="button" class="cb-pill" data-who="guest">I\'m a guest</button></div>',
-      '        <div class="cb-hint cb-hint-sm" id="cbWhoHint">Members: your membership court rate is applied automatically. Guests: the court rate plus a $10 visitor pass each.</div></div>',
+      '        <div class="cb-hint cb-hint-sm" id="cbWhoHint">Members: book in the app or members portal for your full member discount. Guests: the court rate plus a $10 visitor pass each.</div></div>',
       '      <div class="cb-field cb-step2" id="cbGuestsWrap" style="display:none;"><span id="cbGuestsQ">Who are you bringing?</span><select id="cbGuests"></select>',
       '        <div class="cb-hint cb-hint-sm">Every guest pays a $10 visitor pass.</div></div>',
       '      <div id="cbGuestFeeWrap" style="display:none;">',
@@ -590,7 +590,7 @@
           : 'Are you bringing guests?';
         el('cbWhoHint').textContent = state.bookerType === 'guest'
           ? 'You\'ll pay a $10 visitor pass, plus $10 for anyone you bring.'
-          : 'Your membership court rate applies automatically. Each guest you bring pays $10.';
+          : 'Members: book in the app or members portal for your full member discount. Each guest you bring pays $10.';
         // First-visit offer only makes sense for guests. Reset the check button/message each time
         // so a prior "you qualify" (or a "no") doesn't linger from an earlier selection.
         el('cbFirstVisit').style.display = (state.bookerType === 'guest' && !freeClaimed()) ? 'block' : 'none';
