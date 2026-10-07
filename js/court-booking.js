@@ -472,7 +472,7 @@
       '      <div class="cb-field"><span>Are you a member or a guest?</span><div class="cb-pills" id="cbWho">',
       '        <button type="button" class="cb-pill" data-who="member">I\'m a member</button>',
       '        <button type="button" class="cb-pill" data-who="guest">I\'m a guest</button></div>',
-      '        <div class="cb-hint cb-hint-sm" id="cbWhoHint">Members: book in the app or members portal for your full member discount. Guests: the court rate plus a $10 visitor pass each.</div></div>',
+      '        <div class="cb-hint cb-hint-sm" id="cbWhoHint">Diamond members: book in the app or members portal for your full member discount. Guests: the court rate plus a $10 visitor pass each.</div></div>',
       '      <div class="cb-field cb-step2" id="cbGuestsWrap" style="display:none;"><span id="cbGuestsQ">Who are you bringing?</span><select id="cbGuests"></select>',
       '        <div class="cb-hint cb-hint-sm">Every guest pays a $10 visitor pass.</div></div>',
       '      <div id="cbGuestFeeWrap" style="display:none;">',
@@ -590,7 +590,7 @@
           : 'Are you bringing guests?';
         el('cbWhoHint').textContent = state.bookerType === 'guest'
           ? 'You\'ll pay a $10 visitor pass, plus $10 for anyone you bring.'
-          : 'Members: book in the app or members portal for your full member discount. Each guest you bring pays $10.';
+          : 'Diamond members: book in the app or members portal for your full member discount. Each guest you bring pays $10.';
         // First-visit offer only makes sense for guests. Reset the check button/message each time
         // so a prior "you qualify" (or a "no") doesn't linger from an earlier selection.
         el('cbFirstVisit').style.display = (state.bookerType === 'guest' && !freeClaimed()) ? 'block' : 'none';
