@@ -255,6 +255,37 @@
     }
     state.guests = Math.min(prev, max);
     sel.value = String(state.guests);
+    renderGuestNames();
+  }
+
+  /** One name field per guest; keeps anything already typed. */
+  function renderGuestNames() {
+    var box = el('cbGuestNames');
+    if (!box) return;
+    var prev = Array.prototype.map.call(box.querySelectorAll('input'), function (i) { return i.value; });
+    box.innerHTML = '';
+    for (var i = 0; i < state.guests; i++) {
+      var lab = document.createElement('label');
+      lab.className = 'cb-field';
+      lab.innerHTML = '<span>Guest ' + (i + 1) + ' name</span>';
+      var inp = document.createElement('input');
+      inp.type = 'text'; inp.id = 'cbGuestName' + i; inp.placeholder = 'First and last name';
+      inp.value = prev[i] || '';
+      lab.appendChild(inp);
+      box.appendChild(lab);
+    }
+  }
+
+  /** Names typed for each guest, or null if any are missing. */
+  function collectGuestNames() {
+    var names = [];
+    for (var i = 0; i < state.guests; i++) {
+      var f = el('cbGuestName' + i);
+      var v = f ? f.value.trim() : '';
+      if (!v) return null;
+      names.push(v);
+    }
+    return names;
   }
 
   /** Everyone on court who isn't a member owes a pass — including the booker. */
@@ -323,6 +354,9 @@
     if (!payload.firstName || !payload.lastName || !payload.email || !payload.phone) {
       return showError('Please fill in your name, email and phone.');
     }
+    var guestNames = state.guests > 0 ? collectGuestNames() : [];
+    if (guestNames === null) return showError('Please enter a name for each guest you are bringing.');
+    payload.guestNames = guestNames;
     if (!payload.time) return showError('Please pick a start time.');
     if (payload.bookerType !== 'member' && payload.bookerType !== 'guest') {
       return showError('Please tell us whether you\'re a member or a guest.');
@@ -430,6 +464,7 @@
     }
     state.bookerType = '';
     state.guests = 0;
+    renderGuestNames();
     var whoBtns = el('cbWho').children;
     Array.prototype.forEach.call(whoBtns, function (b) { b.classList.remove('cb-pill-on'); });
     el('cbGuestsWrap').style.display = 'none';
@@ -473,7 +508,7 @@
       '        <button type="button" class="cb-pill" data-who="member">I\'m a member</button>',
       '        <button type="button" class="cb-pill" data-who="guest">I\'m a guest</button></div>',
       '        <div class="cb-hint cb-hint-sm" id="cbWhoHint">Diamond members: book in the app or members portal for your full member discount. Guests: the court rate plus a $10 visitor pass each.</div></div>',
-      '      <div class="cb-field cb-step2" id="cbGuestsWrap" style="display:none;"><span id="cbGuestsQ">Who are you bringing?</span><select id="cbGuests"></select>',
+      '      <div class="cb-field cb-step2" id="cbGuestsWrap" style="display:none;"><span id="cbGuestsQ">Who are you bringing?</span><select id="cbGuests"></select><div id="cbGuestNames"></div>',
       '        <div class="cb-hint cb-hint-sm">Every guest pays a $10 visitor pass.</div></div>',
       '      <div id="cbGuestFeeWrap" style="display:none;">',
       '        <label class="cb-check"><input type="checkbox" id="cbPayAtClub">',
@@ -573,6 +608,7 @@
     dur.onchange = function () { state.duration = this.value; state.time = ''; renderTimes(); renderSummary(); };
     el('cbGuests').onchange = function () {
       state.guests = parseInt(this.value) || 0;
+      renderGuestNames();
       renderSummary();
     };
 
