@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-31TFRX7MMP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-31TFRX7MMP');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Holiday Dance Party | LevelUp Pickleball Club — Canonsburg, PA</title>
+  <meta name="description" content="LevelUp Holiday Dance Party — Thursday, December 17, 7–10 PM. Featuring DJ Shaun and Shimmy Kimmy. Open to members and visitors. $10 per ticket.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://leveluppickleballclub.com/danceparty">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/golf-sim.css">
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    :root { --dance-pink:#ff3ea5; --dance-gold:#ffd23f; --dance-purple:#7b2ff7; }
+    body { background:#0b0d1e; }
+    .dance-hero {
+      position:relative; overflow:hidden; text-align:center; padding:4.5rem 1.25rem 3.5rem; color:#fff;
+      background: radial-gradient(900px 500px at 15% -10%, rgba(123,47,247,.55), transparent 60%),
+                  radial-gradient(800px 480px at 95% 0%, rgba(255,62,165,.45), transparent 60%),
+                  linear-gradient(180deg,#14163a 0%, #0b0d1e 100%);
+    }
+    .dance-hero::after { content:''; position:absolute; inset:0; pointer-events:none;
+      background-image: radial-gradient(rgba(255,210,63,.55) 1.5px, transparent 1.6px); background-size: 46px 46px; opacity:.35; }
+    .dance-hero > * { position:relative; z-index:1; }
+    .dance-eyebrow { font-family:'Barlow Condensed',sans-serif; font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:var(--dance-gold); font-size:.95rem; }
+    .dance-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,10vw,6rem); line-height:.9; margin:.35rem 0 .25rem; letter-spacing:.01em;
+      background: linear-gradient(90deg,#ffd23f,#ff3ea5 55%,#7b2ff7); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .dance-script { font-family:'Barlow Condensed',sans-serif; font-style:italic; font-weight:700; color:#fff; font-size:clamp(1.2rem,3vw,1.6rem); letter-spacing:.05em; }
+    .dance-chips { display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem; margin:1.6rem 0 0; }
+    .dance-chip { font-family:'Barlow Condensed',sans-serif; font-weight:800; letter-spacing:.06em; text-transform:uppercase; font-size:.95rem;
+      padding:.55rem 1rem; border-radius:999px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25); }
+    .dance-chip.hot { background:var(--dance-pink); border-color:var(--dance-pink); color:#fff; }
+    .dance-chip.gold { background:var(--dance-gold); border-color:var(--dance-gold); color:#1a1300; }
+    .dance-wrap { max-width:760px; margin:0 auto; padding:2.5rem 1.25rem 4rem; color:#fff; }
+    .dance-card { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:1.6rem; }
+    .dance-card h2 { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:.02em; margin:0 0 .6rem; }
+    .dance-lede { color:rgba(255,255,255,.8); line-height:1.6; margin:0 0 1.2rem; }
+    .dance-field { display:flex; flex-direction:column; gap:.35rem; margin-bottom:.9rem; }
+    .dance-field label { font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.06em; text-transform:uppercase; font-size:.85rem; color:rgba(255,255,255,.8); }
+    .dance-field input, .dance-field select, .dance-field textarea {
+      background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.2); border-radius:10px; padding:.85rem .95rem;
+      color:#fff; font-family:'Barlow',sans-serif; font-size:16px; width:100%; box-sizing:border-box; }
+    .dance-field select option { color:#111; }
+    .dance-row { display:grid; grid-template-columns:1fr 1fr; gap:.9rem; }
+    .dance-total { display:flex; justify-content:space-between; align-items:baseline; margin:1rem 0 1.1rem; padding:.9rem 1rem;
+      background:rgba(255,210,63,.1); border:1px solid rgba(255,210,63,.35); border-radius:12px; }
+    .dance-total strong { font-family:'Bebas Neue',sans-serif; font-size:2rem; color:var(--dance-gold); letter-spacing:.02em; }
+    .dance-btn { width:100%; border:none; cursor:pointer; border-radius:12px; padding:1rem; font-family:'Barlow Condensed',sans-serif;
+      font-weight:800; letter-spacing:.08em; text-transform:uppercase; font-size:1.1rem; color:#1a1300;
+      background: linear-gradient(90deg,#ffd23f,#ff3ea5); box-shadow:0 10px 30px rgba(255,62,165,.35); }
+    .dance-btn:disabled { opacity:.6; cursor:wait; }
+    .dance-error { display:none; margin-top:.9rem; color:#ff8a8a; font-weight:600; }
+    .dance-payarea { margin-top:1.2rem; }
+    .dance-note { font-size:.85rem; color:rgba(255,255,255,.55); text-align:center; margin-top:1rem; }
+    @media (max-width:600px) { .dance-row { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a class="nav-logo" href="/">
+    <img src="https://pub-d884496adff243c08bda3301b36cb50f.r2.dev/Logos/Logo%20LevelUP.png" alt="LevelUp Pickleball Club" style="height:48px;width:auto;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="/" id="nav-home">Home</a></li>
+    <li><a href="/membership" id="nav-membership">Membership</a></li>
+    <li><a href="/play" id="nav-play">Play</a></li>
+    <li><a href="/learn" id="nav-learn">Learn</a></li>
+    <li><a href="/pros" id="nav-pros">Our Pros</a></li>
+    <li><a href="/events" id="nav-events">Private Events</a></li>
+    <li><a href="/faq" id="nav-faq">FAQ</a></li>
+    <li><a href="/golf-sim" id="nav-golfsim">⛳ Golf Sim</a></li>
+    <li><a href="/restaurant" id="nav-restaurant">🍔 Restaurant</a></li>
+    <li><a href="/replay" id="nav-replay">🎥 CourtCam</a></li>
+    <li><a href="https://app.courtreserve.com" target="_blank" class="nav-portal">Member Portal</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="toggleMobileMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">Home</a>
+  <a href="/membership">Membership</a>
+  <a href="/play">Play</a>
+  <a href="/learn">Learn</a>
+  <a href="/pros">Our Pros</a>
+  <a href="/events">Private Events</a>
+  <a href="/faq">FAQ</a>
+  <a href="/golf-sim">⛳ Golf Sim</a>
+  <a href="/restaurant">🍔 Restaurant</a>
+  <a href="/replay">🎥 CourtCam</a>
+  <a href="https://app.courtreserve.com" target="_blank">Member Portal ↗</a>
+</div>
+
+<section class="dance-hero">
+  <div class="dance-eyebrow">🎄 Save the Date</div>
+  <h1 class="dance-title">Holiday Dance Party</h1>
+  <div class="dance-script">LevelUp Pickleball Club</div>
+  <div class="dance-chips">
+    <span class="dance-chip hot">Thu · Dec 17</span>
+    <span class="dance-chip">7 – 10 PM</span>
+    <span class="dance-chip gold">$10 per ticket</span>
+    <span class="dance-chip">Members &amp; Visitors</span>
+  </div>
+</section>
+
+<div class="dance-wrap">
+  <div class="dance-card">
+    <h2>Get Your Tickets</h2>
+    <p class="dance-lede">Come dance with us! Featuring <strong>DJ Shaun</strong> and <strong>Shimmy Kimmy</strong>. Open to members and visitors. Fill out the form and check out securely with Stripe.</p>
+
+    <form id="danceForm" onsubmit="return false;" novalidate>
+      <div class="dance-row">
+        <div class="dance-field">
+          <label for="dName">Your name</label>
+          <input id="dName" type="text" autocomplete="name" placeholder="First and last name" required>
+        </div>
+        <div class="dance-field">
+          <label for="dPhone">Phone</label>
+          <input id="dPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(412) 555-0100" required>
+        </div>
+      </div>
+      <div class="dance-field">
+        <label for="dEmail">Email</label>
+        <input id="dEmail" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+      </div>
+      <div class="dance-row">
+        <div class="dance-field">
+          <label for="dTickets">Tickets</label>
+          <select id="dTickets">
+            <option value="1">1 ticket</option>
+            <option value="2">2 tickets</option>
+            <option value="3">3 tickets</option>
+            <option value="4">4 tickets</option>
+            <option value="5">5 tickets</option>
+            <option value="6">6 tickets</option>
+            <option value="7">7 tickets</option>
+            <option value="8">8 tickets</option>
+            <option value="9">9 tickets</option>
+            <option value="10">10 tickets</option>
+          </select>
+        </div>
+        <div class="dance-field">
+          <label for="dNotes">Notes (optional)</label>
+          <input id="dNotes" type="text" placeholder="Anyone we should know about?">
+        </div>
+      </div>
+
+      <div class="dance-total">
+        <span id="dTotalLabel">1 ticket × $10</span>
+        <strong id="dTotal">$10.00</strong>
+      </div>
+
+      <button type="button" class="dance-btn" id="danceBtn">Continue to Payment</button>
+      <div class="dance-error" id="danceError"></div>
+    </form>
+
+    <div class="dance-payarea" id="danceCheckoutWrap" style="display:none;">
+      <div id="danceCheckout"></div>
+    </div>
+    <p class="dance-note">Payment is processed securely by Stripe. Tickets are $10 each.</p>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+(function () {
+  var WORKER_URL = 'https://lpc-stripe-worker.s-jackson.workers.dev';
+  var STRIPE_PUBLISHABLE_KEY = 'pk_live_51Phz4uByPDcoX1D7ypZ6h0w4fJ4mi2g9yx8orNfHKl7Q4ItIjsb5m2lGbVWmbFg0wk5J2WYp1WTgZTRRNwuzOs0B00AssY70P3';
+  var PRICE = 10;
+  var stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+  var embedded = null;
+
+  function $(id) { return document.getElementById(id); }
+  function money(n) { return '$' + n.toFixed(2); }
+
+  function refreshTotal() {
+    var t = parseInt($('dTickets').value, 10) || 1;
+    $('dTotalLabel').textContent = t + ' ticket' + (t > 1 ? 's' : '') + ' × $' + PRICE;
+    $('dTotal').textContent = money(t * PRICE);
+  }
+  $('dTickets').addEventListener('change', refreshTotal);
+  refreshTotal();
+
+  function showError(msg) {
+    var e = $('danceError'); e.textContent = msg; e.style.display = 'block';
+  }
+
+  $('danceBtn').addEventListener('click', async function () {
+    $('danceError').style.display = 'none';
+    var name = $('dName').value.trim();
+    var email = $('dEmail').value.trim();
+    var phone = $('dPhone').value.trim();
+    var tickets = parseInt($('dTickets').value, 10) || 1;
+    var notes = $('dNotes').value.trim();
+
+    if (!name) return showError('Please enter your name.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Please enter a valid email.');
+    if (!phone) return showError('Please enter a phone number.');
+
+    var btn = $('danceBtn');
+    btn.disabled = true; btn.textContent = 'Loading secure checkout…';
+    try {
+      if (embedded) { try { embedded.destroy(); } catch (_) {} embedded = null; }
+      $('danceCheckout').innerHTML = '';
+      $('danceCheckoutWrap').style.display = 'block';
+
+      embedded = await stripe.initEmbeddedCheckout({
+        fetchClientSecret: async function () {
+          var r = await fetch(WORKER_URL + '/create-dance-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: name, email: email, phone: phone, tickets: tickets, notes: notes })
+          });
+          var data = await r.json();
+          if (!r.ok || !data.clientSecret) throw new Error(data.error || 'Could not start checkout.');
+          return data.clientSecret;
+        }
+      });
+      embedded.mount('#danceCheckout');
+      $('danceCheckoutWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      btn.textContent = 'Checkout in progress…';
+    } catch (err) {
+      console.error('Dance checkout failed:', err);
+      $('danceCheckoutWrap').style.display = 'none';
+      showError(err.message || 'Something went wrong. Please try again or call 412-206-5755.');
+      btn.disabled = false; btn.textContent = 'Continue to Payment';
+    }
+  });
+})();
+</script>
+</body>
+</html>
