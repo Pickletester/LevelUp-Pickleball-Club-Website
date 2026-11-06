@@ -160,6 +160,18 @@
       background: rgba(255,255,255,0.03);
     }
     .replay-preview-tag { color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.7rem; }
+    .replay-preview-placeholder {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.35rem;
+      padding: 1rem;
+      text-align: center;
+      aspect-ratio: 5 / 4;
+      background: linear-gradient(135deg, #1e2b6e, #0f1638);
+      color: rgba(255,255,255,0.8);
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+    .replay-preview-placeholder .rpp-icon { font-size: 2rem; line-height: 1; }
+    .replay-preview-placeholder strong { font-size: 1.05rem; letter-spacing: 0.04em; text-transform: uppercase; color: #fff; }
+    .replay-preview-placeholder span.rpp-sub { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
     .replay-preview-loading {
       display: flex; align-items: center; justify-content: center;
       aspect-ratio: 5 / 4;
@@ -349,6 +361,11 @@
             </div>
           </div>
 
+          <div class="replay-preview replay-preview-placeholder" id="replayPreviewPlaceholder">
+            <span class="rpp-icon">🎥</span>
+            <strong>Your court thumbnail shows here</strong>
+            <span class="rpp-sub">Pick a court, date &amp; start time to see a live frame from your session.</span>
+          </div>
           <div class="replay-preview" id="replayPreview" style="display:none;">
             <img id="replayPreviewImg" alt="Preview frame of your selected court and time">
             <div class="replay-preview-caption">
@@ -430,6 +447,7 @@
     var previewImg = document.getElementById('replayPreviewImg');
     var previewLabel = document.getElementById('replayPreviewLabel');
     var previewLoading = document.getElementById('replayPreviewLoading');
+    var previewPlaceholder = document.getElementById('replayPreviewPlaceholder');
     var previewTimer = null;
     var previewToken = 0;
 
@@ -439,11 +457,13 @@
       if (!court || !date || !start) {
         previewBox.style.display = 'none';
         previewLoading.style.display = 'none';
+        previewPlaceholder.style.display = 'flex';
         return;
       }
       previewTimer = setTimeout(function() {
         var myToken = ++previewToken;
         previewBox.style.display = 'none';
+        previewPlaceholder.style.display = 'none';
         previewLoading.style.display = 'flex';
         var qs = '?court=' + encodeURIComponent(court) + '&date=' + encodeURIComponent(date) + '&start=' + encodeURIComponent(start);
         fetch(PREVIEW_WORKER_URL + '/preview-frame' + qs)
@@ -459,6 +479,7 @@
             if (myToken !== previewToken) return;
             previewLoading.style.display = 'none';
             previewBox.style.display = 'none';
+            previewPlaceholder.style.display = 'flex';
           });
       }, 400);
     }
