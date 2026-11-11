@@ -179,6 +179,16 @@
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.85rem;
     }
+      /* Date picker: iPhone's native date wheel ignores min/max, so this grid greys out days outside the window */
+    .rcal { background:#fff; border:1px solid #d9dee9; border-radius:10px; padding:.6rem; color:#0D0F1A; font-family:'Barlow Condensed',sans-serif; }
+    .rcal-head { display:flex; align-items:center; justify-content:space-between; font-weight:700; font-size:1.05rem; margin-bottom:.45rem; }
+    .rcal-nav { background:#fff; border:1px solid #d9dee9; border-radius:8px; width:38px; height:38px; font-size:1.3rem; cursor:pointer; color:#1E2B6E; }
+    .rcal-nav:disabled { opacity:.3; cursor:default; }
+    .rcal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center; }
+    .rcal-dow { font-size:.75rem; color:#6b7280; font-weight:700; padding:.2rem 0; }
+    .rcal-day { height:40px; border:none; border-radius:8px; background:#f1f4fa; color:#0D0F1A; font-weight:700; font-size:1rem; cursor:pointer; font-family:inherit; }
+    .rcal-day.rcal-off, .rcal-day:disabled { background:transparent; color:#c3c9d6; cursor:not-allowed; text-decoration:line-through; }
+    .rcal-day.rcal-sel { background:#3cc440; color:#0D0F1A; }
   </style>
 </head>
 <body>
@@ -335,7 +345,8 @@
             </div>
             <div class="replay-field">
               <label>Date</label>
-              <input type="date" id="replayDate">
+              <input type="date" id="replayDate" hidden>
+              <div id="replayCal" class="rcal"></div>
             </div>
             <div class="replay-field">
               <label>Start Time</label>
@@ -506,6 +517,53 @@
     dateEl.min = fmtDate(minDate);
     dateEl.max = fmtDate(today);
     dateEl.value = fmtDate(today);
+
+    // Visible calendar: days outside [minDate, today] are disabled and greyed out.
+    var rcal = document.getElementById('replayCal');
+    var minKey = fmtDate(minDate), maxKey = fmtDate(today);
+    var viewYear = today.getFullYear(), viewMonth = today.getMonth();
+    function rcalRender() {
+      if (!rcal) return;
+      var selKey = dateEl.value;
+      var first = new Date(viewYear, viewMonth, 1);
+      var daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+      var canPrev = new Date(viewYear, viewMonth, 0) >= minDate;
+      var canNext = new Date(viewYear, viewMonth + 1, 1) <= today;
+      var monthName = first.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+      var h = '<div class="rcal-head"><button type="button" class="rcal-nav" data-dir="-1"' + (canPrev ? '' : ' disabled') + ' aria-label="Previous month">&lsaquo;</button>'
+            + '<span>' + monthName + '</span>'
+            + '<button type="button" class="rcal-nav" data-dir="1"' + (canNext ? '' : ' disabled') + ' aria-label="Next month">&rsaquo;</button></div>';
+      h += '<div class="rcal-grid">';
+      ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(function (d) { h += '<div class="rcal-dow">' + d + '</div>'; });
+      for (var b = 0; b < first.getDay(); b++) h += '<div></div>';
+      for (var d = 1; d <= daysInMonth; d++) {
+        var key = viewYear + '-' + pad(viewMonth + 1) + '-' + pad(d);
+        var ok = key >= minKey && key <= maxKey;
+        var cls = 'rcal-day' + (ok ? '' : ' rcal-off') + (key === selKey ? ' rcal-sel' : '');
+        h += '<button type="button" class="' + cls + '" data-key="' + key + '"' + (ok ? '' : ' disabled') + '>' + d + '</button>';
+      }
+      h += '</div>';
+      rcal.innerHTML = h;
+    }
+    if (rcal) {
+      rcal.addEventListener('click', function (e) {
+        var nav = e.target.closest('.rcal-nav');
+        if (nav && !nav.disabled) {
+          viewMonth += parseInt(nav.getAttribute('data-dir'), 10);
+          if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+          if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+          rcalRender();
+          return;
+        }
+        var day = e.target.closest('.rcal-day');
+        if (day && !day.disabled) {
+          dateEl.value = day.getAttribute('data-key');
+          dateEl.dispatchEvent(new Event('change'));
+          rcalRender();
+        }
+      });
+    }
+    rcalRender();
 
     function updateConstraints() {
       var isToday = dateEl.value === fmtDate(today);
