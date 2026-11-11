@@ -180,7 +180,13 @@
       font-size: 0.85rem;
     }
       /* Date picker: iPhone's native date wheel ignores min/max, so this grid greys out days outside the window */
-    .rcal { background:#fff; border:1px solid #d9dee9; border-radius:10px; padding:.6rem; color:#0D0F1A; font-family:'Barlow Condensed',sans-serif; }
+    .rcal { background:#fff; border:1px solid #d9dee9; border-radius:10px; padding:.6rem; color:#0D0F1A; font-family:'Barlow Condensed',sans-serif; max-width:340px; }
+    @media (min-width:768px) {
+      .rcal { padding:.75rem; }
+      .rcal-grid { gap:3px; }
+      .rcal-day { height:36px; font-size:.95rem; }
+      .rcal-nav { width:34px; height:34px; }
+    }
     .rcal-head { display:flex; align-items:center; justify-content:space-between; font-weight:700; font-size:1.05rem; margin-bottom:.45rem; }
     .rcal-nav { background:#fff; border:1px solid #d9dee9; border-radius:8px; width:38px; height:38px; font-size:1.3rem; cursor:pointer; color:#1E2B6E; }
     .rcal-nav:disabled { opacity:.3; cursor:default; }
