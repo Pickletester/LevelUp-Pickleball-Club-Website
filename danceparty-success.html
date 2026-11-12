@@ -83,6 +83,45 @@
 </div>
 
 <script src="js/main.js"></script>
+<script>
+// Backup ticket save: sends the ticket to Web3Forms from the buyer's browser, so it still lands
+// if the server-side relay is blocked. Runs once per purchase per browser.
+(function () {
+  var WORKER_URL = 'https://lpc-stripe-worker.s-jackson.workers.dev';
+  var DANCE_KEY = 'd0da0be1-d7a2-4173-bf80-fa1bdab2ea18';
+  var sid = new URLSearchParams(window.location.search).get('session_id');
+  if (!sid) return;
+  var doneKey = 'dance_saved_' + sid;
+  try { if (localStorage.getItem(doneKey)) return; } catch (e) {}
 
+  fetch(WORKER_URL + '/session-status?session_id=' + encodeURIComponent(sid))
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (!d || d.product_type !== 'dance' || d.payment_status !== 'paid') return;
+      var paid = ((d.amount_total || 0) / 100).toFixed(2);
+      var fd = new FormData();
+      fd.append('access_key', DANCE_KEY);
+      fd.append('subject', 'Dance Party Ticket — ' + d.dance_name + ' × ' + d.dance_tickets + ' ($' + paid + ' paid)');
+      fd.append('from_name', 'LevelUp Holiday Dance Party');
+      fd.append('name', d.dance_name);
+      fd.append('email', d.dance_email);
+      fd.append('phone', d.dance_phone);
+      fd.append('tickets', d.dance_tickets);
+      fd.append('amount_paid', '$' + paid);
+      fd.append('event', 'LevelUp Holiday Dance Party — Thursday, December 17 · 7–10 PM');
+      fd.append('notes', d.dance_notes || '');
+      fd.append('stripe_session_id', sid);
+      fd.append('message', 'HOLIDAY DANCE PARTY TICKET\nName: ' + d.dance_name + '\nEmail: ' + d.dance_email +
+        '\nPhone: ' + d.dance_phone + '\nTickets: ' + d.dance_tickets + '\nPaid: $' + paid +
+        (d.dance_notes ? '\nNotes: ' + d.dance_notes : ''));
+      return fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd, headers: { Accept: 'application/json' } })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (res && res.success) { try { localStorage.setItem(doneKey, '1'); } catch (e) {} }
+        });
+    })
+    .catch(function (e) { console.error('Dance ticket backup save failed:', e); });
+})();
+</script>
 </body>
 </html>
