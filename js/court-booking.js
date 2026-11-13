@@ -40,6 +40,7 @@
     'firstserve': { freeNewGuest: true, freeHours: 1, maxCourts: 1, guestOnly: true, startMin: 690, startMax: 1020, label: 'First visit — first hour free' },
     // 15% off the court rental (passes not discounted). Worker enforces the 2-use limit.
     'brittany15': { percentOff: 15, label: '15% off (Brittany15)' },
+    '4739457385': { flatRental: 1, label: '$1 court rental promo' },
   };
 
   var state = { date: '', time: '', duration: '1 Hour', courts: 1, guests: 0, payAtClub: false, busy: [], courtTotal: 0, promo: '', bookerType: '' };
