@@ -642,7 +642,7 @@
             viewMonth = parseInt(d.date.slice(5, 7), 10) - 1;
           }
           if (/^\d{2}:\d{2}$/.test(d.start)) startEl.value = d.start;
-          if (d.duration === '15' || d.duration === '30') durationEl.value = d.duration;
+          durationEl.value = '15';
           for (var i = 0; i < courtEl.options.length; i++) {
             if (courtEl.options[i].value === d.court) { courtEl.value = d.court; break; }
           }
@@ -653,6 +653,8 @@
           dateEl.dispatchEvent(new Event('change'));
           startEl.dispatchEvent(new Event('change'));
           durationEl.dispatchEvent(new Event('change'));
+          // Land the guest on the 15-minute option, scrolled into view.
+          durationEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
         })
         .catch(function () { /* leave the form blank */ });
     }
