@@ -625,6 +625,38 @@
       if (typeof checkReplayPromo === 'function') checkReplayPromo();
     });
 
+    // ---- Pre-fill from a booking confirmation link (?t=<token>). The link carries only an
+    // opaque token; the Worker holds the court, date, time, name and email for 30 days, so
+    // nothing personal sits in the URL. Any failure just leaves the form blank. ----
+    var CAM_DETAILS_URL = 'https://levelup-golfsim-booking.s-jackson.workers.dev/cam/details';
+    var camToken = '';
+    try { camToken = new URLSearchParams(window.location.search).get('t') || ''; } catch (_) {}
+    if (/^[a-f0-9]{32}$/.test(camToken)) {
+      fetch(CAM_DETAILS_URL + '?t=' + encodeURIComponent(camToken))
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d) return;
+          if (/^\d{4}-\d{2}-\d{2}$/.test(d.date)) {
+            dateEl.value = d.date;
+            viewYear = parseInt(d.date.slice(0, 4), 10);
+            viewMonth = parseInt(d.date.slice(5, 7), 10) - 1;
+          }
+          if (/^\d{2}:\d{2}$/.test(d.start)) startEl.value = d.start;
+          if (d.duration === '15' || d.duration === '30') durationEl.value = d.duration;
+          for (var i = 0; i < courtEl.options.length; i++) {
+            if (courtEl.options[i].value === d.court) { courtEl.value = d.court; break; }
+          }
+          if (d.name) document.getElementById('replayName').value = d.name;
+          if (d.email) document.getElementById('replayEmail').value = d.email;
+          rcalRender();
+          courtEl.dispatchEvent(new Event('change'));
+          dateEl.dispatchEvent(new Event('change'));
+          startEl.dispatchEvent(new Event('change'));
+          durationEl.dispatchEvent(new Event('change'));
+        })
+        .catch(function () { /* leave the form blank */ });
+    }
+
     updateConstraints();
     updatePrice();
     updatePreview();
